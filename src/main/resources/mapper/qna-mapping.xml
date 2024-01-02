@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blue.mapper.QnaMapper">
+
+	<insert id = "insertQna">
+		INSERT INTO qna(qna_seq, member_Id, qna_Title, qna_Message)
+		VALUES(#{qna_Seq}, #{member_Id}, #{qna_Title}, #{qna_Message})
+	</insert>
+	
+	<select id = "getMyQna" resultType = "qna">
+		SELECT *
+		FROM qna WHERE member_Id = #{member_Id}
+		ORDER BY qna_Done DESC, qna_Seq DESC
+	</select>
+	
+	<select id = "checkMaxSeq" resultType = "int">
+		SELECT NVL(MAX(qna_Seq), 1)
+		FROM qna
+	</select>
+	
+	<select id = "getAllQna" resultType = "qna">
+		SELECT *
+		FROM qna
+		ORDER BY qna_Done, qna_Seq
+	</select>
+
+	<select id = "getQnaDetail" resultType = "qna">
+		SELECT *
+		FROM qna
+		WHERE qna_Seq = #{qna_Seq}
+	</select>
+	
+	<update id = "updateQnaAnswer">
+		UPDATE qna
+		SET qna_Answer = #{qna_Answer}, qna_Done = 2
+		WHERE qna_Seq = #{qna_Seq}
+	</update>
+	
+	<delete id = "deleteQna">
+		DELETE FROM qna
+		WHERE qna_Seq = #{qna_Seq}
+	</delete>
+</mapper>

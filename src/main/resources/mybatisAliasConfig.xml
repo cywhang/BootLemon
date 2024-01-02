@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 매핑에 등록된 객체의 별칭을 지정하는 곳 -->
+    <typeAliases>
+        <typeAlias type="com.blue.dto.MemberVO" alias = "member"/>
+        <typeAlias type="com.blue.dto.PostVO" alias = "post"/>
+        <typeAlias type="com.blue.dto.ReplyVO" alias = "reply"/>
+        <typeAlias type="com.blue.dto.LikeVO" alias = "like"/>
+        <typeAlias type = "com.blue.dto.FollowVO" alias = "follow"/>
+        <typeAlias type = "com.blue.dto.QnaVO" alias = "qna"/>
+        <typeAlias type = "com.blue.dto.TagVO" alias = "tag"/>
+        <typeAlias type = "com.blue.dto.AlarmVO" alias = "alarm"/>
+    </typeAliases>
+
+</configuration>

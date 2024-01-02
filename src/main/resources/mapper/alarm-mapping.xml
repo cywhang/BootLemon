@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blue.mapper.AlarmMapper">
+	
+	<insert id = "insertAlarm">
+		INSERT INTO alarm(alarm_Seq, kind, from_mem, to_mem, post_seq, reply_seq)
+		VALUES(alarm_Seq.nextVal, #{kind}, #{from_Mem}, #{to_Mem}, #{post_Seq}, #{reply_Seq})
+	</insert>
+	
+	<select id = "selectAlarm" resultType="alarm">
+		SELECT * 
+		FROM alarm 
+		WHERE to_Mem = #{to_Mem}
+	</select>
+
+	<select id = "getOneAlarm_Seq" resultType = "String">
+		SELECT NVL(alarm_Seq, 0)
+		FROM alarm
+		WHERE kind = #{kind}
+		  AND from_mem = #{from_Mem}
+		  AND to_mem = #{to_Mem}
+		  AND post_seq = #{post_Seq}
+		  AND reply_seq = #{reply_Seq}
+	</select>
+	
+	<delete id = "deleteAlarm">
+		DELETE FROM alarm
+		WHERE alarm_Seq = #{alarm_Seq}
+	</delete>
+</mapper>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.blue.mapper.MemberMapper">
+
+	<!-- 회원 ID를 조건으로 회원 조회 : getMember -->
+	<select id = "getMember" resultType = "member">
+		SELECT a.*, b.member_Follow_Count member_Follow_Count, c.member_Following_Count member_Following_Count
+		FROM member a
+		LEFT OUTER JOIN(SELECT following, COUNT(*) member_Follow_Count
+						FROM FOLLOW
+						GROUP BY following) b
+		ON a.member_Id = b.following
+		LEFT OUTER JOIN(SELECT follower, COUNT(*) member_Following_Count
+						FROM follow
+						GROUP BY follower) c
+		ON a.member_Id = c.follower
+		WHERE a.member_Id = #{member_Id}
+	</select>
+	
+	<!-- 회원 ID를 조건으로 회원 조회 : getMemberInfo -->
+	<select id="getMemberInfo" resultType="member">
+		SELECT *
+		FROM member
+		WHERE member_Id = #{member_Id}
+	</select>
+	
+	<!-- 회원 존재 여부 조회 : confirmID -->
+	<select id = "confirmID" resultType = "String">
+		SELECT member_Password
+		FROM member
+		WHERE member_Id = #{member_Id}
+	</select>
+	
+	<!-- 회원정보조회 -->
+	<select id="selectMember" parameterType="String" resultType="member">
+		SELECT *
+		FROM member 
+		WHERE member_Email = #{member_Email}
+	</select>
+	
+	<!-- 패스워드변경 -->
+	<update id="updatePassword" parameterType="member">
+		UPDATE member
+		SET member_Password = #{member_Password}
+		WHERE member_Id= #{member_Id}
+	</update>
+	
+	<!-- 회원 등록 : insertMember -->
+	<insert id = "insertMember">
+		INSERT INTO member 
+		VALUES (#{member_Id},#{member_Name}, #{member_Email}, #{member_Password}, 
+				#{member_Phone}, sysdate, to_Date(#{member_Birthday}, 'yyyy-mm-dd'), #{member_Gender}, 
+			 	#{member_Profile_Image, jdbcType=VARCHAR}, #{member_Country,jdbcType=VARCHAR}, 
+			 	#{member_Mbti, jdbcType=CHAR})
+	</insert>
+	
+	<!-- 회원 정보 수정 : updateMember -->
+	<update id="memberUpdate">
+		UPDATE member
+		SET member_Email = #{member_Email},
+			member_Password = #{member_Password},
+			member_Phone = #{member_Phone},
+			member_Profile_Image = #{member_Profile_Image},
+			member_Country = #{member_Country},
+			member_Mbti = #{member_Mbti}
+		WHERE member_Id = #{member_Id}
+	</update>
+	
+	<!-- 회원 정보 수정(사진수정이 없을시) : updateMember -->
+	<update id="memberUpdate2">
+		UPDATE member
+		SET member_Email = #{member_Email},
+			member_Password = #{member_Password},
+			member_Phone = #{member_Phone},
+			member_Country = #{member_Country},
+			member_Mbti = #{member_Mbti}
+		WHERE member_Id = #{member_Id}
+	</update>	
+	
+	<!-- 로그인시 아이디와 비밀번호 확인 -->
+	<select id="loginUser" resultType="member">
+		SELECT *
+		FROM member
+		WHERE member_Id = #{member_Id}
+		  AND member_Password = #{member_Password}
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="searchId" resultType="String">
+		SELECT NVL(member_Id, 0)
+		FROM member
+		WHERE member_Name = #{member_Name}
+		  AND member_Phone = #{member_Phone}
+	</select>
+
+	<!-- 패스워드 찾기 -->
+	<select id="PwdByIdNameEmail" resultType="String">
+		SELECT member_Password
+		FROM member
+		WHERE member_Id = #{member_Id}
+		  AND member_Email = #{member_Email}
+	</select>
+	
+	<!-- 회원 탈퇴 : memberDelete -->
+	<delete id="memberDelete">
+		DELETE FROM member
+		WHERE member_Id = #{member_Id}
+	</delete>
+	
+	<!-- 친구 추천 : recommendMember -->
+	<!-- 나를 팔로우하는데 내가 팔로우하지 않는 사람 추천 -->
+	<select id = "getRecommendMember" resultType = "member">
+		SELECT *
+		FROM member
+		WHERE member_Id IN (SELECT follower
+							FROM follow
+							WHERE following = #{member_Id}
+							  AND follower NOT IN (SELECT following
+								  				   FROM follow
+												   WHERE follower = #{member_Id}))	
+	</select>
+	
+	<!-- 팔로우 체크 -->	
+	<select id = "checkFollow" resultType = "String">
+		SELECT follower FROM follow
+		WHERE follower = #{follower}
+		  AND following = #{following}
+	</select>			
+	
+	<!-- 팔로우 추가 -->		
+	<insert id = "addFollow">
+		INSERT INTO follow(follower, following)
+		VALUES(#{follower}, #{following})
+	</insert>						
+	
+	<!-- 팔로우 취소 -->	
+	<delete id = "delFollow">
+		DELETE FROM follow
+		WHERE follower = #{follower}
+		  AND following = #{following}
+	</delete>			
+	
+	<!-- 전체 멤버 프로필 이미지 조회 -->
+	<resultMap id="memberProfileResultMap" type="java.util.HashMap">
+    	<id column="member_Id" property="member_Id" />
+    	<result column="member_Profile_Image" property="member_Profile_Image" />
+	</resultMap>
+	
+	<select id="memberProfile" resultMap="memberProfileResultMap">
+		SELECT member_Id, member_Profile_Image 
+		FROM member 
+	</select>
+	
+	<!-- 팔로워가 가장 많은 멤버 조회 -->
+	<select id = "MostFamous" resultType = "member">
+		<![CDATA[
+			SELECT a.member_Follow_Count, b.*
+			FROM(
+			    SELECT following, member_Follow_Count
+			    FROM (
+			        SELECT following, COUNT(*) member_Follow_Count, ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS row_num
+			        FROM follow
+			        GROUP BY following
+			    )
+			    WHERE row_num <= 5
+			) a
+			LEFT OUTER JOIN member b
+			ON a.following = b.member_Id
+			ORDER BY member_Follow_Count DESC
+		]]>
+	</select>
+	
+	<!-- 나를 팔로우한 사람 -->
+	<select id = "getFollowers" resultType = "member">
+		SELECT *
+		FROM member
+		WHERE member_Id IN (SELECT follower
+							FROM follow
+							WHERE following = #{member_Id})
+	</select>
+	
+	<!-- 내가 팔로우한 사람 -->
+	<select id = "getFollowings" resultType = "member">
+		SELECT *
+		FROM member
+		WHERE member_Id IN (SELECT following
+							FROM follow
+							WHERE follower = #{member_Id})	
+	</select>
+	
+	<!-- 관리자 : 전체 멤버 조회 -->
+	<select id = "getAllMember" resultType = "member">
+		SELECT *
+		FROM member
+		WHERE member_Id != 'admin'
+	</select>
+	
+	<!-- 검색어를 기반으로 회원을 검색하는 쿼리 -->
+	<select id="searchMembers" resultType="member">
+		SELECT *
+		FROM member
+		WHERE member_Id LIKE #{keyword}||'%'
+	</select>
+	
+	<!-- 관리자 페이지 회원수 그래프 -->
+	<select id = "getMemberTendency" resultType = "Integer">
+		<![CDATA[
+			WITH date_range AS (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS join_date
+								FROM dual
+								CONNECT BY LEVEL <= 10)
+			SELECT NVL(memCount, 0)
+			FROM date_range
+			LEFT OUTER JOIN (SELECT TRUNC(member_Join_Date) member_Join_Date, Count(*) memCount
+			                 FROM member
+			                 GROUP BY member_Join_Date)
+			ON (date_range.join_date = member_Join_Date)
+			ORDER BY join_date
+		]]>
+	</select>
+</mapper>
