@@ -35,7 +35,7 @@
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 </head>
 <!-- 링크 인식기 -->
-<script>		
+<script th:inline="javascript">
 	function autolink(id) {
 	        var container = document.getElementById(id);
 	        var doc = container.innerHTML;
@@ -117,7 +117,7 @@
 	                           	<div class="account-slider">
 	                              	<!-- Account Item -->
 	                              	<!-- 친구 추천창 요소 -->
-	                              	<th:block th:each="memberVO: ${recommendMember}" th:if="${memberVOStat.index} < 5">
+	                              	<th:block th:each="memberVO, stat : ${recommendMember}" th:if="${stat.index} < 6">
 		                             	<div class="account-item">
 		                                	<div class="me-2 bg-white shadow-sm rounded-4 p-3 user-list-item d-flex justify-content-center my-2">
 		                                   		<div class="text-center">
@@ -130,7 +130,7 @@
 		                                      		</div>
 		                                      		<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
 		                                         		<input type="checkbox" class="btn-check" th:id="'btncheck_' + ${memberVO.member_Id}">
-		                                         		<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck_' + ${memberVO.member_Id}" onclick ="changeFollow('${memberVO.member_Id}')">
+		                                         		<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck_' + ${memberVO.member_Id}" th:onclick ="|changeFollow(${memberVO.member_Id})|">
 				                                            <span class="follow">+ Follow</span>
 				                                            <span class="following d-none">Following</span>	
 			                                            	<!-- [팔로우, 언팔로우 - 1] 버튼 누르면 해당 회원 ID를 들고 follow.js로 감 -->	                                      
@@ -146,174 +146,163 @@
 	                      		<!-- 뉴스피드들을 감싸는 부분 -->
 	                    		<div class="pt-4 feeds" id="firstShowMainFeed">                              
 	                   				<!-- Feed Item -->
-	                      			<c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
+	                      			<th:block th:each="postVO, status : ${postList}" th:if="${status.index} < 10">
 	                           			<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
 	                             			<div class="d-flex">
                             					<!-- 작성자의 프로필사진 -->
-                             					<img src="img/uploads/profile/${profileMap[postVO.member_Id]}"  class="img-fluid rounded-circle user-img" alt="profile-img">
+                             					<img th:src="@{'img/uploads/profile/' + ${profileMap[postVO.member_Id]}}"  class="img-fluid rounded-circle user-img" alt="profile-img">
                                        			<div class="d-flex ms-3 align-items-start w-100">
                                           			<div class="w-100" >
 	                                             		<div class="d-flex align-items-center justify-content-between">
-	                                                		<a href = "profile?member_Id=${postVO.member_Id}" class="text-decoration-none">
-	                                                   			<h6 class="fw-bold mb-0 text-body" style="font-size: 26px;">${postVO.member_Id}</h6>
+	                                                		<a th:href="@{'profile?member_Id=' + ${postVO.member_Id}}" class="text-decoration-none">
+	                                                   			<h6 class="fw-bold mb-0 text-body" style="font-size: 26px;" th:text="${postVO.member_Id}"></h6>
 	                                                		</a>
 	                                                		<div class="d-flex align-items-center small">
-	                                                   			<p class="text-muted mb-0">${postVO.post_Date}</p>
-	                                                   			<c:choose>
-	                                                   	  			<c:when test="${member_Id == postVO.member_Id}">
-			                                                 			<div class="dropdown">
-			                                            					<a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-			                                             					<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-			                                        							<li>
-			                                                						<button class="dropdown-item text-muted editbutton" onclick="postEditView(${postVO.post_Seq})" data-bs-toggle="modal" data-bs-target="#postModal2">
-			                                                      						<span class="material-icons md-13 me-1">edit</span>
-			                                                    						Edit
-			                                                      					</button>
-			                                                      				</li>
-			                                                       				<!-- deletePost()는 custom.js에 있음 -->
-			                                                       				<li>
-			                                                          				<button class="dropdown-item text-muted deletebutton" onclick="deletePost(${postVO.post_Seq})">
-			                                                             				<span class="material-icons md-13 me-1">delete</span>
-			                                                         	 				Delete
-			                                                          				</button>
-			                                                       				</li>
-			                                                    			</ul>
-			                                                 			</div>
-	                                                      			</c:when>
-	                                                      			<c:otherwise>
-	                                                      			</c:otherwise>
-	                                                   			</c:choose>
+	                                                   			<p class="text-muted mb-0" th:text="${postVO.post_Date}"></p>
+																<!-- 자신이 작성한 게시글이면 수정, 삭제 버튼을 보여주는 드롭다운 버튼 생성 -->
+	                                                   			<div th:if="${member_Id == postVO.member_Id}">
+																	<div class="dropdown">
+																		<a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
+																		<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+																			<li>
+																				<button class="dropdown-item text-muted editbutton" th:onclick="|postEditView(${postVO.post_Seq})|" data-bs-toggle="modal" data-bs-target="#postModal2">
+																					<span class="material-icons md-13 me-1">edit</span>
+																					Edit
+																				</button>
+																			</li>
+																			<!-- deletePost()는 custom.js에 있음 -->
+																			<li>
+																				<button class="dropdown-item text-muted deletebutton" th:onclick="|deletePost(${postVO.post_Seq})|">
+																					<span class="material-icons md-13 me-1">delete</span>
+																					Delete
+																				</button>
+																			</li>
+																		</ul>
+																	</div>
+	                                                   			</div>
 	                                                		</div>
 	                              						</div>
 			                               				<div class="my-2" >
 			                                                <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
-			                                     			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
-				                                   				<c:choose>
-				                                    				<c:when test="${postVO.post_Image_Count == 0}">
-				                                   						<br>
-				                                    				</c:when>
-				                                       				<c:otherwise>
-				                                  						<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded mb-3" alt="post-img">
-				                                       				</c:otherwise>
-				                                 				</c:choose>
+			                                     			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" th:onclick="|modalseq(${postVO.post_Seq})|">
+																<div th:if="${postVO.post_Image_Count == 0}">
+																	<br>
+																</div>
+																<div th:unless="${postVO.post_Image_Count != 0}">
+																	<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded mb-3" alt="post-img">
+																</div>
 			                                                </a>
 			                                                <br>
 			                                             	<!-- 게시글 내용 -->
-			                                             	<p class="text-dark w-100" id="postContent${postVO.post_Seq}" style = "word-wrap: break-word;" >${postVO.post_Content}</p>
+			                                             	<p class="text-dark w-100" th:id="'postContent' + ${postVO.post_Seq}" style = "word-wrap: break-word;" th:text="${postVO.post_Content}"></p>
 			                                                <br>
-			                                                <script type="text/javascript">
-				                                                var postseq = "${postVO.post_Seq}";
+			                                                <script th:inline="javascript">
+				                                                var postseq = [[${postVO.post_Seq}]];
 				                                                autolink('postContent'+postseq);
-			                                                </script>                                              
+			                                                </script>
 			                                                <!-- 해시태그 -->
-			                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-				                                     			<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
-				                                            </c:forEach>
+															<div th:each="hash : ${hashMap[poistVO.post_Seq]}">
+				                                     			<a id="hash" th:href="@{'search_HashTag?tag_Content=' + ${hash.tag_Content}}" class="mb-3 text-primary" th:text="'#' + ${hash.tag_Content}"></a>&nbsp;&nbsp;
+															</div>
 			                                                <hr>
 			                                                <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
 			                                         		<div class="d-flex align-items-center justify-content-between mb-2">
-			                                          			<%-- 게시글 좋아요 버튼 (카운트) --%>
 			                                             		<div class="like-group" role="group">
-																	<c:choose>
-																		<c:when test="${postVO.post_LikeYN eq 'N'}">
-																			<button type="button" style = "border : none; background-color : white;" onclick="toggleLike('${postVO.post_Seq}')">
-																				<img class="likeImage_${postVO.post_Seq}" src="img/like.png" width="20px" height="20px" data-liked = "false">
-																			</button>
-																			<p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">${postVO.post_Like_Count}</p>
-																		</c:when>
-																		<c:otherwise>
-																			<button type="button" style = "border : none; background-color : white;" onclick="toggleLike('${postVO.post_Seq}')">
-															   					<img class="likeImage_${postVO.post_Seq}" src="img/unlike.png" width="20px" height="20px" data-liked = "true">
-																			</button>
-																			<p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">${postVO.post_Like_Count}</p>
-																		</c:otherwise>
-																	</c:choose>
-																</div>													
+																	<div th:if="${postVO.post_LikeYN eq 'N'}">
+																		<button type="button" style = "border : none; background-color : white;" th:onclick="|toggleLike(${postVO.post_Seq})|">
+																			<img th:class="'likeImage_' + ${postVO.post_Seq}" src="img/like.png" width="20px" height="20px" data-liked = "false">
+																		</button>
+																		<p th:class ="'post_Like_Count_' + ${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;" th:text="${postVO.post_Like_Count}"></p>
+																	</div>
+																	<div th:unless="${postVO.post_LikeYN eq 'Y'}">
+																		<button type="button" style = "border : none; background-color : white;" th:onclick="|toggleLike(${postVO.post_Seq})|">
+																			<img th:class="'likeImage_' + ${postVO.post_Seq}" src="img/unlike.png" width="20px" height="20px" data-liked = "true">
+																		</button>
+																		<p th:class="'post_Like_Count_' + ${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;" th:text="${postVO.post_Like_Count}"></p>
+																	</c:otherwise>
+																</div>
 										             			<div>
-			                                         				<%-- 댓글 버튼 + 카운트 --%>
-			      					                    			<div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><span>${postVO.post_Reply_Count}</span></div>
+			                                         				<!-- 댓글 버튼 + 카운트 -->
+			      					                    			<div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><span th:text="${postVO.post_Reply_Count}"></span></div>
 			                                        			</div>
 			                                                </div>
 			                                                <br>
 	                                                 
 			                                                <!-- 댓글 입력창 부분 (클릭시 모달창) -->
-			                                                <div class="d-flex align-items-center mb-3" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})">
+			                                                <div class="d-flex align-items-center mb-3" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${postVO.post_Seq})|">
 			                                       				<span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
 			                                           			<input type="text" class="form-control form-control-sm rounded-3 fw-light" placeholder="Write Your comment">
 			                                                </div>
 	                                                
 			                                                <!-- 댓글 출력 부분 -->
 			                                    			<div class="comments">
-				                                      			<c:set var="key" value="${status.index}"/>
-				                                    			<c:set var="value" value="${replyMap[key]}"/>
-					                          					<c:forEach var="reply" items="${value}" begin="0" end="2">
+																<th:block th:with="key=${status.index}"></th:block>
+																<th:block th:with="value=${replyMap[key]}"></th:block>
+																<div th:each="reply, i : ${value}" th:if="i < 3">
 	                                          						<div class="d-flex mb-2">
 			                                          					<!-- 댓글 작성자 프로필 이미지 출력부분 -->
-					                                                    <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${reply.post_Seq})">
-					                                   						<img src="img/uploads/profile/${profileMap[reply.member_Id]}" class="img-fluid rounded-circle profile" alt="commenters-img">
+					                                                    <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
+					                                   						<img th:src="@{'img/uploads/profile/' + ${profileMap[reply.member_Id]}}" class="img-fluid rounded-circle profile" alt="commenters-img">
 					                                                    </a>
 		                                                 				<div class="ms-2 small">
-				                                         					<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${reply.post_Seq});">
+				                                         					<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
 					                                                   			<div class="bg-light px-3 py-2 rounded-4 mb-1 chat-text" style="display: inline-block;">
-					                                           						<p class="fw-500 mb-0">${reply.member_Id}</p>
-					                                               					<span class="text-muted">${reply.reply_Content}</span>
+					                                           						<p class="fw-500 mb-0" th:text="${reply.member_Id}"></p>
+					                                               					<span class="text-muted" th:text="${reply.reply_Content}"></span>
 					                                             				</div>
 					                                          				</a>
 				                                          					<div class="reply-like-group" role="group" style="display: inline-block;">
-				                                           						<c:set var = "replySeq" value = "${reply.reply_Seq}"/>
-					                                              				<script>
-					                                                  				var reply_Seq = ${replySeq};
+																				<th:block th:with="replySeq=${reply.reply_Seq}"></th:block>
+																				<script th:inline="javascript">
+					                                                  				var reply_Seq = [[${replySeq}]];
 					                                             				</script>
-																				<c:choose>
-																					<c:when test="${reply.reply_LikeYN eq 'N'}">
-																						<button type="button" style = "border : none; background-color : white;" onclick="toggleReplyLike('${reply.post_Seq}', '${reply.reply_Seq}');">
-																							<img class="likeReplyImage_${reply.reply_Seq}" src="img/like.png" data-liked = "false">
-																						</button>
-																						<p class ="reply_Like_Count_${reply.reply_Seq}" style="display: inline; margin-left: 1px; font-size : 10px;">${reply.reply_Like_Count}</p>
-																					</c:when>
-																					<c:otherwise>
-																						<button type="button" style = "border : none; background-color : white;" onclick="toggleReplyLike('${reply.post_Seq}', '${reply.reply_Seq}');">
-																							<img class="likeReplyImage_${reply.reply_Seq}" src="img/unlike.png" data-liked = "true">
-																						</button>
-																						<p class ="reply_Like_Count_${reply.reply_Seq}" style="display: inline; margin-left: 1px; font-size : 10px;">${reply.reply_Like_Count}</p>
-																					</c:otherwise>
-																				</c:choose>
+																				<div th:if="${reply.reply_LikeYN eq 'N'}">
+																					<button type="button" style = "border : none; background-color : white;" th:onclick="|toggleReplyLike(${reply.post_Seq}, ${reply.reply_Seq})|">
+																						<img th:class="'likeReplyImage_' + ${reply.reply_Seq}" src="img/like.png" data-liked = "false">
+																					</button>
+																					<p th:class ="'reply_Like_Count_' + ${reply.reply_Seq}" style="display: inline; margin-left: 1px; font-size : 10px;" th:text="${reply.reply_Like_Count}"></p>
+																				</div>
+																				<div th:unless="${reply.reply_LikeYN eq 'Y'}">
+																					<button type="button" style = "border : none; background-color : white;" th:onclick="|toggleReplyLike(${reply.post_Seq}, ${reply.reply_Seq})|">
+																						<img th:class="'likeReplyImage_' + ${reply.reply_Seq}" src="img/unlike.png" data-liked = "true">
+																					</button>
+																					<p th:class ="'reply_Like_Count_' + ${reply.reply_Seq}" style="display: inline; margin-left: 1px; font-size : 10px;" th:text="${reply.reply_Like_Count}"></p>
+																				</div>
 																			</div>
 																			<div style="display: inline-block;" width = "5px"></div>
-			                                              					<span class="small text-muted">${reply.reply_WhenDid}</span>
-		                                           							<div class="d-flex align-items-center justify-content-between mb-2">
+			                                              					<span class="small text-muted" th:text="${reply.reply_WhenDid}"></span>
+		                                           							<div class="d-flex align-items-center justify-content-between mb-2">\
+
 			                                     							</div>
 			                              								</div>
 	                                   								</div>
-		                              							</c:forEach> <!-- 실질적인 댓글 추출 하는 반복문 -->
+																</div>
 	                               							</div>
 	                                  					</div>
 	                             					</div>
 	                           					</div>
 	                     					</div>
 	                      				</div>
-	                 				</c:forEach> <!-- 게시글 출력 반복문 -->          
+										</div>
 	                   				<div id="main_feed"></div>
 	                       			<div id="loadingStop"></div>           
 			           				<!-- 피드무한스크롤 -->
-			                 		<c:choose>
-			                			<c:when test="${fn:length(postList)<=10}">
-			                         		<div id="feedEnd">
-							                    <br>
-							                    <h5 align="center">No Post To Show</h5>
-							          			<br>
-							     			</div>
-			                         	</c:when>
-			           					<c:otherwise>
-			      							<div class="text-center mt-4" id="feedInfinity">
-											    <div class="spinner-border" role="status">
-												   <span class="visually-hidden">Loading...</span>
-												</div>
-												<p class="mb-0 mt-2">Loading</p>
-				           					</div>  
-		              					</c:otherwise>
-		        					</c:choose>		                                                                  
-                     			</div>
+									<div th:if="${#lists.size(postList) <= 10}">
+										<div id="feedEnd">
+											<br>
+											<h5 align="center">No Post To Show</h5>
+											<br>
+										</div>
+									</div>
+									<div th:unless="${#lists.size(postList) > 10}">
+										<div class="text-center mt-4" id="feedInfinity">
+											<div class="spinner-border" role="status">
+											   <span class="visually-hidden">Loading...</span>
+											</div>
+											<p class="mb-0 mt-2">Loading</p>
+										</div>
+									</div>
+                     			</th:block>
                				</div><!-- 뉴스피드 부분 -->
                         
          					<!-- people 탭 클릭시 -->                        
@@ -349,7 +338,7 @@
 						</div><!-- id : pills-tabContent -->
     				</div><!-- class="main container" -->
    				</main> <!-- index페이지의 센터 column -->
-               
+
                	<!-- Sidebar -->
                	<!-- 브라우저 창의 크기가 줄어들때 나오는 메뉴버튼을 누르면 왼쪽에서 나타나는 사이드바 -->
   				<aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
@@ -368,18 +357,14 @@
                            		<li class="nav-item">
                               		<a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
-                           		<c:choose>
-                        			<c:when test="${loginUser.member_Id eq 'admin'}">
-                           	     		<a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
-                           	  		</c:when>
-                              		<c:otherwise>
-                           	  		</c:otherwise>
-                           		</c:choose>
+								<th:block th:if="${loginUser.member_Id eq 'admin'}">
+									<a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
+								<</th:block>
                            		<li class="nav-item">
-                              		<a href = "profile?member_Id=${loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              		<a th:href="'profile?member_Id=' + ${loginUser.member_Id}" class="nav-link"><img th:src="'img/uploads/profile/' + ${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
                            		</li>
                            		<li class="nav-item">
-                              		<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
+                              		<a th:href="'follow?member_Id=' + ${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
                            		</li>
                            		<!-- Contact Us 드롭다운 항목 -->
                            		<li class="nav-item dropdown">
@@ -396,23 +381,20 @@
                            		</li>
                            		<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              			<c:choose>
-                              				<c:when test="${alarmListSize==0}">
-                              					<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-                              				</c:when>
-                              				<c:otherwise>
-                              					<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
-                              				</c:otherwise>
-                              			</c:choose>
+										<div th:if="${alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+										</div>
+										<div th:if="${not alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span>
+											<span th:inline="text">Notification  [[${alarmListSize}]]</span>
+										</div>
                               		</a>
                               		<ul class="dropdown-menu px-2 py-1 mb-2">
-                              			<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+										<div th:each="alarmVO, k : ${alarmList}" th:if="${k < 11}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px; background-color: azure;">
-													${alarmVO.message}
-												</a>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" th:onclick="|clickAlarm(${alarmVO.kind}, ${alarmVO.alarm_Seq}, ${alarmVO.post_Seq}, ${alarmVO.reply_Seq}, ${alarmVO.to_Mem})|" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}"></a>
 											</li>
-                                		</c:forEach>
+										</div>
                               		</ul>
                            		</li>
                         	</ul>
@@ -433,18 +415,14 @@
                            		<li class="nav-item">
                               		<a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
-                    			<c:choose>
-                              		<c:when test="${loginUser.member_Id eq 'admin'}">
-                           	     		<a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
-                           	  		</c:when>
-                              		<c:otherwise>
-                           	  		</c:otherwise>
-                           		</c:choose>
+								<div th:if="${loginUser.member_Id eq 'admin'}">
+									<a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
+								</div>
                            		<li class="nav-item">
-                              		<a href = "profile?member_Id=${loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              		<a th:href="'profile?member_Id=' + ${loginUser.member_Id}" class="nav-link"><img th:src="'img/uploads/profile/' + ${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> &nbsp;&nbsp;&nbsp;<span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
                            		</li>
                           		 <li class="nav-item">
-                              		<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
+                              		<a th:href="'follow?member_Id=' + ${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
                            		</li>
                            		<li class="nav-item dropdown">
                               		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -460,23 +438,20 @@
 	                           	</li>
                            		<li class="nav-item dropdown">
                               		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              			<c:choose>
-		                              		<c:when test="${alarmListSize==0}">
-		                              			<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-		                              		</c:when>
-                              				<c:otherwise>
-                              					<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
-                              				</c:otherwise>
-                              			</c:choose>
+										<div th:if="${alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+										</div>
+										<div th:unless="${not alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span>
+											<span th:inline="text">Notification  [[${alarmListSize}]]</span>
+										</div>
 	                              	</a>
 	                              	<ul class="dropdown-menu px-2 py-1 mb-2">
-                              			<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+										<div th:each="alarmVO, j : ${alarmList}" th:if="${j < 11}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px; background-color: azure;">
-													${alarmVO.message}
-												</a>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" th:onclick="|clickAlarm(${alarmVO.kind}, ${alarmVO.alarm_Seq}, ${alarmVO.post_Seq}, ${alarmVO.reply_Seq}, ${alarmVO.to_Mem})|" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}</a>
 											</li>
-                                		</c:forEach>
+										</div>
                               		</ul>
                            		</li>
                         	</ul>
@@ -504,78 +479,77 @@
                            		<div class="bg-white rounded-4 overflow-hidden shadow-sm mb-4">
                               		<h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
 	                              	<!-- 표시할 최대 문자 수 -->
-                              		<c:set var = "maxChar" value = "50"/>                              
-                              		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="3">
+									<th:block th:with="maxChar = 50"></th:block>
+									<div th:each="postVO, n : ${hottestFeed}" th:if="n < 4">
                          	     		<div class="p-3 border-bottom d-flex">
-                         	        		<c:choose>
-									   			<c:when test = "${postVO.post_Image_Count == 0}">
-									      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
-								            	 		<div class = "d-flex">
-								                			<div>
-									               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-									               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
-									               				<br><div style = "height : 5%;"></div>
-												               	<small class="text-muted">
-												               		<c:choose>
-												               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
-												               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
-												               			</c:when>
-												               			<c:otherwise>
-												               				${postVO.post_Content}
-												               			</c:otherwise>
-												               		</c:choose>
-												               	</small>
-									               				<br><div style = "height : 5%;"></div>
-									               				<c:choose>
-												                  	<c:when test="${postVO.post_Hashtag eq null }">
-												                  	</c:when>
-									                  				<c:otherwise>
-									                     				<small class="text-muted">
-														               		<c:choose>
-														               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
-														               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
-														               			</c:when>
-														               			<c:otherwise>
-														               				${postVO.post_Hashtag}
-														               			</c:otherwise>
-														               		</c:choose>
-									                     				</small>									                  
-									                  				</c:otherwise>
-									               				</c:choose>
-									            			</div>
-														</div>
-													</a>
-												</c:when>
-												<c:otherwise>
-													<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
-														<div class = "d-flex">
-															<div style = "width : 60%;">
-																<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-																<small class="text-muted">Posted by ${postVO.member_Id}</small>
-																<br><div style = "height : 5%;"></div>
-																<small class="text-muted">
-																	<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
-																</small>
-																<br><div style = "height : 5%;"></div>
+
+											<c:when test = "${postVO.post_Image_Count == 0}">
+												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
+													<div class = "d-flex">
+														<div>
+															<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+															<small class="text-muted">Posted by ${postVO.member_Id}</small>
+															<br><div style = "height : 5%;"></div>
+															<small class="text-muted">
 																<c:choose>
-																	<c:when test="${postVO.post_Hashtag eq null }">
+																	<c:when test="${fn:length(postVO.post_Content) > 25 }">
+																		<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
 																	</c:when>
 																	<c:otherwise>
-																		<small class="text-muted">
-																			<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
-																		</small>									                  
+																		${postVO.post_Content}
 																	</c:otherwise>
 																</c:choose>
-															</div>
-															<div style = "width : 40%;">								      									         
-																<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
-															</div>
+															</small>
+															<br><div style = "height : 5%;"></div>
+															<c:choose>
+																<c:when test="${postVO.post_Hashtag eq null }">
+																</c:when>
+																<c:otherwise>
+																	<small class="text-muted">
+																		<c:choose>
+																			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
+																				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
+																			</c:when>
+																			<c:otherwise>
+																				${postVO.post_Hashtag}
+																			</c:otherwise>
+																		</c:choose>
+																	</small>
+																</c:otherwise>
+															</c:choose>
 														</div>
-													</a>
-												</c:otherwise>
-											</c:choose>	
+													</div>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
+													<div class = "d-flex">
+														<div style = "width : 60%;">
+															<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+															<small class="text-muted">Posted by ${postVO.member_Id}</small>
+															<br><div style = "height : 5%;"></div>
+															<small class="text-muted">
+																<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+															</small>
+															<br><div style = "height : 5%;"></div>
+															<c:choose>
+																<c:when test="${postVO.post_Hashtag eq null }">
+																</c:when>
+																<c:otherwise>
+																	<small class="text-muted">
+																		<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+																	</small>
+																</c:otherwise>
+															</c:choose>
+														</div>
+														<div style = "width : 40%;">
+															<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
+														</div>
+													</div>
+												</a>
+											</c:otherwise>
 										</div>
-									</c:forEach>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -603,9 +577,8 @@
 			</div>
 		</div>
 	</div>
-      
-	<%@ include file="modal.jsp" %>
-      
+	<div th:include="modal :: modal"></div>
+
 	<!-- Bootstrap Bundle Js -->
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Custom Js -->
