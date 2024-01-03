@@ -12,33 +12,29 @@ import java.util.List;
 public interface PostMapper {
     ArrayList<PostVO> listPost(String member_Id);
 
-    String getLikeYN(PostVO voForLikeYN);
-
-    void changeLike(LikeVO vo);
+    PostVO postDetail(int post_Seq);
 
     List<PostVO> getHottestFeed();
 
     void insertPost(PostVO vo);
 
-    int postLikeCount(int post_Seq);
+    void deletePost(int post_Seq);
 
-    int postReplyCount(int post_Seq);
+    String checkLike(LikeVO vo);
 
-    PostVO postDetail(int post_Seq);
+    void addLike(LikeVO vo);
 
-    ArrayList<PostVO> getMyPost(String member_Id);
+    void delLike(LikeVO vo);
 
-    ArrayList<PostVO> getMemberPost(PostVO vo);
+    ArrayList<PostVO> MemberPost(PostVO vo);
 
     ArrayList<PostVO> getAllPost();
-
-    void deletePost(int post_Seq);
 
     int postSeqCheck();
 
     void insertTag(TagVO vo);
 
-    ArrayList<TagVO> getHashtagList(int post_Seq);
+    TagVO postHashtag(int post_Seq);
 
     void deleteOneMemsTag(String member_Id);
 
@@ -52,15 +48,7 @@ public interface PostMapper {
 
     void deleteTag(int post_Seq);
 
-    String getPostWriter(int post_Seq);
-
-    List<Integer> seqForUser(String member_Id);
+    String PostWriter(int post_Seq);
 
     String checkZeroPostSeq();
-
-    String checkLike(LikeVO vo);
-
-    void addLike(LikeVO vo);
-
-    void delLike(LikeVO vo);
 }

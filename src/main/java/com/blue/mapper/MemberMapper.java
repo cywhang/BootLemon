@@ -18,37 +18,31 @@ public interface MemberMapper {
 
     String confirmID(String member_Id);
 
+    void updatePassword(MemberVO vo);
+
     void insertMember(MemberVO vo);
 
-    String doLogin(MemberVO vo);
+    void memberUpdate(MemberVO vo);
 
-    void updateMember(MemberVO vo);
-
-    void updateMember2(MemberVO vo);
-
-    boolean checkPassword(String member_Id, String member_Password);
-
-    void deleteMember(String member_Id);
-
-    MemberVO loginUser(MemberVO vo);
+    void memberUpdate2(MemberVO vo);
 
     String searchId(MemberVO vo);
 
-    MemberVO findPassword(MemberVO vo);
-
-    void updatePassword(MemberVO vo);
-
     String PwdByIdNameEmail(MemberVO vo);
 
-    List<MemberVO> searchMembers(String keyword);
+    void memberDelete(String member_Id);
 
     List<MemberVO> getRecommendMember(String member_Id);
 
-    void changeFollow(FollowVO vo);
+    String checkFollow(FollowVO check_Vo);
+
+    void addFollow(FollowVO vo);
+
+    void delFollow(FollowVO vo);
 
     List<HashMap<String, String>> memberProfile();
 
-    List<MemberVO> getMostFamousMember();
+    List<MemberVO> MostFamous();
 
     List<MemberVO> getFollowers(String member_Id);
 
@@ -56,7 +50,7 @@ public interface MemberMapper {
 
     List<MemberVO> getAllMember();
 
-    String checkFollow(FollowVO check_Vo);
+    List<MemberVO> searchMembers(String keyword);
 
     List<Integer> getMemberTendency();
 }

@@ -32,17 +32,11 @@ public interface MemberService {
 	// 회원정보 수정2
 	void updateMember2(MemberVO vo);
 
-	// 아이디 중복체크
-	boolean checkDuplicate(String member_Id);
-
 	// 회원 탈퇴
 	void deleteMember(String member_Id);
 
 	// 아이디 찾기
 	String searchId(MemberVO vo);
-
-	// 패스워드 찾기
-	MemberVO findPassword(MemberVO vo);
 
 	// 패스워드 변경
 	void updatePassword(MemberVO vo);
