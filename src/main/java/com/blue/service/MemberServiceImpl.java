@@ -9,21 +9,25 @@ import org.springframework.stereotype.Service;
 import com.blue.mapper.MemberMapper;
 import com.blue.dto.FollowVO;
 import com.blue.dto.MemberVO;
+import com.blue.dto.AlarmVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+	private AlarmService alarmService;
+
 
 	@Override
 	public MemberVO getMember(String member_id) {		
-		return memberMapper.getMember(member_id);
+		return memberMapper.getMemberInfo(member_id);
 	}
 
 	@Override
 	public MemberVO getMemberInfo(String member_Id) {
-		return memberMapper.getMemberInfo(member_Id);
+		return memberMapper.getMember(member_Id);
 	}
 
 	@Override
@@ -47,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int doLogin(MemberVO vo) {
 		int result = -1;
-		String pwd = memberMapper.doLogin(vo);
+		String pwd = memberMapper.confirmID(vo.getMember_Id());
 		// ID가 없는 경우
 		if (pwd == null) {
 			result = -1;
@@ -62,27 +66,80 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public void updateMember(MemberVO vo) {
+		memberMapper.memberUpdate(vo);
+	}
+
+	@Override
+	public void updateMember2(MemberVO vo){
+		memberMapper.memberUpdate2(vo);
+	}
+
+	@Override
+	public boolean checkPassword(String member_Id, String member_Password) {
+		MemberVO vo = getMember(member_Id);
+		return vo != null && vo.getMember_Password().equals(member_Password);
+	}
+
+	@Override
+	public void deleteMember(String member_Id) {
+		memberMapper.memberDelete(member_Id);
+	}
+
+	@Override
+	public String searchId(MemberVO vo) {
+		return memberMapper.searchId(vo);
+	}
+
+	@Override
+	public void updatePassword(MemberVO vo) {
+		memberMapper.updatePassword(vo);
+	}
+
+	@Override
+	public String selectPwdByIdNameEmail(MemberVO vo) {
+		return memberMapper.PwdByIdNameEmail(vo);
+	}
+
+	@Override
+	public List<MemberVO> searchMembers(String keyword) {
+		return	memberMapper.searchMembers(keyword);
+	}
+
+	@Override
 	public List<MemberVO> getRecommendMember(String member_Id) {
 		return memberMapper.getRecommendMember(member_Id);
 	}
 
 	@Override
 	public void changeFollow(FollowVO vo) {
-		memberMapper.changeFollow(vo);
-	}
-	
-	@Override
-	public void updateMember(MemberVO vo) {
-		memberMapper.updateMember(vo);
+		String check = memberMapper.checkFollow(vo);
+
+		// 알람
+		AlarmVO alarmVO = new AlarmVO();
+		alarmVO.setKind(1);
+		alarmVO.setFrom_Mem(vo.getFollower());
+		alarmVO.setTo_Mem(vo.getFollowing());
+		alarmVO.setPost_Seq(0);
+		alarmVO.setReply_Seq(0);
+
+		// 알람 테이블에 해당 알람 있나 확인
+		int result = alarmService.getOneAlarm_Seq(alarmVO);
+
+		// 팔로우 중이 아닌 경우
+		if (check == null) {
+			memberMapper.addFollow(vo);
+			if(result == 0) {
+				alarmService.insertAlarm(alarmVO);
+			}
+		} else {
+			memberMapper.delFollow(vo);
+			if(result != 0) {
+				alarmService.deleteAlarm(result);
+			}
+		}
 	}
 
-	@Override
-	public boolean checkDuplicate(String member_Id) {
-		String member_Password = memberMapper.confirmID(member_Id);
-        return member_Password != null;
-	}
-
-	// 전체 회원 프로필 이미지 조회
 	@Override
 	public HashMap<String, String> getMemberProfile() {
 		List<HashMap<String, String>> resultList = memberMapper.memberProfile();
@@ -98,12 +155,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<MemberVO> getMostFamousMember() {
-		return memberMapper.getMostFamousMember();
-	}
-
-	@Override
-	public void deleteMember(String member_Id) {
-		memberMapper.deleteMember(member_Id);
+		return memberMapper.MostFamous();
 	}
 
 	@Override
@@ -122,44 +174,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String searchId(MemberVO vo) {
-		return memberMapper.searchId(vo);
-	}
-
-	@Override
-	public MemberVO findPassword(MemberVO vo) {
-		return memberMapper.findPassword(vo);
-	}
-
-	@Override
-	public void updatePassword(MemberVO vo) {
-		memberMapper.updatePassword(vo);
-	}
-	
-	@Override
-	public void updateMember2(MemberVO vo) {
-		memberMapper.updateMember2(vo);
-	}
-
-	@Override
-	public boolean checkPassword(String member_Id, String member_Password) {
-		MemberVO vo = getMember(member_Id);
-		return vo != null && vo.getMember_Password().equals(member_Password);
-	}
-
-	@Override
-	public String selectPwdByIdNameEmail(MemberVO vo) {
-		return memberMapper.PwdByIdNameEmail(vo);
-	}
-
-	@Override
-	public List<MemberVO> searchMembers(String keyword) {
-		 return	memberMapper.searchMembers(keyword);
-	}
-
-	@Override
 	public String checkFollow(FollowVO check_Vo) {
-		String result = null;
+		String result;
 		if(memberMapper.checkFollow(check_Vo) != null) {
 			result = "y";
 		} else {
