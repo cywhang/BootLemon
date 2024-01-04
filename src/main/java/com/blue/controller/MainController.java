@@ -77,7 +77,7 @@ public class MainController {
 	}
 
 	// index 페이지 로드
-	@RequestMapping("/index")
+	@RequestMapping("index")
 	public String getRecommendMember(Model model, HttpSession session) {
 
 		if(session.getAttribute("loginUser") == null) {
