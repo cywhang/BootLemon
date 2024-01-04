@@ -13,7 +13,7 @@
 	<!-- keywords 메타 태그를 선언하는 이유는 검색 엔진 최적화와 웹 사이트의 구조화와 관리를 위한 참고 자료를 제공하기 위해서 이다. -->
 	<meta name="keywords" content="bootstrap5, e-learning, forum, games, online course, Social Community, social events, social feed, social media, social media template, social network html, social sharing, twitter">
 	<!-- 부트스트랩 css -->
-	<link thref="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Slich Slider -->
 	<link href="vendor/slick/slick/slick.css" rel="stylesheet">
 	<link href="vendor/slick/slick/slick-theme.css" rel="stylesheet">
@@ -201,7 +201,7 @@
 				                                                autolink('postContent'+postseq);
 			                                                </script>
 			                                                <!-- 해시태그 -->
-															<div th:each="hash : ${hashMap[poistVO.post_Seq]}">
+															<div th:each="hash : ${hashMap[postVO.post_Seq]}">
 				                                     			<a id="hash" th:href="@{'search_HashTag?tag_Content=' + ${hash.tag_Content}}" class="mb-3 text-primary" th:text="'#' + ${hash.tag_Content}"></a>&nbsp;&nbsp;
 															</div>
 			                                                <hr>

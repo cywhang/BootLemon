@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.blue.dto.AlarmVO;
+import com.blue.mapper.LikeMapper;
 import com.blue.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class ReplyServiceImpl implements ReplyService {
 	private ReplyMapper replyMapper;
 	@Autowired
 	private AlarmService alarmService;
+	@Autowired
+	private LikeMapper likeMapper;
 
 	// 각 게시글 댓글 3개까지 조회
 	@Override
@@ -127,7 +130,6 @@ public class ReplyServiceImpl implements ReplyService {
 				alarmService.deleteAlarm(alarmResult);
 			}
 		}
-		replyMapper.changeReplyLike(vo);
 	}
 
 	@Override
@@ -147,7 +149,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public void deleteReplyLike(ReplyVO vo) {
-		replyMapper.deleteReplyLike(vo);
+		likeMapper.replyDelete(vo);
 	}	
 
 }

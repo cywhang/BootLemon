@@ -58,7 +58,7 @@ public class PostAndLikeController {
 		PostVO postVO = postService.getpostDetail(post_Seq);
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 		try {
-			LikeVO vo = new LikeVO();
+			PostVO vo = new PostVO();
 			vo.setMember_Id(member_Id);
 			vo.setPost_Seq(post_Seq);
 
