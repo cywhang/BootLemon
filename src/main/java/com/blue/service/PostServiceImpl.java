@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blue.dto.AlarmVO;
+import com.blue.mapper.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blue.mapper.PostMapper;
-import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.TagVO;
 
@@ -18,6 +18,8 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	private PostMapper postMapper;
 	@Autowired
+	private LikeMapper likeMapper;
+	@Autowired
 	private AlarmService alarmService;
 
 	// 게시글 가져오기
@@ -25,15 +27,13 @@ public class PostServiceImpl implements PostService {
 	public ArrayList<PostVO> getlistPost(String member_Id) {
 		List<PostVO> resultList = postMapper.listPost(member_Id);
 		ArrayList<PostVO> arrayList = new ArrayList<PostVO>(resultList);
-
 		return arrayList;
 	}
 
 	// 게시글 좋아요 여부 체크
 	@Override
 	public String getLikeYN(PostVO voForLikeYN) {
-		String check = postMapper.getLikeYN(voForLikeYN);
-
+		String check = postMapper.checkLike(voForLikeYN);
 		if (check == null) {
 			check = "N";
 		} else {
@@ -44,11 +44,11 @@ public class PostServiceImpl implements PostService {
 
 	// 게시글 좋아요 처리
 	@Override
-	public void changeLike(LikeVO vo) {
+	public void changeLike(PostVO vo) {
 		String check = postMapper.checkLike(vo);
 
 		// 알람
-		String post_Writer = postMapper.getPostWriter(vo.getPost_Seq());
+		String post_Writer = postMapper.postWriter(vo.getPost_Seq());
 		AlarmVO alarmVO = new AlarmVO();
 		alarmVO.setKind(2);
 		alarmVO.setFrom_Mem(vo.getMember_Id());
@@ -97,30 +97,22 @@ public class PostServiceImpl implements PostService {
 		postMapper.insertPost(vo);
 	}
 
+	@Override
+	public int getPost_Like_Count(int post_Seq) {
+		return likeMapper.postLikeCount(post_Seq);
+	}
+
 	// 게시글 상세보기
 	@Override
 	public PostVO getpostDetail(int post_Seq) {
 		return postMapper.postDetail(post_Seq);
 	}
 
-	// 내 profile에서 보여줄 게시글목록
-	@Override
-	public ArrayList<PostVO> getMyPost(String member_Id) {
-		List<PostVO> result = postMapper.getMyPost(member_Id);
-		ArrayList<PostVO> myPostList = new ArrayList<PostVO>(result);
-		return myPostList;
-	}
-
 	@Override
 	public ArrayList<PostVO> getMemberPost(PostVO vo) {
-		List<PostVO> result = postMapper.getMemberPost(vo);
+		List<PostVO> result = postMapper.memberPost(vo);
 		ArrayList<PostVO> memberPostList = new ArrayList<PostVO>(result);
 		return memberPostList;
-	}
-
-	@Override
-	public int getPost_Like_Count(int post_Seq) {
-		return postMapper.postLikeCount(post_Seq);
 	}
 
 	// 관리자용 전체 게시글 조회
@@ -150,7 +142,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public ArrayList<TagVO> getHashtagList(int post_Seq) {
-		List<TagVO> result = postMapper.getHashtagList(post_Seq);
+		List<TagVO> result = postMapper.postHashtag(post_Seq);
 		ArrayList<TagVO> hashList = new ArrayList<TagVO>(result);
 		return hashList;
 	}
@@ -191,7 +183,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public String getPostWriter(int post_Seq) {
-		return postMapper.getPostWriter(post_Seq);
+		return postMapper.postWriter(post_Seq);
 	}
 
 	@Override

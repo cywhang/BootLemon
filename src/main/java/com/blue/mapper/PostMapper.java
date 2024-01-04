@@ -1,6 +1,5 @@
 package com.blue.mapper;
 
-import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.TagVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,13 +19,13 @@ public interface PostMapper {
 
     void deletePost(int post_Seq);
 
-    String checkLike(LikeVO vo);
+    String checkLike(PostVO vo);
 
-    void addLike(LikeVO vo);
+    void addLike(PostVO vo);
 
-    void delLike(LikeVO vo);
+    void delLike(PostVO vo);
 
-    ArrayList<PostVO> MemberPost(PostVO vo);
+    ArrayList<PostVO> memberPost(PostVO vo);
 
     ArrayList<PostVO> getAllPost();
 
@@ -34,7 +33,7 @@ public interface PostMapper {
 
     void insertTag(TagVO vo);
 
-    TagVO postHashtag(int post_Seq);
+    List<TagVO> postHashtag(int post_Seq);
 
     void deleteOneMemsTag(String member_Id);
 
@@ -48,7 +47,9 @@ public interface PostMapper {
 
     void deleteTag(int post_Seq);
 
-    String PostWriter(int post_Seq);
+    String postWriter(int post_Seq);
 
     String checkZeroPostSeq();
+
+    List<Integer> seqForUser(String member_Id);
 }

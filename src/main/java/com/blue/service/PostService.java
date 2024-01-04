@@ -17,7 +17,7 @@ public interface PostService {
 	String getLikeYN(PostVO voForLikeYN);
 
 	// 게시글 좋아요 처리
-	void changeLike(LikeVO vo);
+	void changeLike(PostVO vo);
 
 	// 인기글 조회 (우측)
 	List<PostVO> getHottestFeed();
@@ -27,9 +27,6 @@ public interface PostService {
 
 	// 게시글 상세보기(모달창)
 	PostVO getpostDetail(int post_Seq);
-
-	// 프로필의 내 포스트들
-	ArrayList<PostVO> getMyPost(String member_Id);
 
 	// 프로필의 개인 포스트들
 	ArrayList<PostVO> getMemberPost(PostVO vo);

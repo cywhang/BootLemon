@@ -1,0 +1,307 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="UTF-8">
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>BlueLemon</title>
+</head>
+<body>
+<div th:fragment="modal">
+	<!-- Post Insert Modal -->
+	<!-- 글 작성 모달창 -->
+	<div class="modal fade" id="postModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-4 p-4 border-0 bg-light">
+				<div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
+					<!-- 뒤로가기 버튼 --> 
+					<a href="#" id="closeModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
+					<!-- 작성자 프로필 이미지 -->
+					<img th:src="@{'img/uploads/profile/' + ${profileMap[session.loginUser.member_Id]}}"  class="img-fluid rounded-circle user-img" id = "wirter" alt="profile-img">
+					<!-- 작성자 아이디 표시 -->
+					<h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel" th:text="'작성자: ' + ${session.loginUser.member_Id}"></h5>
+				</div>
+				<!-- 게시글 작성 폼 -->
+				<form onsubmit="return false;" enctype="multipart/form-data" id="postInsert">
+					<div class="modal-body p-0 mb-3">
+						<!-- 입력 부분 -->
+						<!-- 작성자 아이디 -->
+						<input type="hidden" name="member_Id" th:value="${session.loginUser.member_Id}">
+						<!-- 공개 여부 체크박스 -->
+						<label for="post_Public" class="h6 text-muted mb-0">게시글 공개 여부</label>
+						<input type="checkbox" name="post_Public" value="y" checked="checked">
+						<!-- 게시글 내용 작성창 -->
+						<div class="form-floating">
+							<textarea maxlength="300" onkeypress="characterCheck(this)" class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
+               				<label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
+            			</div>
+						<!-- 해시태그 입력창 -->
+       					<div onkeypress="characterCheck(event)">
+               				<textarea maxlength="20" onkeyup="characterCheck(this)" name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="해시태그: #없이 입력" id="floatingTextarea2" style="height: 50px"></textarea>
+           				</div>
+           				<div class="d-flex justify-content-between">
+       	 					<button id="resetB" type="reset" class="btn btn-secondary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center">
+	 							<span class="material-icons me-2 md-16">refresh</span>
+	 							초기화
+							</button>
+           	 				<button onclick="submitForm()" id="submitButton" data-bs-dismiss="modal" class="btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center">
+           	 					<span class="material-icons me-2 md-16">send</span>
+           	 					Post
+           	 				</button>
+           				</div>
+					</div>
+					<!-- 이미지 업로드 부분 -->
+					<div class="clearfix">
+						<div class="inputFile">
+							<!-- 파일을 입력할 수 있는 +버튼 -->
+							<label for="AddImgs" class="addImgBtn">+</label>
+							<!-- 숨겨져있는 file입력창 (위 label은 이 input태그를 가리키고있다.) -->
+							<input  type="file" onchange="addFile(this);" name="uploadImgs" id="AddImgs" class="upload-hidden" accept=".png, .gif" multiple="multiple" hidden="true" max="4">
+						</div>
+						<!-- 이미지 미리보기 컨테이너 -->
+						<ul id="Preview" class="sortable"></ul>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+ 
+	<!-- Post Edit Modal -->
+	<!-- 글 수정 모달창 -->
+	<div class="modal fade" id="postModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    	<div class="modal-dialog modal-dialog-centered">
+       		<div class="modal-content rounded-4 p-4 border-0 bg-light">
+          		<div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
+             		<!-- 뒤로가기 버튼 -->
+		             <a href="#" id="closeEditModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
+		             <!-- 작성자 프로필 이미지 -->
+		             <img th:src="@{'img/uploads/profile/' + ${profileMap[session.loginUser.member_Id]}}"  class="img-fluid rounded-circle user-img" id = "wirter" alt="profile-img">
+		             <!-- 수정 모달창의 제목-->
+		             <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">수정 페이지</h5> <!-- 작성자: ${sessionScope.loginUser.member_Id} -->
+          		</div>
+          		<!-- 게시글 작성 폼 -->
+          		<form onsubmit="return false;" enctype="multipart/form-data" id="postUpdate">
+          			<div class="modal-body p-0 mb-3">
+          	  			<!-- 입력 부분 -->
+	          	  		<!-- 작성자 아이디 히든으로 넘김 -->
+	          	  		<input type="hidden" name="member_Id" th:value="${session.loginUser.member_Id}">
+	          	  		<!-- 동적 공개여부 체크박스  -->
+             			<label for="post_Public" class="h6 text-muted mb-0">게시글 공개 여부<div id="postPublicContainer"></div></label>
+          	  			<!-- 게시글 내용 작성창 -->
+             			<div class="form-floating" id="postContentContainer"></div>
+             			<!-- 해시태그 입력창 -->
+             			<div>
+             				<div id="hashtagContainer"></div>
+             			</div>
+             			<div class="d-flex justify-content-between">
+             	 			<div></div>
+             	    		<!-- edit 폼 제출 버튼 -->
+             	 			<div id="editButtonContainer"></div>
+             			</div>
+          			</div>
+          			<!-- 이미지 업로드 부분 -->
+          			<div class="clearfix">
+ 	  					<div class="inputFile">
+ 	    					<!-- 파일을 입력할 수 있는 +버튼 -->
+      						<label for="editImgs" class="addImgBtn">+</label>
+      						<!-- 숨겨져있는 file입력창 (위 label은 이 input태그를 가리키고있다.) -->
+      						<input type="file" onchange="editFile(this);" name="uploadImgs" id="editImgs" class="upload-hidden" accept=".png, .gif" multiple="multiple" hidden="true" max="4">
+						</div>
+						<!-- 이미지 미리보기 컨테이너 -->
+						<ul id="editPreview"></ul>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+ 
+	<!-- 게시글 상세보기 모달창 1 -->
+	<!-- 이미지 슬라이드, 댓글 리스트 모달창 -->
+	<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    	<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-4 overflow-hidden border-0">
+				<div class="modal-header d-none">
+					<h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
+					<button type="button" class="btn-close modalClose" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body p-0">
+					<div class="row m-0">
+						<!-- 모달창의 왼쪽 컬럼 -->
+						<div class="col-sm-7 px-0 m-sm-none h-600">
+							<!-- 게시글의 이미지슬라이드 -->
+							<div class="image-slider" width = "100%">
+								<div id="carouselExampleIndicators" class="carousel slide" c="carousel">
+									<!-- 이미지 슬라이드 하단의 인덱스 버튼 -->
+									<div class="carousel-indicators">
+									</div>
+									<!-- 게시글의 이미지 출력부분 -->
+									<div class="carousel-inner">
+									</div>
+									<!-- 전, 후  이미지 이동 버튼 -->
+									<div class="arrow-button">
+									</div>
+								</div>
+							</div> <!-- 이미지 슬라이드 -->
+						</div>
+                
+						<!-- 모달창의 오른쪽 컬럼 -->
+						<div class="col-sm-5 content-body px-web-0">
+							<div class="d-flex flex-column h-600">
+								<!-- 게시글 작성자 정보 -->
+								<div class="d-flex p-3 border-bottom">
+									<!-- 게시글 작성자 프로필이미지 -->
+									<div id="profileImgContainer"></div>
+									<div class="d-flex align-items-center justify-content-between w-100">
+										<a href="profile" class="text-decoration-none ms-3">
+											<div class="d-flex align-items-center">
+												<!-- 작성자 아이디 -->
+												<div id="writerContainer"></div>                                     
+											</div>
+											<!-- 작성자 아이디(@아이디) -->
+											<div id="smallWriterContainer"></div>
+										</a>
+										<!-- 모달창 닫기 버튼 (x모양 아이콘) -->
+										<div class="small dropdown">
+											<a href="#" class="modalClose text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
+										</div>
+									</div>
+								</div>
+                      
+								<div id="replyList">
+									<!-- 해당 게시글의 내용을 표시하는 부분 -->
+									<div class="d-flex p-3">
+										<div class="d-flex align-items-center w-100">
+											<div id="imgModalContent"></div>
+										</div>
+									</div>
+									<!-- 해당 게시글의 해시태그를 표시하는 부분 -->
+									<div class="d-flex p-3 border-bottom">
+										<div class="d-flex align-items-center w-100">
+											<div id="imgModalHashtag"></div>
+										</div>
+									</div>
+									<!-- 댓글들 리스트 div -->
+									<!-- id는 스크롤을 하기 위해서 지정해줌 -->
+									<div class="comments p-3">
+										<div id="replyListContainer">
+										</div>
+									</div>
+								</div>
+								      
+								<!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
+								<div class="border-top p-3 mt-auto">
+									<div class="d-flex align-items-center justify-content-between mb-2">
+										<!-- 좋아요 버튼 이미지, 좋아요 카운트를 출력해줌 -->
+										 <div class="like-group" role="group">
+											<div id = "likeImage">
+											</div>
+										</div>
+										<!-- 해당 게시글의 총 댓글 수 표시 -->
+										<div>
+											<div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><div id="replyContainer"></div></div>
+										</div>
+									</div>
+                         
+									<div class="d-flex align-items-center">
+										<span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
+										<div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
+											<input maxlength="300" onkeypress="characterCheck(this)" type="text" id="inputContent" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
+											<div id="postButton">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+				</div> 
+             </div>
+          </div>
+          <div class="modal-footer d-none"></div>
+       </div>
+    </div>
+	</div>
+ 
+	<!-- 게시글 상세보기 모달창 2 -->
+	<!-- 댓글 리스트 모달창 -->
+	<div class="modal fade" id="commentModal2" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    	<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content rounded-4 overflow-hidden border-0">
+				<div class="modal-header d-none">
+					<h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
+					<button type="button" class="modalClose btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body p-0">
+					<div class="d-flex flex-column h-600">
+						<!-- 게시글 작성자 정보 -->
+						<div class="d-flex p-3 border-bottom">
+							<!-- 게시글 작성자 프로필이미지 -->
+							<div id="profileImgContainer2" style="width: 15%; height: auto;"></div>
+							<div class="d-flex align-items-center justify-content-between w-100">
+								<a href="profile" class="text-decoration-none ms-3">
+									<div class="d-flex align-items-center">
+										<!-- 작성자 아이디 -->
+										<div id="writerContainer2"></div>
+									</div>
+									<!-- 작성자 아이디(@아이디) -->
+									<div id="smallWriterContainer2"></div>
+								</a>
+								<!-- 모달창 닫기 버튼 (x모양 아이콘) -->
+								<div class="small dropdown">
+									<a href="#" class="modalClose text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
+								</div>
+							</div>
+						</div>
+              
+						<!-- 스크롤을 위한 id 지정 -->
+						<div  id ="replyList">
+							<!-- 해당 게시글의 내용을 표시하는 부분 -->
+							<div class="d-flex p-3">
+								<div class="d-flex align-items-center w-100">
+									<div id="modalContent"></div>
+								</div>
+							</div>
+              
+							<!-- 해당 게시글의 해시태그를 표시하는 부분 -->
+							<div class="d-flex p-3 border-bottom">
+								<div class="d-flex align-items-center w-100">
+									<div id="modalHashtag"></div>
+								</div>
+							</div> 
+              
+							<!-- 댓글들 리스트 div -->
+							<!-- id는 스크롤을 하기 위해서 지정해줌 -->
+							<div class="comments p-3">
+								<div id="replyListContainer2">
+								</div>
+							</div>
+						</div>
+              
+						<!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
+						<div class="border-top p-3 mt-auto">
+							<div class="d-flex align-items-center justify-content-between mb-2">
+								<!-- 좋아요 버튼 이미지, 좋아요 카운트를 출력해줌 -->
+								<div class="like-group" role="group">
+									<div id = "likeImage2">  
+									</div>
+								</div>
+								<div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><div id="replyContainer2"></div></div>
+							</div> 
+							<div class="d-flex align-items-center">
+								<span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
+								<div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
+									<input type="text" onkeypress="characterCheck(this)" maxlength="300" id="inputContent2" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
+									<div id="postButton2">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer d-none"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- reply Update Js -->
+	<script src="js/replyUpdate.js"></script>
+
+</div> <!-- 프래그먼트 div 태그 -->
+</body>
+</html>

@@ -13,7 +13,7 @@
 	<!-- keywords 메타 태그를 선언하는 이유는 검색 엔진 최적화와 웹 사이트의 구조화와 관리를 위한 참고 자료를 제공하기 위해서 이다. -->
 	<meta name="keywords" content="bootstrap5, e-learning, forum, games, online course, Social Community, social events, social feed, social media, social media template, social network html, social sharing, twitter">
 	<!-- 부트스트랩 css -->
-	<link thref="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Slich Slider -->
 	<link href="vendor/slick/slick/slick.css" rel="stylesheet">
 	<link href="vendor/slick/slick/slick-theme.css" rel="stylesheet">
@@ -117,7 +117,7 @@
 	                           	<div class="account-slider">
 	                              	<!-- Account Item -->
 	                              	<!-- 친구 추천창 요소 -->
-	                              	<th:block th:each="memberVO, stat : ${recommendMember}" th:if="${stat.index} < 6">
+	                              	<th:block th:each="memberVO, stat : ${recommendMember}" th:limit="6">
 		                             	<div class="account-item">
 		                                	<div class="me-2 bg-white shadow-sm rounded-4 p-3 user-list-item d-flex justify-content-center my-2">
 		                                   		<div class="text-center">
@@ -146,7 +146,7 @@
 	                      		<!-- 뉴스피드들을 감싸는 부분 -->
 	                    		<div class="pt-4 feeds" id="firstShowMainFeed">                              
 	                   				<!-- Feed Item -->
-	                      			<th:block th:each="postVO, status : ${postList}" th:if="${status.index} < 10">
+	                      			<th:block th:each="postVO, status : ${postList}" th:limit="10">
 	                           			<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
 	                             			<div class="d-flex">
                             					<!-- 작성자의 프로필사진 -->
@@ -201,7 +201,7 @@
 				                                                autolink('postContent'+postseq);
 			                                                </script>
 			                                                <!-- 해시태그 -->
-															<div th:each="hash : ${hashMap[poistVO.post_Seq]}">
+															<div th:each="hash : ${hashMap[postVO.post_Seq]}">
 				                                     			<a id="hash" th:href="@{'search_HashTag?tag_Content=' + ${hash.tag_Content}}" class="mb-3 text-primary" th:text="'#' + ${hash.tag_Content}"></a>&nbsp;&nbsp;
 															</div>
 			                                                <hr>
@@ -238,7 +238,7 @@
 			                                    			<div class="comments">
 																<th:block th:with="key=${status.index}"></th:block>
 																<th:block th:with="value=${replyMap[key]}"></th:block>
-																<div th:each="reply, i : ${value}" th:if="i < 3">
+																<div th:each="reply, i : ${value}" th:limit="3">
 	                                          						<div class="d-flex mb-2">
 			                                          					<!-- 댓글 작성자 프로필 이미지 출력부분 -->
 					                                                    <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
@@ -387,9 +387,9 @@
 										</div>
                               		</a>
                               		<ul class="dropdown-menu px-2 py-1 mb-2">
-										<div th:each="alarmVO, k : ${alarmList}" th:if="${k < 11}">
+										<div th:each="alarmVO, i : ${alarmList}" th:limit="10">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" th:onclick="|clickAlarm(${alarmVO.kind}, ${alarmVO.alarm_Seq}, ${alarmVO.post_Seq}, ${alarmVO.reply_Seq}, ${alarmVO.to_Mem})|" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}"></a>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" th:attr="onclick=|clickAlarm(${alarmVO.kind}, ${alarmVO.alarm_Seq}, ${alarmVO.post_Seq}, ${alarmVO.reply_Seq}, '${alarmVO.to_Mem}')|" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}"></a>
 											</li>
 										</div>
                               		</ul>
@@ -444,9 +444,9 @@
 										</div>
 	                              	</a>
 	                              	<ul class="dropdown-menu px-2 py-1 mb-2">
-										<div th:each="alarmVO, j : ${alarmList}" th:if="${j < 11}">
+										<div th:each="alarmVO, i : ${alarmList}" th:limit="10">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" th:onclick="|clickAlarm(${alarmVO.kind}, ${alarmVO.alarm_Seq}, ${alarmVO.post_Seq}, ${alarmVO.reply_Seq}, ${alarmVO.to_Mem})|" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}"></a>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" th:attr="onclick=|clickAlarm(${alarmVO.kind}, ${alarmVO.alarm_Seq}, ${alarmVO.post_Seq}, ${alarmVO.reply_Seq}, '${alarmVO.to_Mem}')|" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}"></a>
 											</li>
 										</div>
                               		</ul>
@@ -477,7 +477,7 @@
                               		<h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
 	                              	<!-- 표시할 최대 문자 수 -->
 									<th:block th:with="maxChar = 50"></th:block>
-									<div th:each="postVO, n : ${hottestFeed}" th:if="n < 4">
+									<div th:each="postVO, n : ${hottestFeed}" th:limit="4">
                          	     		<div class="p-3 border-bottom d-flex">
 											<div th:if="${postVO.post_Image_Count == 0}">
 												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${postVO.post_Seq})|" style = "width : 100%;">
@@ -495,7 +495,7 @@
 															<br><div style = "height : 5%;"></div>
 															<div th:if="${postVO.post_Hashtag != null}">
 																<small class="text-muted">
-																	<div th:if="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${strings.substring(postVO.post_Hashtag, 0, 22)} + ' . . .'"></div>
+																	<div th:if="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${#strings.substring(postVO.post_Hashtag, 0, 22)} + ' . . .'"></div>
 																	<div th:unless="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${postVO.post_Hashtag}"></div>
 																</small>
 															</div>
@@ -508,15 +508,15 @@
 													<div class = "d-flex">
 														<div style = "width : 60%;">
 															<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
-															<small class="text-muted" th:text="Posted by ${postVO.member_Id}"></small>
+															<small class="text-muted" th:text="'Posted by' + ${postVO.member_Id}"></small>
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
-																<span th:text="${strings.substring(postVO.post_Content, 0, 15)} + ' . . .'"></span>
+																<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
 															</small>
 															<br><div style = "height : 5%;"></div>
 															<div th:if="${postVO.post_Hashtag != null}">
 																<small class="text-muted">
-																	<span th:text="${strings.substring(postVO.post_Hashtag, 0, 15)} + ' . . .'"></span>
+																	<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
 																</small>
 															</div>
 														</div>
@@ -558,28 +558,28 @@
 	<div th:include="modal :: modal"></div>
 
 	<!-- Bootstrap Bundle Js -->
-	<script type="text/javascript" th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Custom Js -->
-	<script type="text/javascript" th:src="@{js/custom.js}"></script>
+	<script src="js/custom.js" ></script>
 	<!-- Slick Js -->
-	<script type="text/javascript" th:src="@{vendor/slick/slick/slick.min.js}"></script>
+	<script src="vendor/slick/slick/slick.min.js"></script>
 	<!-- Follow Js -->
-	<script type="text/javascript" th:src="@{js/follow.js}"></script>
+	<script src="js/follow.js"></script>
 	<!-- Like Js -->
-	<script type="text/javascript" th:src="@{js/like.js}"></script>
+	<script src="js/like.js"></script>
 	<!-- Modal Js -->
-	<script type="text/javascript" th:src="@{js/modal.js}"></script>
+	<script src="js/modal.js"></script>
 	<!-- People Js -->
-	<script type="text/javascript" th:src="@{js/people.js}"></script>
+	<script src="js/people.js"></script>
 	<!-- Insert Js -->
-	<script type="text/javascript" th:src="@{js/modalAction.js}"></script>
+	<script src="js/modalAction.js"></script>
 	<!-- Trending Js -->
-	<script type="text/javascript" th:src="@{js/trending.js}"></script>
+	<script src="js/trending.js"></script>
 	<!-- Infinite Js -->
-	<script type="text/javascript" th:src="@{js/infinite.js}"></script>
+	<script src="js/infinite.js"></script>
 	<!-- Search People Js -->
-	<script type="text/javascript" th:src="@{js/searchpeople.js}"></script>
+	<script src="js/searchpeople.js"></script>
 	<!-- Alarm Js -->
-	<script type="text/javascript" th:src="@{js/alarm.js}"></script>
+	<script src="js/alarm.js"></script>
 </body>
 </html>
