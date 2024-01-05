@@ -121,6 +121,7 @@ public class PostAndLikeController {
 			int imgCount = attach_file.length;
 			vo.setPost_Image_Count(imgCount);
 
+
 			if(imgCount == 0) { // 이미지를 업로드 하지 않았을때
 
 			} else if (imgCount == 1 ){ // 1개의 이미지를 업로드 했을때
@@ -208,7 +209,7 @@ public class PostAndLikeController {
 			}
 		}
 
-		return "/index";
+		return "index";
 	}
 
 	// 게시글 상세보기 페이지 (모달창)
