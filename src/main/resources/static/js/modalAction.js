@@ -375,9 +375,9 @@ $(function() {
           timeout: 30000,
           cache: false,
           headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
-          success: function (response) {
-        	  window.location.href = '/blue/index'
-          }
+		  success: function (response) {
+			  location.reload();
+		  }
       });
   }
 
@@ -416,7 +416,7 @@ function postEditAction(post_Seq){
         cache: false,
         headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
         success: function (response) {
-      	  window.location.href = '/blue/index'
+			location.reload();
         }
     });
 }

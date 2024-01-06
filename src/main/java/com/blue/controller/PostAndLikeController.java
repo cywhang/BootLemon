@@ -116,7 +116,7 @@ public class PostAndLikeController {
 		if (attach_file != null && attach_file.length > 0) {
 
 			// 1. 이미지 업로드 처리 부분
-			String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+			String folderPath = "D:/fileUpload/img/uploads/post/";
 			// 1. 업로드할 이미지 개수 vo 객체에 저장
 			int imgCount = attach_file.length;
 			vo.setPost_Image_Count(imgCount);
@@ -209,7 +209,7 @@ public class PostAndLikeController {
 			}
 		}
 
-		return "index";
+		return "redirect:index";
 	}
 
 	// 게시글 상세보기 페이지 (모달창)
@@ -409,7 +409,7 @@ public class PostAndLikeController {
 
 		postService.deletePost(post_Seq);
 		// 1. 이미지 업로드 실제경로
-		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+		String folderPath = "img/uploads/post/";
 		// 절대경로의 이미지 전체를 folder에 저장한다
 		File folder = new File(folderPath);
 		// folder의 파일들을 리스트화 시킨다.
@@ -458,7 +458,6 @@ public class PostAndLikeController {
 
 		// 이미지 경로
 		// 이미지 경로를 반드시 절대경로로 지정하지 않아도 이미지를 표시할 수 있다.
-		//String folderPath = session.getServletContext().getRealPath("img/uploads/post/");
 		String folderPath = "img/uploads/post/";
 
 		dataMap.put("hashList", hashlist);
@@ -479,9 +478,7 @@ public class PostAndLikeController {
 		int deleteStrings = deletedStrings.length;
 
 		// 1. 이미지 업로드 실제경로
-		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
-		// 1. 이미지 출력 상대경로
-		String imagePath = "img/uploads/post/";
+		String folderPath = "img/uploads/post/";
 
 		int imgCount = attach_file.length;
 		vo.setPost_Image_Count(currentEditFileNo);
