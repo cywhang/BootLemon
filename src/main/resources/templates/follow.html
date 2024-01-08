@@ -73,38 +73,37 @@
                      	   	<div class="tab-pane fade show active" id="pills-feed" role="tabpanel" aria-labelledby="pills-feed-tab">
 								<h6 class="mb-3 fw-bold text-body">Your Following</h6>
                            		<div class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm">
-             						<c:forEach items="${following}" var="memberVO" begin="0" end="9">
-                              			<a href="profile?member_Id=${memberVO.member_Id}" class="p-3 d-flex text-dark text-decoration-none account-item pf-item">
-	                                 		<img src="img/uploads/profile/${memberVO.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+									<div th:each="memberVO : ${following}" th:limit="10">
+                              			<a th:href="@{'profile?member_Id=' + ${memberVO.member_Id}}" class="p-3 d-flex text-dark text-decoration-none account-item pf-item">
+	                                 		<img th:src="@{'img/uploads/profile/' + ${memberVO.member_Profile_Image}}" class="img-fluid rounded-circle me-3" alt="profile-img">
 	                                 		<div>
-	                                    		<p class="fw-bold mb-0 pe-3 d-flex align-items-center">${memberVO.member_Id} </p>
+	                                    		<p class="fw-bold mb-0 pe-3 d-flex align-items-center" th:text="${memberVO.member_Id}"></p>
 	                                    		<div>
-	                                       			<p class="text-muted fw-light mb-1 small">${memberVO.member_Name}</p>
-	                                       			<span class="d-flex align-items-center small">${memberVO.member_Mbti}/${memberVO.member_Gender}/${memberVO.member_Email}</span>
+	                                       			<p class="text-muted fw-light mb-1 small" th:text="${memberVO.member_Name}"></p>
+	                                       			<span class="d-flex align-items-center small" th:inline="text">[[${memberVO.member_Mbti}]]/[[${memberVO.member_Gender}]]/[[${memberVO.member_Email}]]</span>
 	                                    		</div>
 	                                 		</div>
 	                                 		<div class="ms-auto">
 	                                    		<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-	                                       			<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck${memberVO.member_Id}" checked>
-	                                       			<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck${memberVO.member_Id}" onclick = "changeFollow('${memberVO.member_Id}')"><span class="following d-none">Following</span><span class="follow">+ Follow</span></label>
+	                                       			<input type="checkbox" class="btn-check" name="btncheckbox" th:id="'btncheck' + ${memberVO.member_Id}" checked>
+	                                       			<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck' + ${memberVO.member_Id}" th:onclick ="|changeFollow('${memberVO.member_Id}')|">
+														<span class="following d-none">Following</span>
+														<span class="follow">+ Follow</span>
+													</label>
 		                                		</div>
 	                                 		</div>
                               			</a>
-                              		</c:forEach>
+									</div>
                               		<div id="followingContainer"></div>
                               	</div>
                               	<div id="followingloadButton">
-		                         	<c:choose>
-			                         	<c:when test="${followingTotalPageNum<2}">			                         		
-			                         	</c:when>
-			                         	<c:otherwise>
-							                <div class="ms-auto" align="center">
-		                                 		<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="followingload('${followingTotalPageNum}', '${followingPageNum}', '${member_Id}')">
-		                                 			+ 더보기
-		                                 		</span>
-		                                	</div>
-			                         	</c:otherwise>
-									</c:choose>
+									<div th:unless="${followingTotalPageNum<2}">
+										<div class="ms-auto" align="center">
+											<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" th:onclick="|followingload(${followingTotalPageNum}, ${followingPageNum}, ${member_Id})|">
+												+ 더보기
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -114,46 +113,44 @@
                            	<div class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm">
                            		<div>
                               		<!-- Account Item -->
-                              		<c:forEach items="${follower}" var="memberVO" begin="0" end="9">
-                              			<a href="profile?member_Id=${memberVO.member_Id}"  class="p-3 d-flex text-dark text-decoration-none account-item pf-item">
-                                 			<img src="img/uploads/profile/${memberVO.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+									<div th:each="memberVO : ${follower}" th:limit="10">
+                              			<a th:href="@{'profile?member_Id=' + ${memberVO.member_Id}}"  class="p-3 d-flex text-dark text-decoration-none account-item pf-item">
+                                 			<img th:src="@{'img/uploads/profile/' + ${memberVO.member_Profile_Image}}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                  			<div>
-                                    			<p class="fw-bold mb-0 pe-3 d-flex align-items-center">${memberVO.member_Id}</p>
+                                    			<p class="fw-bold mb-0 pe-3 d-flex align-items-center" th:text="${memberVO.member_Id}"></p>
                                     			<div>
-                                       				<p class="text-muted fw-light mb-1 small">${memberVO.member_Name}</p>
-                                       				<span class="d-flex align-items-center small">${memberVO.member_Mbti}/${memberVO.member_Gender}/${memberVO.member_Email}</span>
+                                       				<p class="text-muted fw-light mb-1 small" th:text="${memberVO.member_Name}"></p>
+                                       				<span class="d-flex align-items-center small" th:inline="text">[[${memberVO.member_Mbti}]]/[[${memberVO.member_Gender}]]/[[${memberVO.member_Email}]]</span>
                                     			</div>
                                  			</div>
                                  			<div class="ms-auto" id="followerBtnContainer">
                                     			<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-													<c:if test="${memberVO.bothFollow eq 1}">
+													<div th:if="${memberVO.bothFollow eq 1}">
 										  				<!-- 숫자 1과 동일한 경우에 실행될 내용 -->
-										  				<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${memberVO.member_Id}" checked="checked">
-													</c:if>
-													<c:if test="${memberVO.bothFollow ne 1}">
+										  				<input type="checkbox" class="btn-check" name="btncheckbox" th:id="'btncheck2' + ${memberVO.member_Id}" checked="checked">
+													</div>
+													<div th:unless="${memberVO.bothFollow eq 1}">
 										  				<!-- 숫자 1과 다른 경우에 실행될 내용 -->
-										  				<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${memberVO.member_Id}">
-													</c:if>
-                                      		 		<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck2${memberVO.member_Id}" onclick = "changeFollow('${memberVO.member_Id}')"><span class="following d-none">Following</span><span class="follow">+ Follow</span></label>
+										  				<input type="checkbox" class="btn-check" name="btncheckbox" th:id="'btncheck2' + ${memberVO.member_Id}">
+													</div>
+                                      		 		<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck2' + ${memberVO.member_Id}" th:onclick="|changeFollow(${memberVO.member_Id})|">
+														<span class="following d-none">Following</span>
+														<span class="follow">+ Follow</span></label>
 	                                			</div>
                                  			</div>
                               			</a>
-                              		</c:forEach>
+									</div>
                               	</div>
                               	<div id="followerContainer"></div>
                            	</div>
                            	<div id="followerloadButton">
-                              	<c:choose>
-		              				<c:when test="${followerTotalPageNum<2}">		                         		
-		                         	</c:when>
-		                         	<c:otherwise>
-			                     		<div class="ms-auto" align="center">
-	                                 		<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followerload" onclick="followerload('${followerTotalPageNum}', '${followerPageNum}', '${member_Id}')">
-	                                 			+ 더보기
-	                                 		</span>
-	                                	</div>
-		                         	</c:otherwise>
-		               			</c:choose>	
+								<div th:unless="${followerTotalPageNum<2}">
+									<div class="ms-auto" align="center">
+										<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followerload" th:onclick="|followerload(${followerTotalPageNum}, ${followerPageNum}, ${member_Id})|">
+											+ 더보기
+										</span>
+									</div>
+								</div>
 		               		</div>
 		               	</div>
 					</div><!-- class="main-content" -->                  
@@ -173,12 +170,12 @@
                            		<li class="nav-item">
                               		<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
-                           		<li class="nav-item">
-                              		<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
-	                           	</li>
-	                           	<li class="nav-item">
-                              		<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link active"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
-                           		</li>
+								<li class="nav-item">
+									<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
+								</li>
                            		<!-- PAGES 드롭다운 항목 -->
                            		<li class="nav-item dropdown">
                               		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -194,41 +191,34 @@
                            		</li>
                            		<li class="nav-item dropdown">
                               		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              			<c:choose>
-                              				<c:when test="${alarmListSize==0}">
-                              					<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-                              				</c:when>
-                              				<c:otherwise>
-                              					<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
-                              				</c:otherwise>
-                              			</c:choose>
+										<div th:if="${alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+										</div>
+										<div th:unless="${alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> <span th:inline="text">Notification + [[${alarmListSize}]]</span>
+										</div>
                               		</a>
                              		<ul class="dropdown-menu px-2 py-1 mb-2">
-                              			<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
-                              				<c:choose>
-                              					<c:when test="${alarmVO.kind==1}">
-		                              				<li>
-														<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-															${alarmVO.message}
-														</a>
-													</li> 			
-		                              			</c:when>
-		                              			<c:when test="${alarmVO.kind==5}">
-		                              				<li>
-														<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-															${alarmVO.message}
-														</a>
-													</li> 
-		                              			</c:when>
-		                              			<c:otherwise>
-		                              				<li>
-														<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-															${alarmVO.message}
-														</a>
-													</li>   
-		                              			</c:otherwise>
-                              				</c:choose>
-                                		</c:forEach>
+										<div th:each="alarmVO : ${alarmList}" th:limit="10">
+											<div th:if="${alarmVO.kind==1}">
+												<li>
+													<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+													</a>
+												</li>
+											</div>
+											<div th:if="${alarmVO.kind==5}">
+												<li>
+													<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+													</a>
+												</li>
+											</div>
+											<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+												<li>
+													<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+													</a>
+												</li>
+											</div>
+										</div>
                               		</ul>
                            		</li>                           
                         	</ul>
@@ -247,12 +237,12 @@
                            		<li class="nav-item">
                               		<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
-                           		<li class="nav-item">
-                              		<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
-	                           	</li>
-	                           	<li class="nav-item">
-	                           	   	<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link active"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
-	                           	</li>
+								<li class="nav-item">
+									<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
+								</li>
 	                           	<li class="nav-item dropdown">
 	                              	<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 	                              		<span class="material-icons me-3">web</span> Contact Us
@@ -267,41 +257,34 @@
 	                           	</li>
                            		<li class="nav-item dropdown">
                               		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              			<c:choose>
-                              				<c:when test="${alarmListSize==0}">
-                              					<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-                              				</c:when>
-                              				<c:otherwise>
-                              					<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
-                              				</c:otherwise>
-                              			</c:choose>
+										<div th:if="${alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+										</div>
+										<div th:unless="${alarmListSize==0}">
+											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> <span th:inline="text">Notification + [[${alarmListSize}]]</span>
+										</div>
                               		</a>
                               		<ul class="dropdown-menu px-2 py-1 mb-2">
-		                     			<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
-		                              		<c:choose>
-		                              			<c:when test="${alarmVO.kind==1}">
-		                              				<li>
-														<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-															${alarmVO.message}
-														</a>
-													</li> 			
-		                              			</c:when>
-		                              			<c:when test="${alarmVO.kind==5}">
-		                              				<li>
-														<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-															${alarmVO.message}
-														</a>
-													</li> 
-		                              			</c:when>
-		                              			<c:otherwise>
-		                              				<li>
-														<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-															${alarmVO.message}
-														</a>
-													</li>   
-		                              			</c:otherwise>
-		                              		</c:choose>
-		                                </c:forEach>
+										<div th:each="alarmVO : ${alarmList}" th:limit="10">
+											<div th:if="${alarmVO.kind==1}">
+												<li>
+													<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+													</a>
+												</li>
+											</div>
+											<div th:if="${alarmVO.kind==5}">
+												<li>
+													<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+													</a>
+												</li>
+											</div>
+											<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+												<li>
+													<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+													</a>
+												</li>
+											</div>
+										</div>
 	                              	</ul>
                            		</li>                           
                         	</ul>
@@ -327,78 +310,58 @@
                              	<h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
                              	<!-- 트랜딩 아이템 -->
                              	<!-- 표시할 최대 문자 수 -->
-                             	<c:set var = "maxChar" value = "50"/>                              
-                           		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
-                       	     		<div class="p-3 border-bottom d-flex">
-                       	        		<c:choose>
-								   			<c:when test = "${postVO.post_Image_Count == 0}">
-								      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
-							            	 		<div class = "d-flex">
-							                			<div>
-								               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-								               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
-								               				<br><div style = "height : 5%;"></div>
-											               	<small class="text-muted">
-											               		<c:choose>
-											               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
-											               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
-											               			</c:when>
-											               			<c:otherwise>
-											               				${postVO.post_Content}
-											               			</c:otherwise>
-											               		</c:choose>
-											               	</small>
-								               				<br><div style = "height : 5%;"></div>
-								               				<c:choose>
-											                  	<c:when test="${postVO.post_Hashtag eq null }">
-											                  	</c:when>
-								                  				<c:otherwise>
-								                     				<small class="text-muted">
-													               		<c:choose>
-													               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
-													               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
-													               			</c:when>
-													               			<c:otherwise>
-													               				${postVO.post_Hashtag}
-													               			</c:otherwise>
-													               		</c:choose>
-								                     				</small>									                  
-								                  				</c:otherwise>
-								               				</c:choose>
-								            			</div>
-													</div>
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
-													<div class = "d-flex">
-														<div style = "width : 60%;">
-															<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-															<small class="text-muted">Posted by ${postVO.member_Id}</small>
-															<br><div style = "height : 5%;"></div>
+								<th:block th:with="maxChar = 50"></th:block>
+								<div th:each="postVO : ${hottestFeed}" th:limit="5">
+									<div class="p-3 border-bottom d-flex">
+										<div th:if="${postVO.post_Image_Count == 0}">
+											<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${postVO.post_Seq})|" style = "width : 100%;">
+												<div class = "d-flex">
+													<div>
+														<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
+														<small class="text-muted" th:text="Posted by ${postVO.member_Id}"></small>
+														<br><div style = "height : 5%;"></div>
+														<small class="text-muted">
+															<div th:if="${#strings.length(postVO.post_Content) > 25}">
+																<span th:text="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
+															</div>
+															<div th:unless="${#strings.length(postVO.post_Content) > 25}" th:text="${postVO.post_Content}"></div>
+														</small>
+														<br><div style = "height : 5%;"></div>
+														<div th:if="${postVO.post_Hashtag != null}">
 															<small class="text-muted">
-																<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+																<div th:if="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${#strings.substring(postVO.post_Hashtag, 0, 22)} + ' . . .'"></div>
+																<div th:unless="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${postVO.post_Hashtag}"></div>
 															</small>
-															<br><div style = "height : 5%;"></div>
-															<c:choose>
-																<c:when test="${postVO.post_Hashtag eq null }">
-																</c:when>
-																<c:otherwise>
-																	<small class="text-muted">
-																		<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
-																	</small>									                  
-																</c:otherwise>
-															</c:choose>
-														</div>
-														<div style = "width : 40%;">								      									         
-															<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
 														</div>
 													</div>
-												</a>
-											</c:otherwise>
-										</c:choose>	
+												</div>
+											</a>
+										</div>
+										<div th:unless="${postVO.post_Image_Count == 0}">
+											<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" th:onclick="|modalseq(${postVO.post_Seq})|" style = "width : 100%;">
+												<div class = "d-flex">
+													<div style = "width : 60%;">
+														<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
+														<small class="text-muted" th:text="'Posted by' + ${postVO.member_Id}"></small>
+														<br><div style = "height : 5%;"></div>
+														<small class="text-muted">
+															<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
+														</small>
+														<br><div style = "height : 5%;"></div>
+														<div th:if="${postVO.post_Hashtag != null}">
+															<small class="text-muted">
+																<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
+															</small>
+														</div>
+													</div>
+													<div style = "width : 40%;">
+														<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
+													</div>
+												</div>
+											</a>
+										</div>
 									</div>
-								</c:forEach>
+								</div>
          					</div>
           				</div>
     				</div>

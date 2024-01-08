@@ -31,7 +31,7 @@
 		color : #555568;
 	}
 </style>
-<script th:inline>
+<script th:inline="javascript">
 	function submitForm() {
 		// 입력 필드 값 가져오기
 		var member_Id = document.getElementById('member_Id').value;
@@ -144,39 +144,35 @@
 									<div class="row justify-content-center">
 										<div class="col-lg-12">								     
 											<div class="accordion overflow-hidden bg-white" id="accordionExample">
-												<c:forEach items = "${qnaList}" var = "qna">
+												<div th:each="qna : ${qnaList}">
 													<div class="accordion-item">
 														<h3 class="accordion-header" id="heading_${qna.qna_Seq}">		                                      	 
-														<button class ="accordion-button collapsed fw-bold" style = "padding : 10px; width : 100%;"type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${qna.qna_Seq}" aria-expanded="false" aria-controls="collapse_${qna.qna_Seq}">
-															<div style = "color : #555568; display: flex; flex-direction: column;">	
-																<c:choose>
-																	<c:when test = "${qna.qna_Done eq '2'}">
-																		<div style = "font-size : 5px;">
-																			<p style = "display : inline;">[ Answered ]</p>&nbsp; ${qna.qna_Date}
+														<button class ="accordion-button collapsed fw-bold" style = "padding : 10px; width : 100%;"type="button" data-bs-toggle="collapse" th:data-bs-target="'#collapse_' + ${qna.qna_Seq}" aria-expanded="false" th:aria-controls="'collapse_' + ${qna.qna_Seq}">
+															<div style = "color : #555568; display: flex; flex-direction: column;">
+																<div th:if="${qna.qna_Done eq '2'}">
+																	<div style = "font-size : 5px;">
+																		<p style = "display : inline;">[ Answered ]</p>&nbsp; <div th:text="${qna.qna_Date}"></div>
+																	</div>
+																	<div style="font-size : 15px; text-align : left; margin-top : 5px; color : #0975e0;">
+																		[ Title ]
+																		<div style = "display : inline; overflow : hidden;" th:text="${qna.qna_Title}">
 																		</div>
-																		<div style="font-size : 15px; text-align : left; margin-top : 5px; color : #0975e0;">
-																			[ Title ]
-																			<div style = "display : inline; overflow : hidden;">
-																				${qna.qna_Title}
-																			</div>
-																		</div>										
-																	</c:when>
-																	<c:otherwise>
-																		<div style = "font-size : 5px;">
-																			<p style = "display : inline;">[ Not Answered ]</p>&nbsp; ${qna.qna_Date}
+																	</div>
+																</div>
+																<div th:unless="${qna.qna_Done eq '2'}">
+																	<div style = "font-size : 5px;">
+																		<p style = "display : inline;">[ Not Answered ]</p>&nbsp; <div th:text="${qna.qna_Date}"></div>
+																	</div>
+																	<div style="font-size: 15px; text-align: left; margin-top : 5px;">
+																		[ Title ]
+																		<div style = "display : inline; overflow : hidden;" th:text="${qna.qna_Title}">
 																		</div>
-																		<div style="font-size: 15px; text-align: left; margin-top : 5px;">
-																			[ Title ]
-																			<div style = "display : inline; overflow : hidden;">
-																				${qna.qna_Title}
-																			</div>
-																		</div>										
-																	</c:otherwise>
-																</c:choose>			       
+																	</div>
+																</div>
 															</div>
 														</button>
 													</h3>
-													<div class="accordion-collapse collapse" id="collapse_${qna.qna_Seq}" aria-labelledby="heading_${qna.qna_Seq}" data-bs-parent="#accordionExample">
+													<div class="accordion-collapse collapse" th:id="'collapse_' + ${qna.qna_Seq}" th:aria-labelledby="'heading_' + ${qna.qna_Seq}" data-bs-parent="#accordionExample">
 														<div class="accordion-body" style = "padding : 10px;">
 															<div class = "qnaDiv d-flex" style = "width : 100%;">
 																<div style = "width : 10%; margin-right : 2%;">
@@ -185,44 +181,42 @@
 																	</label>
 																</div>
 																<div style = "width : 76%; border-left : 1px solid #d4d4d9;">
-																	<div style = "margin-left : 2%; width : 100%; word-wrap: break-word;">${qna.qna_Message}</div>		
+																	<div style = "margin-left : 2%; width : 100%; word-wrap: break-word;" th:text="${qna.qna_Message}"></div>
 																</div>
 																<div style = "width : 8%; margin-left : 2%; border-left : 1px solid #d4d4d9;">
-																	<a href = "deleteQna?qna_Seq=${qna.qna_Seq}" style = "margin-left : 29%;">
+																	<a th:href = "@{'deleteQna?qna_Seq=' + ${qna.qna_Seq}}" style = "margin-left : 29%;">
 																		<img src = "img/delete.png">
 																	</a>
 																</div>
 															</div>
-															<c:choose>
-																<c:when test = "${qna.qna_Done eq '2'}">
-																	<div class = "qnaDiv d-flex" style = "margin-top : 5px;">
-																		<div style = "width : 10%; margin-right : 2%;">
-																			<label style="display: flex; align-items: center; justify-content: center; height: 100%;">
-																				Answer
-																			</label>
-																		</div>
-																		<div style = "width : 88%; border-left : 1px solid #d4d4d9;">
-																			<div style = "margin-left : 2%;">${qna.qna_Answer}</div>
-																		</div>  		                                         		
+															<div th:if="${qna.qna_Done eq '2'}">
+																<div class = "qnaDiv d-flex" style = "margin-top : 5px;">
+																	<div style = "width : 10%; margin-right : 2%;">
+																		<label style="display: flex; align-items: center; justify-content: center; height: 100%;">
+																			Answer
+																		</label>
 																	</div>
-																</c:when>
-																<c:otherwise>
-																	<div class = "qnaDiv d-flex" style = "margin-top : 5px;">
-																		<div style = "width : 10%; margin-right : 2%;">
-																			<label style="display: flex; align-items: center; justify-content: center; height: 100%;">
-																				Answer
-																			</label>
-																		</div>
-																		<div style = "width : 88%; border-left : 1px solid #d4d4d9;">
-																			<div style = "margin-left : 2%;">Sorry, Now We Are Checking Your Question</div>
-																		</div>                                         		
+																	<div style = "width : 88%; border-left : 1px solid #d4d4d9;">
+																		<div style = "margin-left : 2%;" th:text="${qna.qna_Answer}"></div>
 																	</div>
-																</c:otherwise> 
-															</c:choose>
+																</div>
+															</div>
+															<div th:unless="${qna.qna_Done eq '2'}">
+																<div class = "qnaDiv d-flex" style = "margin-top : 5px;">
+																	<div style = "width : 10%; margin-right : 2%;">
+																		<label style="display: flex; align-items: center; justify-content: center; height: 100%;">
+																			Answer
+																		</label>
+																	</div>
+																	<div style = "width : 88%; border-left : 1px solid #d4d4d9;">
+																		<div style = "margin-left : 2%;">Sorry, Now We Are Checking Your Question</div>
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>     
-											</c:forEach>	                                             
+											</div>
 										</div>                       
 									</div>
 								</div>
@@ -269,10 +263,10 @@
 								<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
 							</li>
 							<li class="nav-item">
-								<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+								<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
 							</li>
 							<li class="nav-item">
-								<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
+								<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
 							</li>
 							<!-- PAGES 드롭다운 항목 -->
 							<li class="nav-item dropdown active">
@@ -289,41 +283,34 @@
 							</li>                           
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<c:choose>
-										<c:when test="${alarmListSize==0}">
-											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-										</c:when>
-										<c:otherwise>
-											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
-										</c:otherwise>
-									</c:choose>
+									<div th:if="${alarmListSize==0}">
+										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+									</div>
+									<div th:unless="${alarmListSize==0}">
+										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> <span th:inline="text">Notification + [[${alarmListSize}]]</span>
+									</div>
 								</a>
 								<ul class="dropdown-menu px-2 py-1 mb-2">
-									<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
-										<c:choose>
-											<c:when test="${alarmVO.kind==1}">
-												<li>
-													<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-														${alarmVO.message}
-													</a>
-												</li> 			
-											</c:when>
-											<c:when test="${alarmVO.kind==5}">
-												<li>
-													<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-														${alarmVO.message}
-													</a>
-												</li> 
-											</c:when>
-											<c:otherwise>
-												<li>
-													<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-														${alarmVO.message}
-													</a>
-												</li>   
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
+									<div th:each="alarmVO : ${alarmList}" th:limit="10">
+										<div th:if="${alarmVO.kind==1}">
+											<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												</a>
+											</li>
+										</div>
+										<div th:if="${alarmVO.kind==5}">
+											<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												</a>
+											</li>
+										</div>
+										<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+											<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												</a>
+											</li>
+										</div>
+									</div>
 								</ul>
 							</li>                           
 						</ul>
@@ -344,10 +331,10 @@
 								<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
 							</li>
 							<li class="nav-item">
-								<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+								<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
 							</li>
 							<li class="nav-item">
-								<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
+								<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
 							</li>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -363,41 +350,34 @@
 							</li>                           
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<c:choose>
-										<c:when test="${alarmListSize==0}">
-											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-										</c:when>
-										<c:otherwise>
-											<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
-										</c:otherwise>
-									</c:choose>
+									<div th:if="${alarmListSize==0}">
+										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+									</div>
+									<div th:unless="${alarmListSize==0}">
+										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> <span th:inline="text">Notification + [[${alarmListSize}]]</span>
+									</div>
 								</a>
 								<ul class="dropdown-menu px-2 py-1 mb-2">
-									<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
-										<c:choose>
-											<c:when test="${alarmVO.kind==1}">
-												<li>
-													<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-														${alarmVO.message}
-													</a>
-												</li> 			
-											</c:when>
-											<c:when test="${alarmVO.kind==5}">
-												<li>
-													<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-														${alarmVO.message}
-													</a>
-												</li> 
-											</c:when>
-											<c:otherwise>
-												<li>
-													<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
-														${alarmVO.message}
-													</a>
-												</li>   
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
+									<div th:each="alarmVO : ${alarmList}" th:limit="10">
+										<div th:if="${alarmVO.kind==1}">
+											<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												</a>
+											</li>
+										</div>
+										<div th:if="${alarmVO.kind==5}">
+											<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												</a>
+											</li>
+										</div>
+										<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+											<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												</a>
+											</li>
+										</div>
+									</div>
 								</ul>
 							</li>                           
 						</ul>
@@ -423,78 +403,58 @@
 									<h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
 									<!-- 트랜딩 아이템 -->
 									<!-- 표시할 최대 문자 수 -->
-									<c:set var = "maxChar" value = "50"/>                              
-                              		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
+									<th:block th:with="maxChar = 50"></th:block>
+									<div th:each="postVO : ${hottestFeed}" th:limit="5">
                          	     		<div class="p-3 border-bottom d-flex">
-                         	        		<c:choose>
-									   			<c:when test = "${postVO.post_Image_Count == 0}">
-									      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
-								            	 		<div class = "d-flex">
-								                			<div>
-									               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-									               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
-									               				<br><div style = "height : 5%;"></div>
-												               	<small class="text-muted">
-												               		<c:choose>
-												               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
-												               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
-												               			</c:when>
-												               			<c:otherwise>
-												               				${postVO.post_Content}
-												               			</c:otherwise>
-												               		</c:choose>
-												               	</small>
-									               				<br><div style = "height : 5%;"></div>
-									               				<c:choose>
-												                  	<c:when test="${postVO.post_Hashtag eq null }">
-												                  	</c:when>
-									                  				<c:otherwise>
-									                     				<small class="text-muted">
-														               		<c:choose>
-														               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
-														               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
-														               			</c:when>
-														               			<c:otherwise>
-														               				${postVO.post_Hashtag}
-														               			</c:otherwise>
-														               		</c:choose>
-									                     				</small>									                  
-									                  				</c:otherwise>
-									               				</c:choose>
-									            			</div>
-														</div>
-													</a>
-												</c:when>
-												<c:otherwise>
-													<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
-														<div class = "d-flex">
-															<div style = "width : 60%;">
-																<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-																<small class="text-muted">Posted by ${postVO.member_Id}</small>
-																<br><div style = "height : 5%;"></div>
+											<div th:if="${postVO.post_Image_Count == 0}">
+												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${postVO.post_Seq})|" style = "width : 100%;">
+													<div class = "d-flex">
+														<div>
+															<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
+															<small class="text-muted" th:text="Posted by ${postVO.member_Id}"></small>
+															<br><div style = "height : 5%;"></div>
+															<small class="text-muted">
+																<div th:if="${#strings.length(postVO.post_Content) > 25}">
+																	<span th:text="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
+																</div>
+																<div th:unless="${#strings.length(postVO.post_Content) > 25}" th:text="${postVO.post_Content}"></div>
+															</small>
+															<br><div style = "height : 5%;"></div>
+															<div th:if="${postVO.post_Hashtag != null}">
 																<small class="text-muted">
-																	<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+																	<div th:if="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${#strings.substring(postVO.post_Hashtag, 0, 22)} + ' . . .'"></div>
+																	<div th:unless="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${postVO.post_Hashtag}"></div>
 																</small>
-																<br><div style = "height : 5%;"></div>
-																<c:choose>
-																	<c:when test="${postVO.post_Hashtag eq null }">
-																	</c:when>
-																	<c:otherwise>
-																		<small class="text-muted">
-																			<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
-																		</small>									                  
-																	</c:otherwise>
-																</c:choose>
-															</div>
-															<div style = "width : 40%;">								      									         
-																<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
 															</div>
 														</div>
-													</a>
-												</c:otherwise>
-											</c:choose>	
+													</div>
+												</a>
+											</div>
+											<div th:unless="${postVO.post_Image_Count == 0}">
+												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" th:onclick="|modalseq(${postVO.post_Seq})|" style = "width : 100%;">
+													<div class = "d-flex">
+														<div style = "width : 60%;">
+															<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
+															<small class="text-muted" th:text="'Posted by' + ${postVO.member_Id}"></small>
+															<br><div style = "height : 5%;"></div>
+															<small class="text-muted">
+																<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
+															</small>
+															<br><div style = "height : 5%;"></div>
+															<div th:if="${postVO.post_Hashtag != null}">
+																<small class="text-muted">
+																	<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
+																</small>
+															</div>
+														</div>
+														<div style = "width : 40%;">
+															<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
+														</div>
+													</div>
+												</a>
+											</div>
 										</div>
-									</c:forEach>
+									</div>
 								</div>
 							</div>
 						</div>
