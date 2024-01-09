@@ -85,12 +85,12 @@
                                          <td th:text="${postVO.member_Id}"></td>
                                          <td><a th:href="@{'post_Detail?post_Seq=' + ${postVO.post_Seq}}" th:text="${postVO.post_Content}"></a></td>
                                          <td>
-                                             <div th:if="${empty hashMap[postVO.post_Seq]}">
+                                             <div th:if="${hashMap[postVO.post_Seq] == null}">
                                            	 등록된 해쉬태그가 없습니다.
                                              </div>
-                                             <div th:unless="${empty hashMap[postVO.post_Seq]}">
+                                             <div th:unless="${hashMap[postVO.post_Seq]} == null">
                                                  <div th:each="hash : ${hashMap[postVO.post_Seq]}">
-                                              		<div th:text="'#' + ${hash.tag_Content}">&nbsp;&nbsp;
+                                                     <div th:text="'#' + ${hash.tag_Content}">&nbsp;&nbsp;</div>
                                                  </div>
                                              </div>
                                          </td>

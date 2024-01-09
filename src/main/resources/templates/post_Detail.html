@@ -124,10 +124,10 @@
 								<tr>
 									<th colspan="5">댓글</th>
 								</tr>
-								<div th:if="${empty reply}">
+								<div th:if="${reply == null}">
 									<tr style="display: none;"></tr>
 								</div>
-								<div th:unless="${empty reply}">
+								<div th:unless="${reply == null}">
 									<tr>
 										<th colspan="1">아이디</th>
 										<th colspan="2">댓글 내용</th>
@@ -147,10 +147,10 @@
 								<tr>
 								    <th colspan="5">해시태그</th>
 								</tr>
-								<div th:if="${empty hash}">
+								<div th:if="${hash == null}">
 									<tr style="display: none;"></tr>
 								</div>
-								<div th:unless="${empty hash}">
+								<div th:unless="${hash == null}">
 									<tr>
 										<th>게시글 번호</th>
 										<th>해시태그 번호</th>

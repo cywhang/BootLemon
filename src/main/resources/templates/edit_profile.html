@@ -345,7 +345,8 @@
                               <a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
                            <li class="nav-item">
-							   <a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>                           </li>
+							   <a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;">&nbsp;&nbsp;&nbsp; <span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
+						   </li>
                            <li class="nav-item">
 			                  <a href="edit_profile" class="nav-link active"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
 			               </li>

@@ -358,7 +358,7 @@
 									<a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
 								<</th:block>
                            		<li class="nav-item">
-                              		<a th:href="'profile?member_Id=' + ${loginUser.member_Id}" class="nav-link"><img th:src="'img/uploads/profile/' + ${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+                              		<a th:href="'profile?member_Id=' + ${loginUser.member_Id}" class="nav-link"><img th:src="'img/uploads/profile/' + ${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> &nbsp;&nbsp;&nbsp;<span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
                            		</li>
                            		<li class="nav-item">
                               		<a th:href="'follow?member_Id=' + ${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
