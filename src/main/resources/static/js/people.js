@@ -7,15 +7,12 @@ function people_List() {
         type: "GET",
         dataType: "json", // 데이터 형식을 JSON으로 지정
         success: function(response) {
-            console.log('피플 리스트 요청 성공');
             var canFollowList = response.canFollow;
             var mostFamousList = response.mostFamous;
             var loginUser_Id = response.member_Id;
 
             // 나를 팔로우 중인 유저들 중 내가 팔로우하지 않은 유저 추천
             // 받아온 데이터를 활용해 동적으로 카드 추가
-            console.log('canFollowList  '+ canFollowList);
-            console.log('canFollowList  '+ canFollowList);
 
             if (canFollowList && canFollowList.length > 0) {
                 var cardsContainer = document.getElementById("canFollowPeople-cards-container");

@@ -204,6 +204,7 @@ public class MainController {
 		responseData.put("member_Id", member_Id);
 
 		System.out.println("canFollow" + canFollow.toString());
+		System.out.println("mostFamous" + mostFamous.toString());
 
 		return ResponseEntity.ok(responseData);
 	}
