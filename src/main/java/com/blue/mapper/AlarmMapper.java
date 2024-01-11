@@ -12,7 +12,7 @@ public interface AlarmMapper {
 
     List<AlarmVO> selectAlarm(String member_Id);
 
-    int getOneAlarm_Seq(AlarmVO alarmVO);
+    String getOneAlarm_Seq(AlarmVO alarmVO);
 
     void deleteAlarm(int alarm_Seq);
 }

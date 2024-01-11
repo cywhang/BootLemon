@@ -1,5 +1,6 @@
 package com.blue.mapper;
 
+import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.TagVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,11 +20,11 @@ public interface PostMapper {
 
     void deletePost(int post_Seq);
 
-    String checkLike(PostVO vo);
+    String checkLike(LikeVO vo);
 
-    void addLike(PostVO vo);
+    void addLike(LikeVO vo);
 
-    void delLike(PostVO vo);
+    void delLike(LikeVO vo);
 
     ArrayList<PostVO> memberPost(PostVO vo);
 

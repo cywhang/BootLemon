@@ -13,7 +13,7 @@
 		WHERE to_Mem = #{to_Mem}
 	</select>
 
-	<select id = "getOneAlarm_Seq" resultType = "String">
+	<select id = "getOneAlarm_Seq" resultType="String">
 		SELECT NVL(alarm_Seq, 0)
 		FROM alarm
 		WHERE kind = #{kind}

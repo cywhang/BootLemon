@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blue.dto.AlarmVO;
+import com.blue.dto.LikeVO;
 import com.blue.mapper.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,10 @@ public class PostServiceImpl implements PostService {
 	// 게시글 좋아요 여부 체크
 	@Override
 	public String getLikeYN(PostVO voForLikeYN) {
-		String check = postMapper.checkLike(voForLikeYN);
+		LikeVO vo = new LikeVO();
+		vo.setMember_Id(voForLikeYN.getMember_Id());
+		vo.setPost_Seq(voForLikeYN.getPost_Seq());
+		String check = postMapper.checkLike(vo);
 		if (check == null) {
 			check = "N";
 		} else {
@@ -44,7 +48,7 @@ public class PostServiceImpl implements PostService {
 
 	// 게시글 좋아요 처리
 	@Override
-	public void changeLike(PostVO vo) {
+	public void changeLike(LikeVO vo) {
 		String check = postMapper.checkLike(vo);
 
 		// 알람
@@ -67,10 +71,7 @@ public class PostServiceImpl implements PostService {
 			// 알람 테이블에서 해당 게시글의 알람이 없으면  알람 추가
 			if(alarmResult == 0) {
 				alarmService.insertAlarm(alarmVO);
-
-				// 알람 테이블에서 해당 게시글의 알림이 있으면 아무것도x
-			} else {}
-
+			}
 			// 2. 해당 게시글에 좋아요를 누른 상태일때
 		} else {
 			// 좋아요 취소
