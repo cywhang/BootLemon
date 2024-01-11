@@ -110,7 +110,7 @@ public class MemberController {
 							 @RequestParam(value = "email_add") String email_add, HttpSession session) {
 		if (!profilePhoto.isEmpty()) {
 			// 프로필 사진을 저장할 경로를 결정합니다.
-			String image_Path = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
+			String image_Path = "D:/fileUpload/img/uploads/post/";
 			// 저장할 파일명을 생성합니다. 파일명에는 member_Id와 확장자명을 포함합니다.
 			String fileName = vo.getMember_Id() + ".png";
 			// 파일을 지정된 경로에 저장합니다.

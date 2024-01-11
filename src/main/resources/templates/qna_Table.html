@@ -11,24 +11,40 @@
     <link href="css/admin_Styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<style>    
-	#datatablesSimple th, td {
-		text-align : center;
-	}
+<style>
 	#datatablesSimple th {
 		background-color : #f7f7f7;
 	}
+	#datatablesSimple th, td {
+		text-align : center;
+	}
+	#datatablesSimple th:nth-child(1), #datatablesSimple td:nth-child(1) {
+		width : 8% !important
+	}
+	#datatablesSimple th:nth-child(2), #datatablesSimple td:nth-child(2) {
+		width : 8% !important
+	}
+	#datatablesSimple th:nth-child(3), #datatablesSimple td:nth-child(3) {
+		width : 22% !important
+	}
+	#datatablesSimple th:nth-child(4), #datatablesSimple td:nth-child(4) {
+		width : 40% !important
+	}
+	#datatablesSimple th:nth-child(5), #datatablesSimple td:nth-child(5) {
+		width : 15% !important
+	}
+	#datatablesSimple th:nth-child(6), #datatablesSimple td:nth-child(6) {
+		width : 7% !important
+	}
 </style>
 <body class="sb-nav-fixed">
-	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-		<!-- Navbar Brand-->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <a class="navbar-brand ps-3" href="admin_Index">BlueLemon</a>
-        <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     </nav>
     <div id="layoutSidenav">
-    	<div id="layoutSidenav_nav">
-			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
@@ -61,74 +77,53 @@
                     </div>
                 </div>
             </nav>
-		</div>
+        </div>
         <div id="layoutSidenav_content">
-			<main>
+            <main>
                 <div class="container-fluid px-4">
-					<h1 class="mt-4">Member Table</h1>
+                    <h1 class="mt-4">Q&A Table</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="admin_Index" style = "text-decoration : none;">Dashboard</a></li>
                     </ol>
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
-                            Member Data Table
+                            Q&A Data Table
                         </div>
                         <div class="card-body">
                             <table id="datatablesSimple">
-								<thead>
+                                <thead>
                                     <tr>
+                                        <th>Qna Seq</th>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Join Date</th>
-                                        <th>Birthday</th>
-                                        <th>Gender</th>
-                                        <th>Profile Image</th>
-                                        <th>Country</th>
-                                        <th>MBTI</th>
-                                        <th>Delete</th>
+                                        <th>Title</th>
+                                        <th>Message</th>
+                                        <th>Date</th>
+                                        <th>Done</th>
                                     </tr>
-								</thead>
+                                </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>Qna Seq</th>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Join Date</th>
-                                        <th>Birthday</th>
-                                        <th>Gender</th>
-                                        <th>Profile Image</th>
-                                        <th>Country</th>
-                                        <th>MBTI</th>
-                                        <th>Delete</th>
+                                        <th>Title</th>
+                                        <th>Message</th>
+                                        <th>Date</th>
+                                        <th>Done</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                <th:block th:each="member : ${allMember}">
-                                    <tr>
-                                        <td th:text="${member.member_Id}"></td>
-                                        <td th:text="${member.member_Name}"></td>
-                                        <td th:text="${member.member_Email}"></td>
-                                        <td th:text="${member.member_Phone}"></td>
-                                        <td th:text="${member.member_Join_Date_String}"></td>
-                                        <td th:text="${member.member_Birthday}"></td>
-                                        <td th:text="${member.member_Gender}"></td>
-                                        <td>
-                                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${member.member_Profile_Image}"></a>
-                                            <ul class="dropdown-menu px-2 py-1 mb-2">
-                                                <li><img th:src="@{'img/uploads/profile/' + ${member.member_Profile_Image}}" style = "width : 200px; height : 200px;"></li>
-                                            </ul>
-                                        </td>
-                                        <td th:text="${member.member_Country}"></td>
-                                        <td th:text="${member.member_Mbti}"></td>
-                                        <!-- delMem()은 custom.js에 있음 -->
-                                        <td><button type="button" th:onclick="delMem(${member.member_Id})">Delete</button></td>
-                                    </tr>
-                                </th:block>
-                                </tbody>                                    
+                                    <div th:each="qna : ${allQna}">
+                              			<tr>
+                              				<td th:text="${qna.qna_Seq}"></td>
+                              				<td th:text="${qna.member_Id}"></td>
+                              				<td><a th:href="@{'qna_Detail?qna_Seq=' + ${qna.qna_Seq}}" style = "text-decoration : none;" th:text="${qna.qna_Title}"></a></td>
+                              				<td th:text="${qna.qna_Message}"></td>
+                              				<td th:text="${qna.qna_Date}"></td>
+                              				<td th:text="${qna.qna_Done}"></td>
+                              			</tr>
+                                    </div>
+                                </tbody>                 
                             </table>
                         </div>
                     </div>
@@ -148,11 +143,9 @@
             </footer>
         </div>
     </div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-	<script src="js/scripts.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-	<script src="js/datatables-simple-demo.js"></script>
-	<script src="js/admin.js"></script>
-	<script src="js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
 </body>
 </html>

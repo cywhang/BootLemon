@@ -108,7 +108,7 @@
 										<form class="form-floating-space" id="contactForm" data-sb-form-api-token="API_TOKEN" method = "post">                              
 											<!-- Member_ID input -->
 											<div class="form-floating mb-3">
-												<input class="form-control rounded-5" id="member_Id" name = "member_Id" type="text" value = "${sessionScope.loginUser.member_Id}" readonly>
+												<input class="form-control rounded-5" id="member_Id" name = "member_Id" type="text" th:value = "${session.loginUser.member_Id}" readonly>
 												<label for="member_Id">Member ID</label>
 											</div>
                                  
@@ -263,7 +263,7 @@
 								<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
 							</li>
 							<li class="nav-item">
-								<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+								<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;">&nbsp;&nbsp;&nbsp; <span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -331,7 +331,7 @@
 								<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
 							</li>
 							<li class="nav-item">
-								<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+								<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;">&nbsp;&nbsp;&nbsp; <span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 							</li>
 							<li class="nav-item">
 								<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>

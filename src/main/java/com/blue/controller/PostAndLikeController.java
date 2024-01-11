@@ -55,10 +55,9 @@ public class PostAndLikeController {
 	@ResponseBody
 	public String changeLike(@RequestBody Map<String, Integer> requestBody, HttpSession session) {
 		int post_Seq = requestBody.get("post_Seq");
-		PostVO postVO = postService.getpostDetail(post_Seq);
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 		try {
-			PostVO vo = new PostVO();
+			LikeVO vo = new LikeVO();
 			vo.setMember_Id(member_Id);
 			vo.setPost_Seq(post_Seq);
 

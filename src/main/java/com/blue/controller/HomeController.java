@@ -1,5 +1,6 @@
 package com.blue.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.blue.dto.AlarmVO;
@@ -62,7 +64,9 @@ public class HomeController {
 					alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
 				}
 			}
+			HashMap<String, String> profilemap = memberService.getMemberProfile();
 
+			model.addAttribute("profileMap", profilemap);
 			model.addAttribute("hottestFeed", hottestFeed);
 			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
@@ -82,5 +86,11 @@ public class HomeController {
 	public String getErrorPage(@PathVariable String statusCode) {
 
 		return statusCode;
+	}
+
+	@GetMapping("favicon.ico")
+	@ResponseBody
+	public void returnNoFavicon() {
+		// favicon.ico 에러 예외처리
 	}
 }

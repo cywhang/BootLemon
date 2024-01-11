@@ -101,24 +101,24 @@
 							<div class="p-3" style = "margin-left : 70px;">
 								<p class="mb-2 fs-6" th:inline="text">Birth Day : [[${member.member_Birthday}]]</p>
 								<p class="mb-2 fs-6" th:inline="text">Gender : [[${member.member_Gender}]]</p>
-								<div th:unless="${empty member.member_Country}">
+								<div th:if="${member.member_Country != null}">
 									<p class="mb-2 fs-6" th:inline="text">Country : [[${member.member_Country}]]</p>
 								</div>
-								<div th:unless="${empty member.member_Mbti}">
+								<div th:if="${member.member_Mbti != null}">
 									<p class="mb-2 fs-6" th:inline="text">MBTI : [[${member.member_Mbti}]]</p>
 								</div>
 								<div style = "width : 500px;">
 									<hr>
 								</div>
-								<div class="d-flex followers" style = "margin-top : 10px;">                           	  
+								<div class="d-flex followers" style = "margin-top : 10px;">
 									<div>
-										<div th:if="${empty followers_Size}">
-											<p class="mb-0">0 <span class="text-muted">Followers</span></p>
+										<div th:if="${followers_Size == null}">
+											<p class="mb-0">0 Followers</p>
 										</div>
-										<div th:unless="${empty followers_Size}">
-											<p class="mb-0" th:text="${followers_Size} "> <span class="text-muted">Followers</span></p>
+										<div th:unless="${followers_Size == null}">
+											<p class="mb-0" th:text="${followers_Size} + '  Followers'"></p>
 										</div>
-            							<div class="d-flex">
+										<div class="d-flex">
 											<a th:href="@{'follow?member_Id=' + ${member.member_Id}}">
 												<div th:if="${followers_Size < 5}">
 													<div th:each="memberVO : ${followers}" th:limit="${followers_Size}">
@@ -130,15 +130,15 @@
 														<img th:src="@{'img/uploads/profile/' + ${memberVO.member_Profile_Image}}" class="img-fluid rounded-circle" alt="follower-img">
 													</div>
 												</div>
-                                 			</a>
-                                 		</div>
-                              		</div>
-                              		<div class="ms-5 ps-5">
-										<div th:if="${empty followings_Size}">
-											<p class="mb-0">0 <span class="text-muted">Following</span></p>
+											</a>
 										</div>
-										<div th:unless="${empty followings_Size}">
-											<p class="mb-0" th:text="${followings_Size}"> <span class="text-muted">Following</span></p>
+									</div>
+                              		<div class="ms-5 ps-5">
+										<div th:if="${followings_Size == null}">
+											<p class="mb-0">0 Following</p>
+										</div>
+										<div th:unless="${followings_Size == null}">
+											<p class="mb-0" th:text="${followings_Size} + '  Following'"></p>
 										</div>
 	                                 	<div class="d-flex">
                                  			<a th:href="@{'follow?member_Id=' + ${member.member_Id}}">
@@ -154,10 +154,10 @@
 												</div>
                   							</a>
                         				</div>
-                       				</div>
-                  				</div>
-              				</div>
-						</div>
+                       				</div><!-- ms-5 ps-5 -->
+                  				</div><!-- d-flex follwer -->
+              				</div> <!-- p-3 -->
+						</div><!-- profile -->
 						<div class="tab-content" id="pills-tabContent" style = "margin-top : 20px;">
 							<div class="tab-pane fade show active" id="pills-feed" role="tabpanel" aria-labelledby="pills-feed-tab">
 								<div class="ms-1">
@@ -294,7 +294,7 @@
 																</div><!-- comments -->
                                								</div><!-- my-2 -->
                             							</div><!-- w-100 -->
-                        							</div>
+                        							</div><!-- ms-3 -->
 	                                    		</div>
 	                                 		</div>
                                  		</div> <!-- 게시글 출력 반복문 -->
@@ -303,9 +303,9 @@
                                  		</div>   
                               		</div><!-- feeds -->
                            		</div><!-- ms-1 -->
-                        	</div>
-						</div>
-                  	</div>
+                        	</div><!-- tab pane -->
+						</div><!-- tab content -->
+                  	</div> <!-- 메인 컨테이너 -->
 					<div id="profileLoadingStop"></div>
 					<div th:if="${#lists.size(postlist)<10}">
 						<div id="profileFeedEnd">
@@ -325,6 +325,7 @@
 						</div>
 					</div>
 				</main>
+
 				<aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
 					<div class="p-2 bg-light offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample">
 						<div class="sidebar-nav mb-3">
@@ -341,17 +342,17 @@
         						</li>
 								<div th:if="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
-										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link active"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link active"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;">&nbsp;&nbsp;&nbsp; <span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 									</li>
 								</div>
 								<div th:unless="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
-										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> &nbsp;&nbsp;&nbsp;<span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 									</li>
 								</div>
 								<div th:if="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
-										<a href="/blue/editProfile" class="nav-link active"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
+										<a href="/blue/editProfile" class="nav-link"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
 									</li>
 								</div>
 	       						<li class="nav-item">
@@ -421,12 +422,12 @@
 								</li>
 								<div th:if="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
-										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link active"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link active"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> &nbsp;&nbsp;&nbsp;<span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 									</li>
 								</div>
 								<div th:unless="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
-										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> &nbsp;&nbsp;&nbsp;<span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 									</li>
 								</div>
 								<div th:if="${loginUser.member_Id == member.member_Id}">
@@ -486,6 +487,7 @@
 						</div>
 					</div>
 				</aside>
+
 				<aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
 					<div class="fix-sidebar">
 						<div class="side-trend lg-none">
@@ -559,7 +561,7 @@
 						</div>
 					</div><!-- fix-sidebar -->
 				</aside>
-			</div>
+			</div><!-- row position -->
 		</div><!-- container -->
 	</div><!-- py-4 -->
 	<div class="py-3 bg-white footer-copyright">

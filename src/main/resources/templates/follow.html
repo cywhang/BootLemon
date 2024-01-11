@@ -86,7 +86,7 @@
 	                                 		<div class="ms-auto">
 	                                    		<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
 	                                       			<input type="checkbox" class="btn-check" name="btncheckbox" th:id="'btncheck' + ${memberVO.member_Id}" checked>
-	                                       			<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck' + ${memberVO.member_Id}" th:onclick ="|changeFollow('${memberVO.member_Id}')|">
+	                                       			<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck' + ${memberVO.member_Id}" th:onclick ="changeFollow('${memberVO.member_Id}')">
 														<span class="following d-none">Following</span>
 														<span class="follow">+ Follow</span>
 													</label>
@@ -133,7 +133,7 @@
 										  				<!-- 숫자 1과 다른 경우에 실행될 내용 -->
 										  				<input type="checkbox" class="btn-check" name="btncheckbox" th:id="'btncheck2' + ${memberVO.member_Id}">
 													</div>
-                                      		 		<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck2' + ${memberVO.member_Id}" th:onclick="|changeFollow(${memberVO.member_Id})|">
+                                      		 		<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck2' + ${memberVO.member_Id}" th:onclick="changeFollow('${memberVO.member_Id}')">
 														<span class="following d-none">Following</span>
 														<span class="follow">+ Follow</span></label>
 	                                			</div>
@@ -171,7 +171,7 @@
                               		<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
 								<li class="nav-item">
-									<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+									<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> &nbsp;&nbsp;&nbsp;<span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 								</li>
 								<li class="nav-item">
 									<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -238,7 +238,7 @@
                               		<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
 								<li class="nav-item">
-									<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:text="${loginUser.member_Id} + '\'s PROFILE'">&nbsp;&nbsp;&nbsp;</span></a>
+									<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> &nbsp;&nbsp;&nbsp;<span th:text="${loginUser.member_Id} + '\'s PROFILE'"></span></a>
 								</li>
 								<li class="nav-item">
 									<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>

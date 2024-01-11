@@ -17,7 +17,7 @@ public interface PostService {
 	String getLikeYN(PostVO voForLikeYN);
 
 	// 게시글 좋아요 처리
-	void changeLike(PostVO vo);
+	void changeLike(LikeVO vo);
 
 	// 인기글 조회 (우측)
 	List<PostVO> getHottestFeed();

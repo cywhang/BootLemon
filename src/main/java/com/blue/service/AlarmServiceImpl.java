@@ -54,9 +54,13 @@ public class AlarmServiceImpl implements AlarmService {
 
 	@Override
 	public int getOneAlarm_Seq(AlarmVO alarmVO) {
-		int result = alarmMapper.getOneAlarm_Seq(alarmVO);
-        return Math.max(result, 0);
-	}
+		String result = alarmMapper.getOneAlarm_Seq(alarmVO);
+		if(result == null) {
+			return 0;
+		} else {
+			return Integer.parseInt(result);
+		}
+    }
 
 	@Override
 	public void deleteAlarm(int alarm_Seq) {

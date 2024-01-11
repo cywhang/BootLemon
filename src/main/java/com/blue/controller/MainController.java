@@ -184,12 +184,12 @@ public class MainController {
 	// PEOPLE 탭 List 가져오기
 	@GetMapping("/people_List")
 	public ResponseEntity<Map<String, Object>> people_List(HttpSession session, Model model) {
+
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
 		List<MemberVO> canFollow = memberService.getRecommendMember(member_Id);
 
 		List<MemberVO> mostFamous = memberService.getMostFamousMember();
-
 		for(int i = 0 ; i < mostFamous.size() ; i++) {
 			String check_Id = mostFamous.get(i).getMember_Id();
 			FollowVO check_Vo = new FollowVO();
@@ -202,6 +202,9 @@ public class MainController {
 		responseData.put("canFollow", canFollow);
 		responseData.put("mostFamous", mostFamous);
 		responseData.put("member_Id", member_Id);
+
+		System.out.println("canFollow" + canFollow.toString());
+		System.out.println("mostFamous" + mostFamous.toString());
 
 		return ResponseEntity.ok(responseData);
 	}

@@ -13,12 +13,11 @@ function people_List() {
 
             // 나를 팔로우 중인 유저들 중 내가 팔로우하지 않은 유저 추천
             // 받아온 데이터를 활용해 동적으로 카드 추가
+
             if (canFollowList && canFollowList.length > 0) {
                 var cardsContainer = document.getElementById("canFollowPeople-cards-container");
-
                 // 컨테이너 초기화
                 cardsContainer.innerHTML = "";
-
                 // 받아온 데이터를 기반으로 카드 생성 및 추가
                 var maxCards = 5; // 원하는 출력 개수를 설정
                 for (var i = 0; i < canFollowList.length && i < maxCards; i++) {
@@ -46,9 +45,10 @@ function people_List() {
                                 </div>
                             </div>
                         </a>`;
-
+                    console.log('카드 엘리먼츠 생성완료');
                     // 컨테이너에 카드 추가
                     cardsContainer.appendChild(card);
+                    console.log('카드 엘리먼츠 추가 완료');
                 }
             } else {
                 var cardsContainer = document.getElementById("canFollowPeople-cards-container");
