@@ -16,7 +16,7 @@ function followingload(followingTotalPageNum, followingPageNum, member_Id){
 	    };
 
 	   $.ajax({
-	       url: "/blue/moreLoadFollowing",
+	       url: "/moreLoadFollowing",
 	       type: "POST",
 	       dataType: "json",
 	       contentType: "application/json",
@@ -88,7 +88,7 @@ function followerload(followerTotalPageNum, followerPageNum, member_Id) {
      };
 
      $.ajax({
-       url: "/blue/moreLoadFollower",
+       url: "/moreLoadFollower",
        type: "POST",
        dataType: "json",
        contentType: "application/json",

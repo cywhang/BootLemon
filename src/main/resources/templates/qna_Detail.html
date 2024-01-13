@@ -32,11 +32,11 @@
    	function deleteQna_ByAdmin(qna_Seq) {
        	if (confirm('삭제 하시겠습니까?')) {
    			var xhr = new XMLHttpRequest();
-       		xhr.open('GET', '/blue/deleteQna_ByAdmin?qna_Seq=' + qna_Seq, true);
+       		xhr.open('GET', '/deleteQna_ByAdmin?qna_Seq=' + qna_Seq, true);
        		xhr.onreadystatechange = function() {
        	        if (xhr.readyState === 4) {
        	          	if (xhr.status === 200) {
-       	         		window.location.href = "/blue/qna_Table";
+       	         		window.location.href = "/qna_Table";
        	          	} else {
        	          	}
        	        }
