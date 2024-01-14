@@ -36,12 +36,7 @@ dependencies {
 
 	/* Apache commons-io */
 	implementation 'commons-io:commons-io:2.11.0'
-	/* Apache Commons FileUpload */
-	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
-
 	implementation 'javax.mail:mail:1.4.7'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {

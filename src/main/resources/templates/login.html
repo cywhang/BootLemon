@@ -127,10 +127,10 @@
 					</div>
 					<input type="submit" value="Log in" class="btn" style="margin-top: 1px;" />
 					<br />
-					<div th:if="${not #strings.isEmpty(message)}">
+					<th:block th:if="${not #strings.isEmpty(message)}">
 						<br />
 						<p align="center" style="color: red" th:text="${message}"></p>
-					</div>
+					</th:block>
 				</form>
 			</div>
 		</div>

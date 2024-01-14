@@ -79,79 +79,79 @@
 								<h6 class="mb-0 d-flex align-items-start text-body fs-6 fw-bold" th:text="${member.member_Id}"></h6>
 								<p class="text-muted mb-0" th:text="${member.member_Name}"></p>
 							</div>
-							<div th:if="${member.member_Id != loginUser_Id}">
+							<th:block th:if="${member.member_Id != loginUser_Id}">
 								<div class="ms-auto btn-group" role="group" aria-label="Basic checkbox toggle button group">
-									<div th:if="${member.follow_Check == 'n'}">
+									<th:block th:if="${member.follow_Check == 'n'}">
 										<input type="checkbox" class="btn-check" th:id="'btncheck_' + ${member.member_Id}">
-										<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck_' + ${member.member_Id}" th:onclick ="|changeFollow(${member.member_Id})|">
+										<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck_' + ${member.member_Id}" th:attr="onclick=|changeFollow('${member.member_Id}')|">
 											<span class="follow">+ Follow</span>
 											<span class="following d-none">Following</span>
 										</label>
-									</div>
-									<div th:unless="${member.follow_Check == 'n'}">
+									</th:block>
+									<th:block th:unless="${member.follow_Check == 'n'}">
 										<input type="checkbox" class="btn-check" th:id="'btncheck_' + ${member.member_Id}" checked = "checked">
-										<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck_' + ${member.member_Id}" th:onclick ="|changeFollow(${member.member_Id})|">
+										<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" th:for="'btncheck_' + ${member.member_Id}" th:attr="onclick=|changeFollow('${member.member_Id}')|">
 											<span class="follow">+ Follow</span>
 											<span class="following d-none">Following</span>
 										</label>
-									</div>
+									</th:block>
 								</div>
-							</div>
+							</th:block>
 						</div>
 						<div class="p-3" style = "margin-left : 70px;">
 							<p class="mb-2 fs-6" th:inline="text">Birth Day : [[${member.member_Birthday}]]</p>
 							<p class="mb-2 fs-6" th:inline="text">Gender : [[${member.member_Gender}]]</p>
-							<div th:if="${member.member_Country != null}">
+							<th:block th:if="${member.member_Country != null}">
 								<p class="mb-2 fs-6" th:inline="text">Country : [[${member.member_Country}]]</p>
-							</div>
-							<div th:if="${member.member_Mbti != null}">
+							</th:block>
+							<th:block th:if="${member.member_Mbti != null}">
 								<p class="mb-2 fs-6" th:inline="text">MBTI : [[${member.member_Mbti}]]</p>
-							</div>
+							</th:block>
 							<div style = "width : 500px;">
 								<hr>
 							</div>
 							<div class="d-flex followers" style = "margin-top : 10px;">
 								<div>
-									<div th:if="${followers_Size == null}">
+									<th:block th:if="${followers_Size == null}">
 										<p class="mb-0">0 <span class="text-muted">Followers</span></p>
-									</div>
-									<div th:unless="${followers_Size == null}">
+									</th:block>
+									<th:block th:unless="${followers_Size == null}">
 										<p class="mb-0" th:inline="text">[[${followers_Size}]] <span class="text-muted">Followers</span></p>
-									</div>
+									</th:block>
 									<div class="d-flex">
 										<a th:href="@{'follow?member_Id=' + ${member.member_Id}}">
-											<div th:if="${followers_Size < 5}">
-												<div th:each="memberVO : ${followers}" th:limit="${followers_Size}">
+											<th:block th:if="${followers_Size < 5}">
+												<th:block th:each="memberVO, stat : ${followers}" th:if="${stat.index} < ${followers_Size}">
 													<img th:src="@{'img/uploads/profile/' + ${memberVO.member_Profile_Image}}" class="img-fluid rounded-circle" alt="follower-img">
-												</div>
-											</div>
-											<div th:unless="${followers_Size < 5}">
-												<div th:each="memberVO : ${followers}" th:limit="5">
+												</th:block>
+											</th:block>
+											<th:block th:unless="${followers_Size < 5}">
+												<th:block th:each="memberVO, stat : ${followers}" th:if="${stat.index} < 5">
 													<img th:src="@{'img/uploads/profile/' + ${memberVO.member_Profile_Image}}" class="img-fluid rounded-circle" alt="follower-img">
-												</div>
-											</div>
+												</th:block>
+											</th:block>
 										</a>
 									</div>
 								</div>
 								<div class="ms-5 ps-5">
-									<div th:if="${followings_Size == null}">
+									<th:block th:if="${followings_Size == null}">
 										<p class="mb-0">0 <span class="text-muted">Following</span></p>
-									</div>
-									<div th:unless="${followings_Size == null}">
+									</th:block>
+									<th:block th:unless="${followings_Size == null}">
 										<p class="mb-0" th:inline="text">[[${followings_Size}]] <span class="text-muted">Following</span></p>
-									</div>
+									</th:block>
 									<div class="d-flex">
 										<a th:href="@{'follow?member_Id=' + ${member.member_Id}}">
-											<div th:if="${followings_Size < 5}">
-												<div th:each="memberVO : ${followings}" th:limit="${followings_Size}">
+											<th:block th:if="${followings_Size < 5}">
+												<th:block th:each="memberVO, n : ${followings}" th:if="${n.index} < ${followings_Size}">
 													<img th:src="@{'img/uploads/profile/' + ${memberVO.member_Profile_Image}}" class="img-fluid rounded-circle" alt="follower-img">
-												</div>
-											</div>
-											<div th:unless="${followings_Size < 5}">
-												<div th:each="memberVO : ${followings}" th:limit="5">
+												</th:block>
+											</th:block>
+											<th:block th:unless="${followings_Size < 5}">
+												<th:block th:each="memberVO, n : ${followings}" th:if="${n.index} < 5">
 													<img th:src="@{'img/uploads/profile/' + ${memberVO.member_Profile_Image}}" class="img-fluid rounded-circle" alt="follower-img">
-												</div>
-											</div>
+												</th:block>
+											</th:block>
 										</a>
 									</div>
 								</div>
@@ -163,7 +163,7 @@
 							<div class="ms-1">
 								<div class="feeds">
 									<!-- Feed Item -->
-									<th:block th:each="postVO, status : ${postlist}" th:limit="10">
+									<th:block th:each="postVO, status : ${postlist}" th:if="${status.index} < 10">
 										<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
 											<div class="d-flex">
 												<!-- 작성자의 프로필사진 -->
@@ -176,7 +176,7 @@
 															</a>
 															<div class="d-flex align-items-center small">
 																<p class="text-muted mb-0" th:inline="text">[[${postVO.post_Date}]]</p>
-																<div th:if="${loginUser_Id == postVO.member_Id}">
+																<th:block th:if="${loginUser_Id == postVO.member_Id}">
 																	<div class="dropdown">
 																		<a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
 																		<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
@@ -184,18 +184,18 @@
 																			<li><button class="dropdown-item text-muted deletebutton" th:onclick="|deletePost(${postVO.post_Seq})|"><span class="material-icons md-13 me-1">delete</span>Delete</button></li>
 																		</ul>
 																	</div>
-																</div>
+																</th:block>
 															</div>
 														</div>
 														<div class="my-2">
 															<!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
 															<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" th:onclick="|modalseq(${postVO.post_Seq})|">
-																<div th:if="${postVO.post_Image_Count == 0}">
+																<th:block th:if="${postVO.post_Image_Count == 0}">
 																	<br>
-																</div>
-																<div th:unless="${postVO.post_Image_Count == 0}">
+																</th:block>
+																<th:block th:unless="${postVO.post_Image_Count == 0}">
 																	<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded mb-3" alt="post-img">
-																</div>
+																</th:block>
 															</a>
 															<br>
 															<!-- 게시글 내용 -->
@@ -207,25 +207,25 @@
 															</script>
 
 															<!-- 해시태그 -->
-															<div th:each="hash : ${hashMap[postVO.post_Seq]}">
+															<th:block th:each="hash : ${hashMap[postVO.post_Seq]}">
 																<a id="hash" th:href="@{'search_HashTag?tag_Content=' + ${hash.tag_Content}}" class="mb-3 text-primary" th:inline="text">#[[${hash.tag_Content}]]</a>&nbsp;&nbsp;
-															</div>
+															</th:block>
 															<hr>
 															<!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
 															<div class="d-flex align-items-center justify-content-between mb-2">
 																<div class="like-group" role="group">
-																	<div th:if="${postVO.post_LikeYN == 'N'}">
+																	<th:block th:if="${postVO.post_LikeYN == 'N'}">
 																		<button type="button" style = "border : none; background-color : white;" th:onclick="|toggleLike(${postVO.post_Seq})|">
 																			<img th:class="'likeImage_' + ${postVO.post_Seq}" src="img/like.png" width="20px" height="20px" data-liked = "false">
 																		</button>
 																		<p th:class="'post_Like_Count_' + ${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;" th:inline="text">[[${postVO.post_Like_Count}]]</p>
-																	</div>
-																	<div th:unless="${postVO.post_LikeYN == 'N'}">
+																	</th:block>
+																	<th:block th:unless="${postVO.post_LikeYN == 'N'}">
 																		<button type="button" style = "border : none; background-color : white;" th:onclick="|toggleLike(${postVO.post_Seq})|">
 																			<img th:class="'likeImage_' + ${postVO.post_Seq}" src="img/unlike.png" width="20px" height="20px" data-liked = "true">
 																		</button>
 																		<p th:class="'post_Like_Count_' + ${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;" th:inline="text">[[${postVO.post_Like_Count}]]</p>
-																	</div>
+																	</th:block>
 																</div>
 																<div>
 																	<div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><span th:inline="text">[[${postVO.post_Reply_Count}]]</span></div>
@@ -240,7 +240,7 @@
 															<div class="comments">
 																<th:block th:with="key=${status.index}"></th:block>
 																<th:block th:with="value=${replyMap[key]}"></th:block>
-																<div th:each="reply : ${value}" th:limit="3">
+																<th:block th:each="reply, r : ${value}" th:if="${r.index} < 3">
 																	<div class="d-flex mb-2">
 																		<!-- 댓글 작성자 프로필 이미지 출력부분 -->
 																		<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
@@ -258,19 +258,19 @@
 																				<script th:inline="javascript">
 																					var reply_Seq = [[${replySeq}]]
 																				</script>
-																				<div th:if="${reply.reply_LikeYN == 'N'}">
+																				<th:block th:if="${reply.reply_LikeYN == 'N'}">
 																					<!-- th:attr="onclick=|toggleReplyLike(${reply.post_Seq}, ${reply.reply_Seq})|"     안될시 이걸로 교체-->
 																					<button type="button" style = "border : none; background-color : white;" th:onclick="'toggleReplyLike(' + ${reply.post_Seq} + ',' + ${reply.reply_Seq} + ')'">
 																						<img th:class="'likeReplyImage_' + ${reply.reply_Seq}" src="img/like.png" data-liked = "false">
 																					</button>
 																					<p th:class="'reply_Like_Count_' + ${reply.reply_Seq}" style="display: inline; margin-left: 1px; font-size : 10px;" th:inline="text">[[${reply.reply_Like_Count}]]</p>
-																				</div>
-																				<div th:unless="${reply.reply_LikeYN == 'N'}">
+																				</th:block>
+																				<th:block th:unless="${reply.reply_LikeYN == 'N'}">
 																					<button type="button" style = "border : none; background-color : white;" th:onclick="'toggleReplyLike(' + ${reply.post_Seq} ', ' + ${reply.reply_Seq} + ')'">
 																						<img th:class="'likeReplyImage_' + ${reply.reply_Seq}" src="img/unlike.png" data-liked = "true">
 																					</button>
 																					<p th:class="'reply_Like_Count_' + ${reply.reply_Seq}" style="display: inline; margin-left: 1px; font-size : 10px;" th:text="${reply.reply_Like_Count}"></p>
-																				</div>
+																				</th:block>
 																			</div>
 																			<div  style="display: inline-block;" width = "5px"></div>
 																			<span class="small text-muted" th:text="${reply.reply_WhenDid}"></span>
@@ -278,7 +278,7 @@
 																			</div>
 																		</div>
 																	</div>
-																</div> <!-- 실질적인 댓글 추출 하는 반복문 -->
+																</th:block> <!-- 실질적인 댓글 추출 하는 반복문 -->
 															</div><!-- comments -->
 														</div><!-- my-2 -->
 													</div><!-- w-100 -->
@@ -295,14 +295,14 @@
 					</div>
 				</div>
 				<div id="profileLoadingStop"></div>
-				<div th:if="${#lists.size(postlist)<10}">
+				<th:block th:if="${#lists.size(postlist)<10}">
 					<div id="profileFeedEnd">
 						<br>
 						<h5 align="center">No Post To Show</h5>
 						<br>
 					</div>
-				</div>
-				<div th:unless="${#lists.size(postlist)<10}">
+				</th:block>
+				<th:block th:unless="${#lists.size(postlist)<10}">
 					<div id="profileFeedInfinity">
 						<div class="text-center mt-4">
 							<div class="spinner-border" role="status">
@@ -311,7 +311,7 @@
 							<p class="mb-0 mt-2">Loading</p>
 						</div>
 					</div>
-				</div>
+				</th:block>
 			</main>
 			<aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
 				<div class="p-2 bg-light offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample">
@@ -328,23 +328,23 @@
 								<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
 							</li>
 							<div>
-								<div th:if="${loginUser.member_Id == member.member_Id}">
+								<th:block th:if="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
 										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link active"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
 									</li>
-								</div>
-								<div th:unless="${loginUser.member_Id == member.member_Id}">
+								</th:block>
+								<th:block th:unless="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
 										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
 									</li>
-								</div>
+								</th:block>
 							</div>
 							<div>
-								<div th:if="${loginUser.member_Id == member.member_Id}">
+								<th:block th:if="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
-										<a href="editProfile" class="nav-link active"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
+										<a href="/editProfile" class="nav-link active"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
 									</li>
-								</div>
+								</th:block>
 							</div>
 							<li class="nav-item">
 								<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -364,38 +364,38 @@
 							</li>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<div th:if="${alarmListSize==0}">
+									<th:block th:if="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-									</div>
-									<div th:unless="${alarmListSize==0}">
+									</th:block>
+									<th:block th:unless="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span>
 										<div th:inline="text">Notification  +[[${alarmListSize}]]</div>
-									</div>
+									</th:block>
 								</a>
 								<ul class="dropdown-menu px-2 py-1 mb-2">
-									<div th:each="alarmVO : ${alarmList}" th:limit="10">
-										<div th:if="${alarmVO.kind==1}">
+									<th:block th:each="alarmVO, stat : ${alarmList}" th:if="${stat.index} < 10">
+										<th:block th:if="${alarmVO.kind==1}">
 											<li>
 												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{'alarmFollow?member_Id=' + ${alarmVO.to_Mem} + '&alarm_Seq=' + ${alarmVO.alarm_Seq}}" style="font-size:11px; background-color: azure;">
 													<span th:inline="text">[[${alarmVO.message}]]</span>
 												</a>
 											</li>
-										</div>
-										<div th:if="${alarmVO.kind==5}">
+										</th:block>
+										<th:block th:if="${alarmVO.kind==5}">
 											<li>
 												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{'alarmContact?alarm_Seq=' + ${alarmVO.alarm_Seq}}" style="font-size:11px; background-color: azure;">
 													<span th:inline="text">[[${alarmVO.message}]]</span>
 												</a>
 											</li>
-										</div>
-										<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+										</th:block>
+										<th:block th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
 											<li>
 												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{'alarmIndex?post_Seq=' + ${alarmVO.post_Seq} + '&alarm_Seq=' + ${alarmVO.alarm_Seq}}" style="font-size:11px; background-color: azure;">
 													<span th:inline="text">[[${alarmVO.message}]]</span>
 												</a>
 											</li>
-										</div>
-									</div>
+										</th:block>
+									</th:block>
 								</ul>
 							</li>
 						</ul>
@@ -415,23 +415,23 @@
 								<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
 							</li>
 							<div>
-								<div th:if="${loginUser.member_Id == member.member_Id}">
+								<th:block th:if="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
 										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link active"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
 									</li>
-								</div>
-								<div th:unless="${loginUser.member_Id == member.member_Id}">
+								</th:block>
+								<th:block th:unless="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
 										<a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
 									</li>
-								</div>
+								</th:block>
 							</div>
 							<div>
-								<div th:if="${loginUser.member_Id == member.member_Id}">
+								<th:block th:if="${loginUser.member_Id == member.member_Id}">
 									<li class="nav-item">
-										<a href="editProfile" class="nav-link"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
+										<a href="/editProfile" class="nav-link"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
 									</li>
-								</div>
+								</th:block>
 							</div>
 							<li class="nav-item">
 								<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -450,38 +450,38 @@
 							</li>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<div th:if="${alarmListSize==0}">
+									<th:block th:if="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span>Notification
-									</div>
-									<div th:unless="${alarmListSize==0}">
+									</th:block>
+									<th:block th:unless="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span>
 										<span th:inline="text"> Notification  +[[${alarmListSize}]]</span>
-									</div>
+									</th:block>
 								</a>
 								<ul class="dropdown-menu px-2 py-1 mb-2">
-									<div th:each="alarmVO : ${alarmList}" th:limit="10">
-										<div th:if="${alarmVO.kind==1}">
+									<th:block th:each="alarmVO, stat : ${alarmList}" th:if="${stat.index} < 10">
+										<th:block th:if="${alarmVO.kind==1}">
 											<li>
 												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{'alarmFollow?member_Id=' + ${alarmVO.to_Mem} + '&alarm_Seq=' + ${alarmVO.alarm_Seq}}" style="font-size:11px; background-color: azure;">
 													<span th:inline="text">[[${alarmVO.message}]]</span>
 												</a>
 											</li>
-										</div>
-										<div th:if="${alarmVO.kind==5}">
+										</th:block>
+										<th:block th:if="${alarmVO.kind==5}">
 											<li>
 												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{'alarmContact?alarm_Seq=' + ${alarmVO.alarm_Seq}}" style="font-size:11px; background-color: azure;">
 													<span th:inline="text">[[${alarmVO.message}]]</span>
 												</a>
 											</li>
-										</div>
-										<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+										</th:block>
+										<th:block th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
 											<li>
 												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{'alarmIndex?post_Seq=' + ${alarmVO.post_Seq} + '&alarm_Seq=' + ${alarmVO.alarm_Seq}}" style="font-size:11px; background-color: azure;">
 													<span th:inline="text">[[${alarmVO.message}]]</span>
 												</a>
 											</li>
-										</div>
-									</div>
+										</th:block>
+									</th:block>
 								</ul>
 							</li>
 						</ul>
@@ -506,40 +506,40 @@
 							<!-- 트랜딩 아이템 -->
 							<!-- 표시할 최대 문자 수 -->
 							<th:block th:with="maxChar=50"></th:block>
-							<div th:each="postVO : ${hottestFeed}" th:limit="5">
+							<th:block th:each="postVO, stat : ${hottestFeed}" th:if="${stat.index} < 5">
 								<div class="p-3 border-bottom d-flex">
-									<div th:if="${postVO.post_Image_Count == 0}">
-										<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
+									<th:block th:if="${postVO.post_Image_Count == 0}">
+										<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${postVO.post_Seq})|" style = "width : 100%;">
 											<div class = "d-flex">
 												<div>
 													<p class="fw-bold mb-0 pe-3 text-dark" th:inline="text">[[${postVO.post_Like_Count}]]'s Likes</p>
 													<small class="text-muted" th:inline="text">Posted by [[${postVO.member_Id}]]</small>
 													<br><div style = "height : 5%;"></div>
 													<small class="text-muted">
-														<div th:if="${#strings.length(postVO.post_Content) > 25}">
+														<th:block th:if="${#strings.length(postVO.post_Content) > 25}">
 															<span th:text="${#strings.substring(postVO.post_Content, 0, 25)}"></span> . . .
-														</div>
-														<div th:unless="${#strings.length(postVO.post_Content) > 25}">
+														</th:block>
+														<th:block th:unless="${#strings.length(postVO.post_Content) > 25}">
 															<span th:text="${postVO.post_Content}"></span>
-														</div>
+														</th:block>
 													</small>
 													<br><div style = "height : 5%;"></div>
-													<div th:if="${postVO.post_Hashtag != null }">
+													<th:block th:if="${postVO.post_Hashtag != null }">
 														<small class="text-muted">
-															<div th:if="${#strings.length(postVO.post_Hashtag) > 22}">
+															<th:block th:if="${#strings.length(postVO.post_Hashtag) > 22}">
 																<span th:text="${#strings.substring(postVO.post_Hashtag, 0, 22)}"></span> . . .
-															</div>
-															<div th:unless="${#strings.length(postVO.post_Hashtag) > 22}">
+															</th:block>
+															<th:block th:unless="${#strings.length(postVO.post_Hashtag) > 22}">
 																<span th:text="${postVO.post_Hashtag}"></span>
-															</div>>
+															</th:block>>
 														</small>
-													</div>
+													</th:block>
 												</div>
 											</div>
 										</a>
-									</div>
-									<div th:unless="${postVO.post_Image_Count == 0}">
-										<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" th:onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
+									</th:block>
+									<th:block th:unless="${postVO.post_Image_Count == 0}">
+										<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" th:onclick="|modalseq(${postVO.post_Seq})|" style = "width : 100%;">
 											<div class = "d-flex">
 												<div style = "width : 60%;">
 													<p class="fw-bold mb-0 pe-3 text-dark" th:inline="text">[[${postVO.post_Like_Count}]]'s Likes</p>
@@ -549,20 +549,20 @@
 														<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' . . .' : postVO.post_Content}"></span>
 													</small>
 													<br><div style = "height : 5%;"></div>
-													<div th:if="${postVO.post_Hashtag != null }">
+													<th:block th:if="${postVO.post_Hashtag != null }">
 														<small class="text-muted">
 															<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' . . .' : postVO.post_Hashtag}"></span>
 														</small>
-													</div>
+													</th:block>
 												</div>
 												<div style = "width : 40%;">
 													<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
 												</div>
 											</div>
 										</a>
-									</div>
+									</th:block>
 								</div>
-							</div>
+							</th:block>
 						</div>
 					</div>
 				</div><!-- fix-sidebar -->
@@ -588,6 +588,7 @@
 </div>
 
 <div th:include="modal :: modal"></div>
+<div th:include="modal :: modal2"></div>
 <!-- Jquery Js -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <!-- Bootstrap Bundle Js -->

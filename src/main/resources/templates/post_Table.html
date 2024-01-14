@@ -80,26 +80,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <div th:each="postVO, status : ${postList}" th:limit="${postListSize}">
+                                    <th:block th:each="postVO, status : ${postList}" th:if="${status.index} < ${postListSize}">
                                      <tr>
                                          <td th:text="${postVO.member_Id}"></td>
                                          <td><a th:href="@{'post_Detail?post_Seq=' + ${postVO.post_Seq}}" th:text="${postVO.post_Content}"></a></td>
                                          <td>
-                                             <div th:if="${hashMap[postVO.post_Seq] == null}">
+                                             <th:block th:if="${hashMap[postVO.post_Seq] == null}">
                                            	 등록된 해쉬태그가 없습니다.
-                                             </div>
-                                             <div th:unless="${hashMap[postVO.post_Seq]} == null">
-                                                 <div th:each="hash : ${hashMap[postVO.post_Seq]}">
+                                             </th:block>
+                                             <th:block th:unless="${hashMap[postVO.post_Seq]} == null">
+                                                 <th:block th:each="hash : ${hashMap[postVO.post_Seq]}">
                                                      <div th:text="'#' + ${hash.tag_Content}">&nbsp;&nbsp;</div>
-                                                 </div>
-                                             </div>
+                                                 </th:block>
+                                             </th:block>
                                          </td>
                                          <td th:text="${postVO.post_Seq}"></td>
                                          <td th:text="${postVO.post_Date}"></td>
                                          <td th:text="${postVO.post_Like_Count}"></td>
                                          <td th:text="${postVO.post_Reply_Count}"></td>
                                      </tr>
-                                    </div>
+                                    </th:block>
                                 </tbody>
                             </table>
                         </div>

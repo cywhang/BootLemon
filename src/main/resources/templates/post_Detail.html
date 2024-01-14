@@ -109,61 +109,61 @@
 									<th colspan="5">게시글 사진</th>
 								</tr>
 								<!-- 이미지를 출력할 공간 -->
-								<div th:if="${post.post_Image_Count != 0}">
+								<th:block th:if="${post.post_Image_Count != 0}">
 									<tr>
 										<td colspan="5">
-											<div th:each="i : ${#numbers.sequence(1, post.post_Image_Count)}">
+											<th:block th:each="i : ${#numbers.sequence(1, post.post_Image_Count)}">
 												<div class="image-container">
 													<img th:src="@{'img/uploads/post/' + ${post.post_Seq} + '-' + ${i} + '.png'}" alt="..." width="500px">
 												</div>
-											</div>
+											</th:block>
 										</td>
 									</tr>
-								</div>
+								</th:block>
 								<!-- 댓글 -->
 								<tr>
 									<th colspan="5">댓글</th>
 								</tr>
-								<div th:if="${reply == null}">
+								<th:block th:if="${reply == null}">
 									<tr style="display: none;"></tr>
-								</div>
-								<div th:unless="${reply == null}">
+								</th:block>
+								<th:block th:unless="${reply == null}">
 									<tr>
 										<th colspan="1">아이디</th>
 										<th colspan="2">댓글 내용</th>
 										<th colspan="1">작성일</th>
 										<th colspan="1">좋아요</th>
 									</tr>
-									<div th:each="reply : ${reply}">
+									<th:block th:each="reply : ${reply}">
 										<tr>
 											<td colspan="1" th:text="${reply.member_Id}"></td>
 											<td colspan="2" th:text="${reply.reply_Content}"></td>
 											<td colspan="1" th:text="${reply.reply_Date}"></td>
 											<td colspan="1" th:text="${reply.reply_Like_Count}"></td>
 										</tr>
-									</div>
-								</div>
+									</th:block>
+								</th:block>
 								<!-- 해시태그 -->
 								<tr>
 								    <th colspan="5">해시태그</th>
 								</tr>
-								<div th:if="${hash == null}">
+								<th:block th:if="${hash == null}">
 									<tr style="display: none;"></tr>
-								</div>
-								<div th:unless="${hash == null}">
+								</th:block>
+								<th:block th:unless="${hash == null}">
 									<tr>
 										<th>게시글 번호</th>
 										<th>해시태그 번호</th>
 										<th colspan = "3">해시태그 내용</th>
 									</tr>
-									<div th:each="hash : ${hash}">
+									<th:block th:each="hash : ${hash}">
 										<tr>
 											<td th:text="${hash.post_Seq}"></td>
 											<td th:text="${hash.tag_Seq}"></td>
 											<td colspan = "3" th:text="${hash.tag_Content}"></td>
 										</tr>
-									</div>
-								</div>
+									</th:block>
+								</th:block>
 								<div style="text-align: right; margin-right: 1px;">
 									<a th:href="@{'deletePost?post_Seq=' + ${post.post_Seq}}" class="btn btn-primary">delete</a>
 									<a href="post_Table" class="btn btn-primary">List</a>

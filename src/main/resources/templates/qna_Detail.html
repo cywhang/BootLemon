@@ -118,7 +118,7 @@
                                     <th colspan = "2">Message</th>
                                     <td colspan = "4" th:text="${qnaDetail.qna_Message}"></td>
                                 </tr>
-                                <div th:if="${qnaDetail.qna_Done == 1}">
+                                <th:block th:if="${qnaDetail.qna_Done == 1}">
                                     <tr>
                                         <th colspan = "2">Answer</th>
                                         <td colspan = "4">
@@ -134,8 +134,8 @@
                                             </form>
                                         </td>
                                     </tr>
-                                </div>
-                                <div th:unless="${qnaDetail.qna_Done == 1}">
+                                </th:block>
+                                <th:block th:unless="${qnaDetail.qna_Done == 1}">
                                     <tr>
                                         <th colspan = "2">Answer</th>
                                         <td colspan = "4" th:text="${qnaDetail.qna_Answer}"></td>
@@ -145,7 +145,7 @@
                                             <button type="button" style="width: 10%" th:onclick="|deleteQna_ByAdmin(${qnaDetail.qna_Seq})|">Delete</button>
                                         </td>
                                     </tr>
-                                </div>
+                                </th:block>
 							</table>
                         </div>
                     </div>
