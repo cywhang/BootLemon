@@ -139,7 +139,7 @@ public class MemberController {
 
 	@GetMapping(value="/editProfile")
 	public String editProfile(HttpSession session, Model model) {
-
+		System.out.println("editProfile 수행 시작");
 		if(session.getAttribute("loginUser") == null) {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
@@ -195,14 +195,14 @@ public class MemberController {
 		if (!profilePhoto.isEmpty()) {
 
 			// 기존 프로필 사진을 삭제합니다.
-			String existingImagePath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/")
+			String existingImagePath = ("D:/fileUpload/img/uploads/profile/")
 					+ vo.getMember_Profile_Image();
 			File existingImage = new File(existingImagePath);
 			if (existingImage.exists()) {
 				existingImage.delete();
 			}
 
-			String imagePath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
+			String imagePath = "D:/fileUpload/img/uploads/profile/";
 			String fileName = vo.getMember_Id() + ".png";
 			try {
 				profilePhoto.transferTo(new File(imagePath + fileName));
@@ -249,7 +249,7 @@ public class MemberController {
 		String voPass = vo.getMember_Password();
 
 		// 1. 게시글 이미지 삭제를 위한 경로
-		String postFolderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+		String postFolderPath = "D:/fileUpload/img/uploads/post/";
 		File postFolder = new File(postFolderPath);
 		File[] postFiles = postFolder.listFiles();
 
@@ -257,7 +257,7 @@ public class MemberController {
 		List<Integer> memSeq = postService.seqForUser(loginUser.getMember_Id());
 
 		// 2. 프로필 이미지 삭제를 위한 경로
-		String profileFolderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
+		String profileFolderPath = "D:/fileUpload/img/uploads/profile/";
 		File profileFolder = new File(profileFolderPath);
 		File[] profileFiles = profileFolder.listFiles();
 

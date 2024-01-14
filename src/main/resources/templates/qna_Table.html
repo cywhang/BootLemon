@@ -113,7 +113,7 @@
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    <div th:each="qna : ${allQna}">
+                                    <th:block th:each="qna : ${allQna}">
                               			<tr>
                               				<td th:text="${qna.qna_Seq}"></td>
                               				<td th:text="${qna.member_Id}"></td>
@@ -122,7 +122,7 @@
                               				<td th:text="${qna.qna_Date}"></td>
                               				<td th:text="${qna.qna_Done}"></td>
                               			</tr>
-                                    </div>
+                                    </th:block>
                                 </tbody>                 
                             </table>
                         </div>

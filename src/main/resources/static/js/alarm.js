@@ -12,7 +12,7 @@ function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
 	};
 	
 	$.ajax({
-	    url: "/blue/deleteAlarm",
+	    url: "/deleteAlarm",
 	    type: "POST",
 	    dataType: "json",
 	    contentType: "application/json",
@@ -27,7 +27,7 @@ function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
 	    	 *  5. QNA REPLY
 	    	 */
 	    	if(alarm_kind == 1){
-	    		window.location.href="/blue/follow?member_Id=" + to_Mem;
+	    		window.location.href="/follow?member_Id=" + to_Mem;
 	    	}else if(alarm_kind == 2){
 	    		alarmPostView(post_Seq);
 	    	}else if(alarm_kind == 3){
@@ -35,7 +35,7 @@ function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
 	    	}else if(alarm_kind == 4){
 	    		alarmPostView(post_Seq);
 	    	}else if(alarm_kind == 5){
-	    		window.location.href="/blue/contact";
+	    		window.location.href="/contact";
 	    	};
 	    	
 	    },

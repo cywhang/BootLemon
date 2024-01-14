@@ -7,7 +7,7 @@ function changeFollow(member_Id) {
     };
 
     $.ajax({
-        url: "/blue/changeFollow",
+        url: "/changeFollow",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),

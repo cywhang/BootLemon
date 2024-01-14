@@ -144,12 +144,12 @@
 									<div class="row justify-content-center">
 										<div class="col-lg-12">								     
 											<div class="accordion overflow-hidden bg-white" id="accordionExample">
-												<div th:each="qna : ${qnaList}">
+												<th:block th:each="qna : ${qnaList}">
 													<div class="accordion-item">
 														<h3 class="accordion-header" id="heading_${qna.qna_Seq}">		                                      	 
 														<button class ="accordion-button collapsed fw-bold" style = "padding : 10px; width : 100%;"type="button" data-bs-toggle="collapse" th:data-bs-target="'#collapse_' + ${qna.qna_Seq}" aria-expanded="false" th:aria-controls="'collapse_' + ${qna.qna_Seq}">
 															<div style = "color : #555568; display: flex; flex-direction: column;">
-																<div th:if="${qna.qna_Done eq '2'}">
+																<th:block th:if="${qna.qna_Done eq '2'}">
 																	<div style = "font-size : 5px;">
 																		<p style = "display : inline;">[ Answered ]</p>&nbsp; <div th:text="${qna.qna_Date}"></div>
 																	</div>
@@ -158,8 +158,8 @@
 																		<div style = "display : inline; overflow : hidden;" th:text="${qna.qna_Title}">
 																		</div>
 																	</div>
-																</div>
-																<div th:unless="${qna.qna_Done eq '2'}">
+																</th:block>
+																<th:block th:unless="${qna.qna_Done eq '2'}">
 																	<div style = "font-size : 5px;">
 																		<p style = "display : inline;">[ Not Answered ]</p>&nbsp; <div th:text="${qna.qna_Date}"></div>
 																	</div>
@@ -168,7 +168,7 @@
 																		<div style = "display : inline; overflow : hidden;" th:text="${qna.qna_Title}">
 																		</div>
 																	</div>
-																</div>
+																</th:block>
 															</div>
 														</button>
 													</h3>
@@ -189,7 +189,7 @@
 																	</a>
 																</div>
 															</div>
-															<div th:if="${qna.qna_Done eq '2'}">
+															<th:block th:if="${qna.qna_Done eq '2'}">
 																<div class = "qnaDiv d-flex" style = "margin-top : 5px;">
 																	<div style = "width : 10%; margin-right : 2%;">
 																		<label style="display: flex; align-items: center; justify-content: center; height: 100%;">
@@ -200,8 +200,8 @@
 																		<div style = "margin-left : 2%;" th:text="${qna.qna_Answer}"></div>
 																	</div>
 																</div>
-															</div>
-															<div th:unless="${qna.qna_Done eq '2'}">
+															</th:block>
+															<th:block th:unless="${qna.qna_Done eq '2'}">
 																<div class = "qnaDiv d-flex" style = "margin-top : 5px;">
 																	<div style = "width : 10%; margin-right : 2%;">
 																		<label style="display: flex; align-items: center; justify-content: center; height: 100%;">
@@ -212,11 +212,11 @@
 																		<div style = "margin-left : 2%;">Sorry, Now We Are Checking Your Question</div>
 																	</div>
 																</div>
-															</div>
+															</th:block>
 														</div>
 													</div>
 												</div>     
-											</div>
+											</th:block>
 										</div>                       
 									</div>
 								</div>
@@ -283,34 +283,34 @@
 							</li>                           
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<div th:if="${alarmListSize==0}">
+									<th:block th:if="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-									</div>
-									<div th:unless="${alarmListSize==0}">
+									</th:block>
+									<th:block th:unless="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> <span th:inline="text">Notification + [[${alarmListSize}]]</span>
-									</div>
+									</th:block>
 								</a>
 								<ul class="dropdown-menu px-2 py-1 mb-2">
-									<div th:each="alarmVO : ${alarmList}" th:limit="10">
-										<div th:if="${alarmVO.kind==1}">
+									<th:block th:each="alarmVO, stat : ${alarmList}" th:if="${stat.index} < 10">
+										<th:block th:if="${alarmVO.kind==1}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
 												</a>
 											</li>
-										</div>
-										<div th:if="${alarmVO.kind==5}">
+										</th:block>
+										<th:block th:if="${alarmVO.kind==5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
 												</a>
 											</li>
-										</div>
-										<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+										</th:block>
+										<th:block th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
 												</a>
 											</li>
-										</div>
-									</div>
+										</th:block>
+									</th:block>
 								</ul>
 							</li>                           
 						</ul>
@@ -350,34 +350,34 @@
 							</li>                           
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<div th:if="${alarmListSize==0}">
+									<th:block th:if="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
-									</div>
-									<div th:unless="${alarmListSize==0}">
+									</th:block>
+									<th:block th:unless="${alarmListSize==0}">
 										<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> <span th:inline="text">Notification + [[${alarmListSize}]]</span>
-									</div>
+									</th:block>
 								</a>
 								<ul class="dropdown-menu px-2 py-1 mb-2">
-									<div th:each="alarmVO : ${alarmList}" th:limit="10">
-										<div th:if="${alarmVO.kind==1}">
+									<th:block th:each="alarmVO, stat : ${alarmList}" th:if="${stat.index} < 10">
+										<th:block th:if="${alarmVO.kind==1}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
 												</a>
 											</li>
-										</div>
-										<div th:if="${alarmVO.kind==5}">
+										</th:block>
+										<th:block th:if="${alarmVO.kind==5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
 												</a>
 											</li>
-										</div>
-										<div th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
+										</th:block>
+										<th:block th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/blue/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
 												</a>
 											</li>
-										</div>
-									</div>
+										</th:block>
+									</th:block>
 								</ul>
 							</li>                           
 						</ul>
@@ -392,7 +392,7 @@
 							<!-- 우측 상단의 검색탭 -->
 							<div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
 								<span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
-								<form action="/blue/search_HashTag" method="get">
+								<form action="/search_HashTag" method="get">
 									<input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" name="tag_Content" onkeyup="searchMembers()">
 								</form>
 							</div>
@@ -404,57 +404,57 @@
 									<!-- 트랜딩 아이템 -->
 									<!-- 표시할 최대 문자 수 -->
 									<th:block th:with="maxChar = 50"></th:block>
-									<div th:each="postVO : ${hottestFeed}" th:limit="5">
+									<th:block th:each="postVO, i : ${hottestFeed}" th:if="${i.index} < 5">
                          	     		<div class="p-3 border-bottom d-flex">
-											<div th:if="${postVO.post_Image_Count == 0}">
+											<th:block th:if="${postVO.post_Image_Count == 0}">
 												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${postVO.post_Seq})|" style = "width : 100%;">
 													<div class = "d-flex">
 														<div>
 															<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
-															<small class="text-muted" th:text="Posted by ${postVO.member_Id}"></small>
+															<small class="text-muted" th:inline="text">Posted by [[${postVO.member_Id}]]</small>
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
-																<div th:if="${#strings.length(postVO.post_Content) > 25}">
+																<th:block th:if="${#strings.length(postVO.post_Content) > 25}">
 																	<span th:text="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
-																</div>
-																<div th:unless="${#strings.length(postVO.post_Content) > 25}" th:text="${postVO.post_Content}"></div>
+																</th:block>
+																<th:block th:unless="${#strings.length(postVO.post_Content) > 25}" th:text="${postVO.post_Content}"></th:block>
 															</small>
 															<br><div style = "height : 5%;"></div>
-															<div th:if="${postVO.post_Hashtag != null}">
+															<th:block th:if="${postVO.post_Hashtag != null}">
 																<small class="text-muted">
-																	<div th:if="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${#strings.substring(postVO.post_Hashtag, 0, 22)} + ' . . .'"></div>
-																	<div th:unless="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${postVO.post_Hashtag}"></div>
+																	<th:block th:if="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${#strings.substring(postVO.post_Hashtag, 0, 22)} + ' . . .'"></th:block>
+																	<th:block th:unless="${#strings.length(postVO.post_Hashtag) > 22}" th:text="${postVO.post_Hashtag}"></th:block>
 																</small>
-															</div>
+															</th:block>
 														</div>
 													</div>
 												</a>
-											</div>
-											<div th:unless="${postVO.post_Image_Count == 0}">
+											</th:block>
+											<th:block th:unless="${postVO.post_Image_Count == 0}">
 												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" th:onclick="|modalseq(${postVO.post_Seq})|" style = "width : 100%;">
 													<div class = "d-flex">
 														<div style = "width : 60%;">
 															<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
-															<small class="text-muted" th:text="'Posted by' + ${postVO.member_Id}"></small>
+															<small class="text-muted" th:inline="text">Posted by [[${postVO.member_Id}]]</small>
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
 																<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
 															</small>
 															<br><div style = "height : 5%;"></div>
-															<div th:if="${postVO.post_Hashtag != null}">
+															<th:block th:if="${postVO.post_Hashtag != null}">
 																<small class="text-muted">
 																	<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
 																</small>
-															</div>
+															</th:block>
 														</div>
 														<div style = "width : 40%;">
 															<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
 														</div>
 													</div>
 												</a>
-											</div>
+											</th:block>
 										</div>
-									</div>
+									</th:block>
 								</div>
 							</div>
 						</div>
@@ -481,6 +481,7 @@
 	</div>
 
 	<div th:include="modal :: modal"></div>
+	<div th:include="modal :: modal2"></div>
       
 	<!-- Jquery Js -->
 	<script src="vendor/jquery/jquery.min.js"></script>

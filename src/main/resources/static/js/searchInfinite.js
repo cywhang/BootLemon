@@ -40,7 +40,7 @@ function handleFeedInfinity(hashTag) {
 	    };
 	
 		$.ajax({
-		 url: "/blue/getMoreSearchHashTag",
+		 url: "/getMoreSearchHashTag",
 		 type: "POST",
 		 dataType: "json",
 		 contentType: "application/json",
