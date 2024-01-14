@@ -397,7 +397,7 @@
                                                 <a class="dropdown-item rounded-3 px-2 py-1 my-1"
                                                    th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}"
                                                    style="font-size:11px; background-color: azure;"
-                                                   th:text="${alarmVO.message}">
+                                                   th:utext="${alarmVO.message}">
                                                 </a>
                                             </li>
                                         </th:block>
@@ -406,7 +406,7 @@
                                                 <a class="dropdown-item rounded-3 px-2 py-1 my-1"
                                                    th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}"
                                                    style="font-size:11px; background-color: azure;"
-                                                   th:text="${alarmVO.message}">
+                                                   th:utext="${alarmVO.message}">
                                                 </a>
                                             </li>
                                         </th:block>
@@ -415,7 +415,7 @@
                                                 <a class="dropdown-item rounded-3 px-2 py-1 my-1"
                                                    th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}"
                                                    style="font-size:11px; background-color: azure;"
-                                                   th:text="${alarmVO.message}">
+                                                   th:utext="${alarmVO.message}">
                                                 </a>
                                             </li>
                                         </th:block>
@@ -488,7 +488,7 @@
                                                 <a class="dropdown-item rounded-3 px-2 py-1 my-1"
                                                    th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}"
                                                    style="font-size:11px; background-color: azure;"
-                                                   th:text="${alarmVO.message}">
+                                                   th:utext="${alarmVO.message}">
                                                 </a>
                                             </li>
                                         </th:block>
@@ -497,7 +497,7 @@
                                                 <a class="dropdown-item rounded-3 px-2 py-1 my-1"
                                                    th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}"
                                                    style="font-size:11px; background-color: azure;"
-                                                   th:text="${alarmVO.message}">
+                                                   th:utext="${alarmVO.message}">
                                                 </a>
                                             </li>
                                         </th:block>
@@ -506,7 +506,7 @@
                                                 <a class="dropdown-item rounded-3 px-2 py-1 my-1"
                                                    th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}"
                                                    style="font-size:11px; background-color: azure;"
-                                                   th:text="${alarmVO.message}">
+                                                   th:utext="${alarmVO.message}">
                                                 </a>
                                             </li>
                                         </th:block>

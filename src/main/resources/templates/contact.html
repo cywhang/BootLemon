@@ -294,19 +294,19 @@
 									<th:block th:each="alarmVO, stat : ${alarmList}" th:if="${stat.index} < 10">
 										<th:block th:if="${alarmVO.kind==1}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:utext="${alarmVO.message}">
 												</a>
 											</li>
 										</th:block>
 										<th:block th:if="${alarmVO.kind==5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:utext="${alarmVO.message}">
 												</a>
 											</li>
 										</th:block>
 										<th:block th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:utext="${alarmVO.message}">
 												</a>
 											</li>
 										</th:block>
@@ -361,19 +361,19 @@
 									<th:block th:each="alarmVO, stat : ${alarmList}" th:if="${stat.index} < 10">
 										<th:block th:if="${alarmVO.kind==1}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmFollow(member_Id=${alarmVO.to_Mem}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:utext="${alarmVO.message}">
 												</a>
 											</li>
 										</th:block>
 										<th:block th:if="${alarmVO.kind==5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmContact(alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:utext="${alarmVO.message}">
 												</a>
 											</li>
 										</th:block>
 										<th:block th:unless="${alarmVO.kind == 1 or alarmVO.kind == 5}">
 											<li>
-												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:text="${alarmVO.message}">
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" th:href="@{/alarmIndex(post_Seq=${alarmVO.post_Seq}, alarm_Seq=${alarmVO.alarm_Seq})}" style="font-size:11px; background-color: azure;" th:utext="${alarmVO.message}">
 												</a>
 											</li>
 										</th:block>
