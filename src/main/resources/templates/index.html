@@ -236,9 +236,7 @@
 	                                                
 			                                                <!-- 댓글 출력 부분 -->
 			                                    			<div class="comments">
-																<th:block th:with="key=${status.index}"></th:block>
-																<th:block th:with="value=${replyMap[key]}"></th:block>
-																<th:block th:each="reply, i : ${value}" th:if="${i.index} < 3">
+																<th:block th:each="reply, i : ${replyMap[status.index]}" th:if="${i.index} < 3">
 	                                          						<div class="d-flex mb-2">
 			                                          					<!-- 댓글 작성자 프로필 이미지 출력부분 -->
 					                                                    <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
@@ -252,10 +250,11 @@
 					                                             				</div>
 					                                          				</a>
 				                                          					<div class="reply-like-group" role="group" style="display: inline-block;">
-																				<th:block th:with="replySeq=${reply.reply_Seq}"></th:block>
+																				<th:block th:with="replySeq=${reply.reply_Seq}">
 																				<script th:inline="javascript">
 					                                                  				var reply_Seq = [[${replySeq}]];
 					                                             				</script>
+																				</th:block>
 																				<th:block th:if="${reply.reply_LikeYN eq 'N'}">
 																					<button type="button" style = "border : none; background-color : white;" th:onclick="'toggleReplyLike(' + ${reply.post_Seq} + ',' + ${reply.reply_Seq} + ')'">
 																						<img th:class="'likeReplyImage_' + ${reply.reply_Seq}" src="img/like.png" data-liked = "false">
@@ -271,7 +270,7 @@
 																			</div>
 																			<div style="display: inline-block;" width = "5px"></div>
 			                                              					<span class="small text-muted" th:text="${reply.reply_WhenDid}"></span>
-		                                           							<div class="d-flex align-items-center justify-content-between mb-2">\</div>
+		                                           							<div class="d-flex align-items-center justify-content-between mb-2"></div>
 			                              								</div> <!-- "ms-2" -->
 	                                   								</div> <!-- "mb-2" -->
 																</th:block> <!-- "reply each" -->
