@@ -150,6 +150,16 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void deleteReplyLike(ReplyVO vo) {
 		likeMapper.replyDelete(vo);
-	}	
+	}
+
+	@Override
+	public String replyContent(int post_Seq, int reply_Seq) {
+		return replyMapper.replyContent(post_Seq, reply_Seq);
+	}
+
+	@Override
+	public void updateReply(ReplyVO vo) {
+		replyMapper.updateReply(vo);
+	}
 
 }

@@ -540,7 +540,7 @@ function replyDelete(post_Seq, reply_Seq){
 				        if (!result) {
 				          return false;
 				        } else {
-				          replyUpdate(post_Seq, reply_Seq);
+							replyeditView(post_Seq, reply_Seq);
 				        }
 				    });
 				  
@@ -712,3 +712,157 @@ function replyDelete2(post_Seq, reply_Seq){
 		}
 	});
 }
+
+// 댓글 수정완료 버튼을 누르면 호출되는 함수
+// 최종적으로 수정을 처리하는 함수
+function replyUpdate(post_Seq, reply_Seq, postContent){
+
+	var data = {
+		post_Seq : post_Seq,
+		reply_Seq : reply_Seq,
+		postContent : postContent
+	};
+
+	$.ajax({
+			url : "updateReply",
+			type : "POST",
+			dataType: "json",
+			data : data,
+			success : function(response) {
+			 console.log("댓글수정 성공");
+			 console.log(response);
+
+			 	// 1. 컨트롤러에서 넘겨받은 댓글 리스트(replylist) 꺼내기
+				var post = response.postInfo;
+				var replies = response.replies;
+				var profileMap = response.profile;
+				var member_Id = response.member_Id; // 세션아이디
+
+				// 2. 댓글 리스트를 그려주는 컨테이너 생성
+				var replyListContainer = $('#replyListContainer');
+				replyListContainer.empty();  // 기존에 그렸던 댓글 리스트들을 비워내주는 작업
+				for (var i = 0; i < replies.length; i++) {
+					var replyItem = $('<div>').addClass('d-flex mb-2');
+
+					var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+					replyItem.append(profileImg);
+
+					var replyContentWrapper = $('<div>').addClass('ms-2 small');
+
+					var chatText = $('<div>').addClass('bg-light px-3 py-2 rounded-4 mb-1 chat-text');
+
+					var memberName = $('<p>').addClass('fw-500 mb-0').text(replies[i].member_Id);
+					var replyContent = $('<span>').addClass('text-muted').text(replies[i].reply_Content);
+
+					chatText.append(memberName);
+					chatText.append(replyContent);
+
+					replyContentWrapper.append(chatText);
+
+					// 댓글 좋아요 버튼, 좋아요 카운트, 댓글 작성일
+					let post_Seq = replies[i].post_Seq;
+					let reply_Seq = replies[i].reply_Seq;
+
+					let likeLink = $('<button>').attr('type', 'button').css({ border: 'none', 'background-color': 'white'})
+						.addClass('thumbs')
+						.on('click', function() {
+							toggleReplyLike(post_Seq, reply_Seq);
+						});
+
+					if(replies[i].reply_LikeYN === 'N'){
+						var replyLikeImage = $('<img>').attr({
+							class: 'likeReplyImage_' + replies[i].reply_Seq,
+							src: 'img/like.png',
+							'data-liked': 'false'
+						});
+					} else {
+						var replyLikeImage = $('<img>').attr({
+							class: 'likeReplyImage_' + replies[i].reply_Seq,
+							src: 'img/unlike.png',
+							'data-liked': 'true'
+						});
+					}
+					likeLink.append(replyLikeImage);
+					replyContentWrapper.append(likeLink);
+
+					// 띄어쓰기
+					var nbsp = '&nbsp;';
+					replyContentWrapper.append(nbsp);
+
+
+					// 좋아요 카운트
+					var p = $('<p>')
+						.attr('class', 'reply_Like_Count_' + replies[i].reply_Seq)
+						.css({ display: 'inline', 'margin-left': '1px', 'font-size': '10px' })
+						.text(replies[i].reply_Like_Count);
+					replyContentWrapper.append(p);
+
+					// 띄어쓰기
+					replyContentWrapper.append(nbsp);
+					replyContentWrapper.append(nbsp);
+					replyContentWrapper.append(nbsp);
+
+					// 댓글 작성일
+					var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
+					replyContentWrapper.append(timestamp);
+					replyContentWrapper.append(nbsp);
+
+					// 댓글 삭제 & 수정 버튼
+					if(replies[i].member_Id === member_Id){
+						// 댓글 삭제 버튼
+						var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+							.css('cursor', 'pointer')
+							.on('click', function() {
+								var result = confirm("해당 댓글을 삭제하시겠습니까?");
+								if (!result) {
+									return false;
+								} else {
+									replyDelete(post_Seq, reply_Seq);
+								}
+							});
+
+						// 띄어쓰기
+						var nbsp = '&nbsp;';
+						replyContentWrapper.append(nbsp);
+
+						// 댓글 수정 버튼
+						var updateButton = $('<img>').addClass('replyUpdate').attr('src', 'img/update.png')
+							.css('cursor', 'pointer')
+							.on('click', function() {
+								var result = confirm("해당 댓글을 수정하시겠습니까?");
+								if (!result) {
+									return false;
+								} else {
+									replyeditView(post_Seq, reply_Seq);
+								}
+							});
+
+						replyContentWrapper.append(updateButton);
+						replyContentWrapper.append(deleteButton);
+					}
+
+					replyItem.append(replyContentWrapper);
+					replyListContainer.append(replyItem);
+				}
+
+				// 3. 댓글 작성 완료 후 댓글 카운트 추가
+				var replyCountContainer = $('#replyContainer');
+				replyCountContainer.empty();
+				var replycount = $('<div>').text(post.post_Reply_Count);
+				$('#replyContainer').append(replycount);
+
+				// 4. 댓글 작성 완료 후 입력 창 비우기
+				var input = document.getElementById("inputContent");
+				input.value = "";
+
+
+
+
+
+			},error : function(request,status,error){
+			 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+}
+
+

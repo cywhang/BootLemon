@@ -30,4 +30,8 @@ public interface ReplyService {
 
 	// 댓글 삭제시 댓글에대한 좋아요 전체 삭제
 	void deleteReplyLike(ReplyVO vo);
+
+	String replyContent(int post_Seq, int reply_Seq);
+
+	void updateReply(ReplyVO vo);
 }

@@ -96,5 +96,20 @@
 		FROM reply
 		WHERE reply_seq = '0'
 	</select>
-	
+
+	<!-- 댓글 수정 요청시 댓글 내용을 수정창에 띄우기 위한 조회문 -->
+	<select id = "replyContent" resultType = "String">
+		SELECT reply_Content
+		FROM reply
+		WHERE post_Seq = #{post_Seq}
+		AND   reply_Seq = #{reply_Seq}
+	</select>
+
+	<!-- 댓글 수정 처리 -->
+	<update id="updateReply">
+		update reply
+		set   reply_Content = #{reply_Content}
+		where post_Seq = #{post_Seq}
+		and   reply_Seq = #{reply_Seq}
+	</update>
 </mapper>
