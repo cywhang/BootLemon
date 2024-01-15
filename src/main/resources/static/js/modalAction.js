@@ -728,7 +728,7 @@ function replyUpdate(post_Seq, reply_Seq, postContent){
 			type : "POST",
 			dataType: "json",
 			data : data,
-			success : function(response) {
+			success : function(response)  {
 			 console.log("댓글수정 성공");
 			 console.log(response);
 
