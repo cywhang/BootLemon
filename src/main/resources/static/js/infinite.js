@@ -378,12 +378,12 @@ $.ajax({
 
                if(replyVO.reply_LikeYN == 'N'){
                   html += '                                          <button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
-                   html += '                                          <img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/unlike.png" data-liked="false">';
+                   html += '                                          <img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/like.png" data-liked="false">';
                    html += '                                          </button>';
                    html += '                                          <p class="reply_Like_Count_' + replyVO.reply_Seq + '" style="display: inline; margin-left: 1px; font-size: 10px;">' + replyVO.reply_Like_Count + '</p>';
                }else{
                    html += '                                          <button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + trending_replyMap[i].post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
-                   html += '                                          <img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/like.png" data-liked="true">';
+                   html += '                                          <img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/unlike.png" data-liked="true">';
                    html += '                                          </button>';
                    html += '                                          <p class="reply_Like_Count_' + replyVO.reply_Seq + '" style="display: inline; margin-left: 1px; font-size: 10px;">' + replyVO.reply_Like_Count + '</p>';
                }
