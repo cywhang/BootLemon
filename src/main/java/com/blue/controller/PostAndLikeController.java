@@ -446,9 +446,6 @@ public class PostAndLikeController {
 		// ajax요청에 대한 응답을 보내기 위한 객체 생성
 		Map<String, Object> dataMap = new HashMap<>();
 
-		// 세션에서 아이디를 얻어옴
-		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-
 		// 게시글 상세정보 얻어옴
 		PostVO postInfo = postService.getpostDetail(post_Seq);
 
@@ -984,4 +981,77 @@ public class PostAndLikeController {
 		return dataMap;
 	}
 
+	@GetMapping("/replyEditView")
+	@ResponseBody
+	public Map<String, Object> replyEditView(@RequestParam(value="post_Seq") int post_Seq,
+											 @RequestParam(value="reply_Seq") int reply_Seq){
+
+		// ajax요청에 대한 응답을 보내기 위한 객체 생성
+		Map<String, Object> dataMap = new HashMap<>();
+
+		// 댓글 내용을 조회
+		String replyContent = replyService.replyContent(post_Seq, reply_Seq);
+
+		System.out.println(replyContent);
+
+		dataMap.put("post_seq", post_Seq);
+		dataMap.put("reply_seq", post_Seq);
+		dataMap.put("replycontent", replyContent);
+		return dataMap;
+	}
+
+	@PostMapping("/updateReply")
+	@ResponseBody
+	public Map<String, Object>  deleteReply(@RequestParam(value="post_Seq") int post_Seq,
+											@RequestParam(value="reply_Seq") int reply_Seq,
+											@RequestParam(value="replyContent") String replyContent, HttpSession session){
+
+		// 0. ajax요청에 대한 response값 전달을 위한 Map 변수 선언
+		Map<String, Object> dataMap = new HashMap<>();
+
+		// 1. session 아이디값 받아오기
+		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+
+		// 2. update 쿼리문에 전달할 vo 객체 생성 주입
+		ReplyVO rep = new ReplyVO();
+		rep.setReply_Seq(reply_Seq);
+		rep.setPost_Seq(post_Seq);
+		rep.setReply_Content(replyContent);
+
+		// 3. update쿼리문 실행
+		replyService.updateReply(rep);
+
+		// 4. 글 작성자 받아오기
+		String postWriter = postService.getPostWriter(post_Seq);
+
+		// 5. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
+		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
+
+		// 6. 전체 회원의 이미지 Map을 세션에서 받아옴
+		HashMap<String, String> profileMap = (HashMap<String, String>) session.getAttribute("profileMap");
+
+		// 7. 해당 게시글의 상세정보를 조회해서 가져옴(게시글의 댓글 카운트 변경을 위함)
+		PostVO postInfo = postService.getpostDetail(post_Seq);
+
+		// 8. 게시글 댓글의 좋아요 여부 체크
+		for(int i=0; i<replyList.size(); i++) {
+
+			ReplyVO KVO = replyList.get(i);
+			LikeVO check = new LikeVO();
+			check.setMember_Id(member_Id);
+			check.setPost_Seq(KVO.getPost_Seq());
+			check.setReply_Seq(KVO.getReply_Seq());
+			String reply_LikeYN = replyService.getCheckReplyLike(check);
+
+			replyList.get(i).setReply_LikeYN(reply_LikeYN);
+		}
+
+		// 8. ajax의 응답성공(success)의 response로 들어갈 값들 매핑
+		dataMap.put("postInfo", postInfo);
+		dataMap.put("replies", replyList);
+		dataMap.put("profile", profileMap);
+		dataMap.put("member_Id", member_Id);
+
+		return dataMap;
+	}
 }

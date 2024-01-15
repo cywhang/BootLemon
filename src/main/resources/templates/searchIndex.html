@@ -500,7 +500,7 @@
 													<div class = "d-flex">
 														<div>
 															<p class="fw-bold mb-0 pe-3 text-dark" th:text="${postVO.post_Like_Count} + '\'s Likes'"></p>
-															<small class="text-muted" th:text="Posted by ${postVO.member_Id}"></small>
+															<small class="text-muted" th:inline="text">Posted by [[${postVO.member_Id}]]</small>
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
 																<th:block th:if="${#strings.length(postVO.post_Content) > 25}">

@@ -29,4 +29,8 @@ public interface ReplyMapper {
     void deleteReply(ReplyVO vo);
 
     String checkZeroReplySeq();
+
+    String replyContent(int post_Seq, int reply_Seq);
+
+    void updateReply(ReplyVO vo);
 }
