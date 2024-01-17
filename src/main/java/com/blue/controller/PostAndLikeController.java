@@ -992,15 +992,13 @@ public class PostAndLikeController {
 		// 댓글 내용을 조회
 		String replyContent = replyService.replyContent(post_Seq, reply_Seq);
 
-		System.out.println(replyContent);
-
 		dataMap.put("post_seq", post_Seq);
-		dataMap.put("reply_seq", post_Seq);
+		dataMap.put("reply_seq", reply_Seq);
 		dataMap.put("replycontent", replyContent);
 		return dataMap;
 	}
 
-	@PostMapping("/updateReply")
+	@PostMapping("/replyUpdate")
 	@ResponseBody
 	public Map<String, Object>  deleteReply(@RequestParam(value="post_Seq") int post_Seq,
 											@RequestParam(value="reply_Seq") int reply_Seq,

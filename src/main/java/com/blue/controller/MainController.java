@@ -7,6 +7,8 @@ import java.util.Map;
 
 import com.blue.dto.*;
 
+import com.blue.service.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,14 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.blue.service.AlarmService;
-import com.blue.service.MemberService;
-import com.blue.service.PostService;
-import com.blue.service.QnaService;
-import com.blue.service.ReplyService;
-
 import javax.servlet.http.HttpSession;
-
 @Controller
 //컨트롤러에서 'loginUser', 'profileMap' 이라는 이름으로 모델 객체를 생성할때 세션에 동시에 저장한다.
 @SessionAttributes({"loginUser", "profileMap"})
@@ -48,7 +43,17 @@ public class MainController {
 	// 로그인 페이지로 이동
 	@GetMapping(value="/")
 	public String login(){
+
 		return "login";
+	}
+	
+	// 카카오 로그인 코드 테스트
+	@ResponseBody
+	@GetMapping("/kakao")
+	public void  kakaoCallback(@RequestParam String code) {
+
+		System.out.println(code);
+
 	}
 
 	// 로그인 처리
