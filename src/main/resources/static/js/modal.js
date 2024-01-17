@@ -546,7 +546,7 @@ function replyModalseq(post_Seq) {
 				        if (!result) {
 				          return false;
 				        } else {
-				          replyUpdate2(post_Seq, reply_Seq);
+							replyeditView2(post_Seq, reply_Seq);
 				        }
 				    });
 				  
@@ -1069,8 +1069,6 @@ function replyeditView(post_Seq, reply_Seq){
 		reply_Seq : reply_Seq
 	};
 
-	console.log("replyEditView의 post_Seq : ",data.post_Seq);
-	console.log("replyEditView의 reply_Seq : ",data.reply_Seq);
 	$.ajax({
 		url : "replyEditView",
 		type : "GET",
@@ -1078,8 +1076,6 @@ function replyeditView(post_Seq, reply_Seq){
 		data : data, // post_Seq를 보냄
 
 		success : function(response) {
-			console.log("ajax응답 성공");
-			console.log(response);    // ajax요청으로 응답받은 값
 
 			var post_Seq = response.post_seq;
 			var reply_Seq = response.reply_seq;
@@ -1111,8 +1107,76 @@ function replyeditView(post_Seq, reply_Seq){
 			// 제출하기 버튼
 			var submitButton = $('<button>').text('수정하기').addClass('btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center update-button')
 			.on('click', function() {
-				replyUpdate(post_Seq, reply_Seq, textarea.val());
+				if(textarea.val() === '') {
+					alert("내용을 입력해주세요");
+				} else{
+					replyUpdate(post_Seq, reply_Seq, textarea.val());
+				}
 			});
+
+			// 부모 컨테이너에 버튼 추가
+			buttonContainer.append(resetButton, submitButton);
+
+			// replyListContainer에 부모 컨테이너 추가
+			replyListContainer.append(textarea, buttonContainer);
+
+		},error : function(request,status,error){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
+
+function replyeditView2(post_Seq, reply_Seq){
+
+	var data = {
+		post_Seq : post_Seq,
+		reply_Seq : reply_Seq
+	};
+
+	$.ajax({
+		url : "replyEditView",
+		type : "GET",
+		dataType: "json",
+		data : data, // post_Seq를 보냄
+
+		success : function(response) {
+
+			var post_Seq = response.post_seq;
+			var reply_Seq = response.reply_seq;
+			var replyContent = response.replycontent;
+
+			// 모달창의 댓글 컨테이너 내용을 비우고 수정창 만을 출력하기 위한 컨테이너 지정
+			var replyListContainer = $('#replyListContainer2');
+			replyListContainer.empty();
+
+			// '초기화', '수정하기' 버튼을 좌측 우측으로 배치 하기위한 부모 컨테이너
+			var buttonContainer = $('<div>').css({
+				display: 'flex',
+				justifyContent: 'space-between', // 좌우 간격을 최대한으로 벌리기
+				width: '100%' // 부모 컨테이너의 폭을 100%로 설정
+			});
+
+			// 댓글 수정 입력창
+			var textarea = $('<textarea>').addClass('bg-light px-3 py-2 rounded-4 mb-1 chat-text');
+			textarea.val(replyContent);
+			textarea.prop('rows', 5);
+			textarea.css('width', '100%');
+
+			// 입력창 내용 리셋 버튼
+			var resetButton = $('<button>').text('초기화').addClass('btn btn-secondary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center')
+				.click(function() {
+					textarea.val(''); // Textarea 내용을 초기화
+				});
+
+			// 제출하기 버튼
+			var submitButton = $('<button>').text('수정하기').addClass('btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center update-button')
+				.on('click', function() {
+					if(textarea.val() === '') {
+						alert("내용을 입력해주세요");
+					} else{
+						replyUpdate2(post_Seq, reply_Seq, textarea.val());
+					}
+				});
 
 			// 부모 컨테이너에 버튼 추가
 			buttonContainer.append(resetButton, submitButton);
