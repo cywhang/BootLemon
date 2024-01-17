@@ -50,7 +50,7 @@
 		INSERT INTO member 
 		VALUES (#{member_Id},#{member_Name}, #{member_Email}, #{member_Password}, 
 				#{member_Phone}, sysdate, to_Date(#{member_Birthday}, 'yyyy-mm-dd'), #{member_Gender}, 
-			 	#{member_Profile_Image, jdbcType=VARCHAR}, #{member_Country,jdbcType=VARCHAR}, 
+			 	#{member_Profile_Image}, #{member_Country,jdbcType=VARCHAR},
 			 	#{member_Mbti, jdbcType=CHAR})
 	</insert>
 	
@@ -217,4 +217,22 @@
 			ORDER BY join_date
 		]]>
 	</select>
+
+	<!-- 소셜로그인을 한 기록이 있는지 체크 -->
+	<select id="checkSocial" resultType="String">
+		SELECT member_id
+		FROM   social
+		WHERE  providerkey  = #{id}
+		AND    providertype = #{type}
+	</select>
+
+	<select id="checkSeq" resultType="int">
+		SELECT SOCIAL_SEQ.NEXTVAL from dual
+	</select>
+
+	<!-- 소셜 테이블에 아이디 등록 -->
+	<insert id="insertSocial">
+		INSERT INTO social
+		VALUES(#{id}, #{userid}, #{type})
+	</insert>
 </mapper>

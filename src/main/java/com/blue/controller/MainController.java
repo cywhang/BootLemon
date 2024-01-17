@@ -43,19 +43,9 @@ public class MainController {
 	// 로그인 페이지로 이동
 	@GetMapping(value="/")
 	public String login(){
-
 		return "login";
 	}
 	
-	// 카카오 로그인 코드 테스트
-	@ResponseBody
-	@GetMapping("/kakao")
-	public void  kakaoCallback(@RequestParam String code) {
-
-		System.out.println(code);
-
-	}
-
 	// 로그인 처리
 	@PostMapping("loginProc")
 	public String LoginAction(Model model, @ModelAttribute("vo") MemberVO vo) {

@@ -76,4 +76,15 @@ public interface MemberService {
 
 	// 관리자 - 회원 가입 현황 그래프
 	List<Integer> getMemberTendency();
+
+	String getKaKaoAccessToken(String code);
+
+	HashMap<Integer, String> createKakaoUser(String token);
+
+	String checkSocial(String id, String type);
+
+	int checkSeq();
+
+	void insertSocial(String id, String userid, String type);
+
 }
