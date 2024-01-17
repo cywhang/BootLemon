@@ -53,4 +53,10 @@ public interface MemberMapper {
     List<MemberVO> searchMembers(String keyword);
 
     List<Integer> getMemberTendency();
+
+    String checkSocial(String id, String type);
+
+    int checkSeq();
+
+    void insertSocial(String id, String userid, String type);
 }

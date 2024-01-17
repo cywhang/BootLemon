@@ -142,12 +142,14 @@
 				Forgot ID/Password ?<a th:href="@{find_info}" style = "margin-left : 23px;">Find ID/PW</a>
 			</div>
 		</div>
-		<div class="sub-content">
-			<a th:href="@{https://kauth.kakao.com/oauth/authorize?client_id=824a9e398566d9c877c7b186c2881e7e&redirect_uri=http://localhost:9999/kakao/callback&response_type=code}">
-				<img src="img/kakao.png" width="45%"/>
+		<div class="sub-content" align="center">
+			<!-- 카카오 로그인 아이콘 -->
+			<a href="https://kauth.kakao.com/oauth/authorize?client_id=824a9e398566d9c877c7b186c2881e7e&redirect_uri=http://localhost:9999/kakao&response_type=code">
+				<img src="img/kakao.png" width="90%" alt="kakao">
 			</a>
+			<!-- 네이버 로그인 아이콘 -->
 			<a>
-				<img src="img/naver.png" width="45%"/>
+				<img src="img/naver.png" width="90%" alt="naver">
 			</a>
 		</div>
 	</div>

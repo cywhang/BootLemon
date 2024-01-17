@@ -3,12 +3,9 @@ package com.blue.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -445,4 +442,52 @@ public class MemberController {
 
 		return ResponseEntity.ok(responseData);
 	}
+
+	// 카카오 로그인 처리
+	@GetMapping("kakao")
+	public String kakaoCallback(@RequestParam String code, Model model) throws ParseException {
+
+		// 카카오 로그인 api에서 코드를 받아 token을 받아옴
+		String token = memberService.getKaKaoAccessToken(code);
+
+		// token을 가지고 회원정보를 HashMap에 담아옴
+		// 1. 고유 ID   2. 닉네임   3. 이메일 
+		HashMap<Integer, String> map = memberService.createKakaoUser(token);
+		String id = map.get(1);
+
+		// 고유 ID와 플랫폼타입(카카오 = 1) 전달
+		String member = memberService.checkSocial(id, "1");
+		// 1. 문자가 일치할때 = 페이지 이동
+		if(member != null){
+
+			model.addAttribute("loginUser", memberService.getMember(member));
+			return "redirect:index";
+
+		} else { // 2. 문자가 일치하지 않을때 회원가입 처리후 페이지 이동
+
+			// 시퀀스 값을 문자열로 변환하고, 앞에 0을 붙이는 코드
+			int seq = memberService.checkSeq();
+			String formatseq = String.format("%03d", seq);
+			// 프로젝트 이름과 결합
+			String userid = "kakaoLemon" + formatseq;
+
+			// Member 테이블에 저장
+			MemberVO vo = new MemberVO();
+			vo.setMember_Id(userid);
+			vo.setMember_Email(map.get(3));
+			vo.setMember_Name(map.get(2));
+			vo.setMember_Password("정보없음");
+			vo.setMember_Birthday("1111-11-11");
+			vo.setMember_Phone("정보없음");
+			vo.setMember_Gender("M");
+			vo.setMember_Profile_Image("default.png");
+
+			memberService.insertMember(vo);
+			// Social 테이블에 저장
+			memberService.insertSocial(id, userid, "1");
+
+			model.addAttribute("loginUser", memberService.getMember(member));
+			return "redirect:index";
+		}
+    }
 }
