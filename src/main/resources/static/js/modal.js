@@ -605,8 +605,9 @@ function insertReply(post_Seq){
 			var replies = response.replies;
 			var profileMap = response.profile;
 			var member_Id = response.member_Id; // 세션아이디
-			
-			// 2. 댓글 리스트를 그려주는 컨테이너 생성 
+			var reply_Content = response.reply_Content;
+
+			// 2. 댓글 리스트를 그려주는 컨테이너 생성
 			var replyListContainer = $('#replyListContainer');
 			replyListContainer.empty();  // 기존에 그렸던 댓글 리스트들을 비워내주는 작업
 			for (var i = 0; i < replies.length; i++) {
@@ -701,7 +702,7 @@ function insertReply(post_Seq){
 				        if (!result) {
 				          return false;
 				        } else {
-				          replyUpdate(post_Seq, reply_Seq);
+				          replyUpdate(post_Seq, reply_Seq, reply_Content);
 				        }
 				    });
 				  
@@ -762,6 +763,7 @@ function insertReply2(post_Seq){
 			var replies = response.replies;
 			var profileMap = response.profile;
 			var member_Id = response.member_Id; // 세션아이디
+			var reply_Content = response.reply_Content;
 			
 			// 2. 댓글 리스트를 그려주는 컨테이너 생성
 			var replyListContainer2 = $('#replyListContainer2');
@@ -857,7 +859,7 @@ function insertReply2(post_Seq){
 				        if (!result) {
 				          return false;
 				        } else {
-				          replyUpdate2(post_Seq, reply_Seq);
+				          replyUpdate2(post_Seq, reply_Seq, reply_Content);
 				        }
 				    });
 				  

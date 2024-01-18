@@ -366,8 +366,6 @@ public class PostAndLikeController {
 		alarmVO.setPost_Seq(post_Seq);
 		alarmVO.setReply_Seq(next_Reply_Seq);
 
-		System.out.println("qwer" + alarmVO.toString());
-
 		alarmService.insertAlarm(alarmVO);
 
 		// 4. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
@@ -398,6 +396,7 @@ public class PostAndLikeController {
 		dataMap.put("replies", replyList);
 		dataMap.put("profile", profileMap);
 		dataMap.put("member_Id", member_Id);
+		dataMap.put("reply_Content", reply_Content);
 
 		return dataMap;
 	}

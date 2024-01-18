@@ -81,6 +81,10 @@ public interface MemberService {
 
 	HashMap<Integer, String> createKakaoUser(String token);
 
+	String getNaverAccessToken(String code);
+
+	HashMap<Integer, String> createNaverUser(String token);
+
 	String checkSocial(String id, String type);
 
 	int checkSeq();
