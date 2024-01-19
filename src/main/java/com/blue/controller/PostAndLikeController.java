@@ -407,7 +407,7 @@ public class PostAndLikeController {
 
 		postService.deletePost(post_Seq);
 		// 1. 이미지 업로드 실제경로
-		String folderPath = "img/uploads/post/";
+		String folderPath = "D:/fileUpload/img/uploads/post/";
 		// 절대경로의 이미지 전체를 folder에 저장한다
 		File folder = new File(folderPath);
 		// folder의 파일들을 리스트화 시킨다.
@@ -451,13 +451,8 @@ public class PostAndLikeController {
 		// 해시태그 리스트
 		ArrayList<TagVO> hashlist = postService.getHashtagList(post_Seq);
 
-		// 이미지 경로
-		// 이미지 경로를 반드시 절대경로로 지정하지 않아도 이미지를 표시할 수 있다.
-		String folderPath = "img/uploads/post/";
-
 		dataMap.put("hashList", hashlist);
 		dataMap.put("post", postInfo);
-		dataMap.put("folderPath", folderPath);
 		return dataMap;
 	}
 
@@ -473,8 +468,7 @@ public class PostAndLikeController {
 		int deleteStrings = deletedStrings.length;
 
 		// 1. 이미지 업로드 실제경로
-		String folderPath = "img/uploads/post/";
-
+		String folderPath = "D:/fileUpload/img/uploads/post/";
 		int imgCount = attach_file.length;
 		vo.setPost_Image_Count(currentEditFileNo);
 
@@ -650,7 +644,7 @@ public class PostAndLikeController {
 				e.printStackTrace();
 			}
 		}
-		return "/index";
+		return "index";
 	}
 
 	@GetMapping("/search_HashTag")

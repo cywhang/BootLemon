@@ -37,8 +37,8 @@ function editVariable(neweditFileArr, neweditFileNo){
 	editFileNo = neweditFileNo;
 	editFilesArr = neweditFileArr;
 	
-	console.log("추가 업로드 이미지  정보 배열: ", neweditFileArr);
-	console.log("추가 업로드 이미지 length : ", neweditFileNo);
+	console.log("추가 업로드 이미지  정보 배열: ", editFilesArr);
+	console.log("추가 업로드 이미지 length : ", editFileNo);
 }
 
 // 기존이미지 현황을 유지하기 위한 전역변수 변경
@@ -395,7 +395,10 @@ function postEditAction(post_Seq){
     formData.append("alreadyFileNo", alreadyFileNo);
     // 현제 이미지 컨테이너에 올라온 이미지 개수
     formData.append("currentEditFileNo", currentEditFileNo);
-    
+
+	console.log("editFilesArr : ",editFilesArr);
+	console.log("editFilesArr.length : ", editFilesArr.length);
+
     // 삭제되지 않은 파일만 폼데이터에 담기 (Type = Multipart)
     for (var i = 0; i < editFilesArr.length; i++) {
         if (!editFilesArr[i].is_delete) {

@@ -917,7 +917,7 @@ function postEditView(post_Seq){
 			console.log(response);    // ajax요청으로 응답받은 값
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
-			var folderPath = response.folderPath;
+			var folderPath = "img/uploads/post/";
 			
 			
 		    var hashList = response.hashList; 
