@@ -2,10 +2,7 @@ package com.blue.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -458,19 +455,28 @@ public class PostAndLikeController {
 
 	// 게시글 수정 Action
 	@PostMapping("postEditAction")
-	public String postEditAction(PostVO vo, @RequestParam(value="editAttach_file", required = false) MultipartFile[] attach_file,
-								 @RequestParam(value = "deletedStrings", required = false) String[] deletedStrings,
-								 @RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
-								 @RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
-								 HttpSession session, int post_Seq) {
+	public String postEditAction(PostVO vo, @RequestParam(value = "editAttach_file", required = false) MultipartFile[] attach_file,
+								 			@RequestParam(value = "deletedStrings", required = false) String[] deletedStrings,
+								 			@RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
+								 			@RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
+								 			HttpSession session, int post_Seq) {
+
+
 
 		vo.setPost_Seq(post_Seq);
 		int deleteStrings = deletedStrings.length;
 
 		// 1. 이미지 업로드 실제경로
 		String folderPath = "D:/fileUpload/img/uploads/post/";
-		int imgCount = attach_file.length;
+		int imgCount = (attach_file != null) ? attach_file.length : 0;
 		vo.setPost_Image_Count(currentEditFileNo);
+
+		for (int i = 0; i < deletedStrings.length; i++) {
+			System.out.println(deletedStrings[i]);
+		}
+
+		System.out.println("alreadyFileNo: " + alreadyFileNo);
+		System.out.println("currentEditFileNo: " + currentEditFileNo);
 
 
 		if(imgCount == 0) { // 수정폼 제출시 이미지가 없을때
@@ -644,7 +650,8 @@ public class PostAndLikeController {
 				e.printStackTrace();
 			}
 		}
-		return "index";
+		//return "index";
+		return "redirect:index";
 	}
 
 	@GetMapping("/search_HashTag")

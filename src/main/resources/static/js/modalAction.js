@@ -374,9 +374,9 @@ $(function() {
           async: true,
           timeout: 30000,
           cache: false,
-          headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
+          headers: {'cache-control': 'no-store', 'pragma': 'no-cache', 'expires': '0'},
 		  success: function (response) {
-			  location.reload();
+			  window.location.href = 'index'
 		  }
       });
   }
@@ -395,6 +395,7 @@ function postEditAction(post_Seq){
     formData.append("alreadyFileNo", alreadyFileNo);
     // 현제 이미지 컨테이너에 올라온 이미지 개수
     formData.append("currentEditFileNo", currentEditFileNo);
+
 
 	console.log("editFilesArr : ",editFilesArr);
 	console.log("editFilesArr.length : ", editFilesArr.length);
@@ -417,9 +418,11 @@ function postEditAction(post_Seq){
         async: true,
         timeout: 30000,
         cache: false,
-        headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
+        headers: {'cache-control': 'no-store', 'pragma': 'no-cache', 'expires': '0'},
         success: function (response) {
-			location.reload();
+			console.log("ajax요청 성공")
+			debugger;
+			window.location.href = 'index'
         }
     });
 }

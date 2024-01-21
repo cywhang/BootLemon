@@ -1,9 +1,6 @@
 package com.blue.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.blue.dto.*;
 
@@ -161,6 +158,12 @@ public class MainController {
 			// 전체 회원 프로필 이미지 조회
 			HashMap<String, String> profilemap = memberService.getMemberProfile();
 
+			// 이미지 캐시 비우기 및 강력 새로고침을 대신하는 랜덤난수 생성
+			// src의 post_seq-1.png?랜덤난수
+			Random r = new Random();
+			int random = r.nextInt(1000);
+			System.out.println("이미지 캐시비우기 랜덤난수 : " + random);
+
 			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);
@@ -171,6 +174,7 @@ public class MainController {
 			model.addAttribute("hottestFeed", hottestFeed);
 			model.addAttribute("member_Id", member_Id);
 			model.addAttribute("hashMap", hashmap);
+			model.addAttribute("random", random);
 
 			return "index";
 		}

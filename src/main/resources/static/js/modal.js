@@ -16,302 +16,301 @@ function modalseq(post_Seq) {
 			console.log(response);    // ajax요청으로 응답받은 값
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
-		    var replies = response.replies; // 댓글 리스트
-		    var hashtag = response.hashtag; // 게시글 해시태그
-		    var profileMap = response.profile; // 전체 회원의 프로필 이미지
-		    var member_Id = response.member_Id; // 세션아이디
+			var replies = response.replies; // 댓글 리스트
+			var hashtag = response.hashtag; // 게시글 해시태그
+			var profileMap = response.profile; // 전체 회원의 프로필 이미지
+			var member_Id = response.member_Id; // 세션아이디
+			var randomnum = Math.round(Math.random() * 1000); // 이미지 캐시 새로고침을 위한 랜덤난수
 			
-		    // 1. 게시글 상세정보를 그려주는 컨테이너들
-		    // 1-1. 프로필 이미지를 그려주는 컨테이너
-		    var profileImgContainer = $('#profileImgContainer');
-		    profileImgContainer.empty();
-		    var image = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[post.member_Id]).addClass('img-fluid rounded-circle user-img').attr('alt', 'profile-img');
-		    var imgLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(image);
-		    $('#profileImgContainer').append(imgLink);
-		    
-		    
-		    // 1-2. 작성자 아이디를 그려주는 컨테이너
-		    var writerContainer = $('#writerContainer');
-		    writerContainer.empty();
-		    var h6Element = $('<h6>').addClass('fw-bold text-body mb-0').text(post.member_Id);
-		    var writerLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(h6Element);
-		    $('#writerContainer').append(writerLink);
-		    
-		    
-		    // 1-3. 작성자 아이디(small)를 그려주는 컨테이너
-		    var smallWriterContainer = $('#smallWriterContainer');
-		    smallWriterContainer.empty();
-		    var pElement = $('<p>').addClass('text-muted mb-0 small').text(post.member_Id);
-		    var smallWriterLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(pElement);
-		    $('#smallWriterContainer').append(smallWriterLink);
-		    
-		    
-		    // 1-4. 댓글수를 그려주는 컨테이너
-		    var replyContainer = $('#replyContainer');
-		    replyContainer.empty();
-		    var replycount = $('<div>').text(post.post_Reply_Count);
-		    $('#replyContainer').append(replycount);
-		    
-		    
-		    // 1-5. 좋아요 버튼과 좋아요 카운트를 그려주는 컨테이너
-		    var likeGroupDiv = $('#likeImage');
-		    likeGroupDiv.empty();
-		    
-		    var likebutton = $('<button>').attr('type', 'button').css({ border: 'none', 'background-color': 'white' })
-		    .on('click', function() {
-		    	toggleLike(post.post_Seq);
-		    });
-		    
-		    // 좋아요 여부 'n'
-		    if(post.post_LikeYN === 'N'){
-			    var likeimg = $('<img>')
-			    .attr({
-			      class: 'likeImage_' + post.post_Seq,
-			      src: 'img/like.png',
-			      width: '20px',
-			      height: '20px',
-			      'data-liked': 'false'
-			    });
-			// 좋아요 여부 'y'
-		    } else{ 
-		    	var likeimg = $('<img>')
-			    .attr({
-			      class: 'likeImage_' + post.post_Seq,
-			      src: 'img/unlike.png',
-			      width: '20px',
-			      height: '20px',
-			      'data-liked': 'true'
-			    });
-		    }
-		    
-		    var likeCount = $('<p>')
-		    .attr('class', 'post_Like_Count_' + post.post_Seq)
-		    .css({ display: 'inline', 'margin-left': '3px', 'font-size': '13px' })
-		    .text(post.post_Like_Count);
-		    
-		    
-		    likebutton.append(likeimg);
-		    $('#likeImage').append(likebutton, likeCount);
-		    
-		    
-		    
-		    
-		    // 1-6. 이미지 슬라이드를 적용할 컨테이너 생성
-		    // 이미지를 지정하는 컨테이너
-		    var sliderContainer = $('.image-slider .carousel-inner');
-		    sliderContainer.empty(); // 기존의 이미지 슬라이더 내용을 비웁니다.
-		    // 슬라이드의 인덱스 버튼을 지정하는 컨테이너
-		    var indexButton = $('.image-slider .carousel-indicators');
-		    indexButton.empty(); 
-		    // 슬라이드의 좌, 우 이동버튼을 지정하는 컨테이너
-		    var arrowButton = $('.image-slider .arrow-button');
-		    arrowButton.empty();
-		    
-		    
-		    // 이미지 슬라이더 아이템 생성 및 추가 
-		    // 하단의 인덱스버튼, 좌우 이동버튼 유무 고려
-		    // 이미지가 0개 일때는 댓글 리스트만 출력 (모달창2 출력)
-		    
-		    // 이미지가 1개일때
-		    if (post.post_Image_Count === 1){
-		    	 var image = $('<img>').attr('src', 'img/uploads/post/' + post.post_Seq + '-1.png').addClass('d-block w-100').attr('alt', '...');
-			      sliderContainer.append(image);
-		    // 이미지가 2 ~ 4개일때
-		    } else {
-		    	// 1. sliderContainer
-			    for (var i = 1; i <= post.post_Image_Count; i++) {
-			      var imageItem = $('<div>').addClass('carousel-item');
-			      if (i === 1) {
-			        imageItem.addClass('active');
-			      }
-			      var image = $('<img>').attr('src', 'img/uploads/post/' + post.post_Seq + '-' + i + '.png').addClass('d-block w-100').attr('alt', '...');
-			      imageItem.append(image);
-			      sliderContainer.append(imageItem);
-			    }
-	
-			    // 이미지 슬라이더 초기화
-			    var carousel = new bootstrap.Carousel($('#carouselExampleIndicators')[0]);
-			    
-			    // 2. indexButton
-			    for (var i = 0; i < post.post_Image_Count; i++) {
-		    	  var button = $('<button>')
-		    	    .attr('type', 'button')
-		    	    .attr('data-bs-target', '#carouselExampleIndicators')
-		    	    .attr('data-bs-slide-to', i)
-		    	    .attr('aria-label', 'Slide ' + (i + 1))
-		    	    .css('background-color', '#0a58ca'); // 스타일 변경 부분
+			// 1. 게시글 상세정보를 그려주는 컨테이너들
+			// 1-1. 프로필 이미지를 그려주는 컨테이너
+			var profileImgContainer = $('#profileImgContainer');
+			profileImgContainer.empty();
+			var image = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[post.member_Id]).addClass('img-fluid rounded-circle user-img').attr('alt', 'profile-img');
+			var imgLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(image);
+			$('#profileImgContainer').append(imgLink);
 
-		    	  if (i === 0) {
-		    	    button.addClass('active').attr('aria-current', 'true');
-		    	  }
 
-		    	  indexButton.append(button);
-		    	}
-			    
-			    // 3. arrowButton
-			    var arrowButtonContainer = $('.arrow-button');
-			    arrowButtonContainer.empty(); // 기존의 버튼 내용을 비웁니다.
+			// 1-2. 작성자 아이디를 그려주는 컨테이너
+			var writerContainer = $('#writerContainer');
+			writerContainer.empty();
+			var h6Element = $('<h6>').addClass('fw-bold text-body mb-0').text(post.member_Id);
+			var writerLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(h6Element);
+			$('#writerContainer').append(writerLink);
 
-			    var prevButton = $('<button>')
-			      .addClass('carousel-control-prev')
-			      .attr('type', 'button')
-			      .attr('data-bs-target', '#carouselExampleIndicators')
-			      .attr('data-bs-slide', 'prev');
 
-			    var prevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
-			    var prevText = $('<span>').addClass('visually-hidden').text('Previous');
+			// 1-3. 작성자 아이디(small)를 그려주는 컨테이너
+			var smallWriterContainer = $('#smallWriterContainer');
+			smallWriterContainer.empty();
+			var pElement = $('<p>').addClass('text-muted mb-0 small').text(post.member_Id);
+			var smallWriterLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(pElement);
+			$('#smallWriterContainer').append(smallWriterLink);
 
-			    prevButton.append(prevIcon, prevText);
-			    arrowButtonContainer.append(prevButton);
 
-			    var nextButton = $('<button>')
-			      .addClass('carousel-control-next')
-			      .attr('type', 'button')
-			      .attr('data-bs-target', '#carouselExampleIndicators')
-			      .attr('data-bs-slide', 'next');
+			// 1-4. 댓글수를 그려주는 컨테이너
+			var replyContainer = $('#replyContainer');
+			replyContainer.empty();
+			var replycount = $('<div>').text(post.post_Reply_Count);
+			$('#replyContainer').append(replycount);
 
-			    var nextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
-			    var nextText = $('<span>').addClass('visually-hidden').text('Next');
 
-			    nextButton.append(nextIcon, nextText);
-			    arrowButtonContainer.append(nextButton);
-			    
-		    }
-		    
-		    
-		    // 1-7. 게시글 내용 그려주는 컨테이너 
-		    var modalContent = $("#imgModalContent");
-		    modalContent.empty();
-		    
-		    var Content = $('<h5>').html(post.post_Content.replace(/\n/g, "<br>"));
-		    	
-		    modalContent.append(Content);   
-		    
-		    
-		    // 1-8. 게시글 해시태그 그려주는 컨테이너
-		    var modalHashtag = $("#imgModalHashtag");
-		    modalHashtag.empty();
+			// 1-5. 좋아요 버튼과 좋아요 카운트를 그려주는 컨테이너
+			var likeGroupDiv = $('#likeImage');
+			likeGroupDiv.empty();
 
-		    for (var i = 0; i < hashtag.length; i++) {
-		      var tagContent = '#' + hashtag[i].tag_Content; // '#' 문자와 tag_Content를 합친 문자열 생성
+			var likebutton = $('<button>').attr('type', 'button').css({border: 'none', 'background-color': 'white'})
+				.on('click', function () {
+					toggleLike(post.post_Seq);
+				});
 
-		      var hashtagElement = $('<span>').text(tagContent).css('color', 'blue'); // span 태그로 감싸고 파란색으로 스타일링
+			// 좋아요 여부 'n'
+			if (post.post_LikeYN === 'N') {
+				var likeimg = $('<img>')
+					.attr({
+						class: 'likeImage_' + post.post_Seq,
+						src: 'img/like.png',
+						width: '20px',
+						height: '20px',
+						'data-liked': 'false'
+					});
+				// 좋아요 여부 'y'
+			} else {
+				var likeimg = $('<img>')
+					.attr({
+						class: 'likeImage_' + post.post_Seq,
+						src: 'img/unlike.png',
+						width: '20px',
+						height: '20px',
+						'data-liked': 'true'
+					});
+			}
 
-		      modalHashtag.append(hashtagElement);
-		      
-		      // 띄어쓰기
-		      var nbsp = '&nbsp;';
-		      modalHashtag.append(nbsp);
+			var likeCount = $('<p>')
+				.attr('class', 'post_Like_Count_' + post.post_Seq)
+				.css({display: 'inline', 'margin-left': '3px', 'font-size': '13px'})
+				.text(post.post_Like_Count);
 
-		    }
-		    
-		    // 2. 댓글 리스트를 그려주는 컨테이너 생성
+
+			likebutton.append(likeimg);
+			$('#likeImage').append(likebutton, likeCount);
+
+
+			// 1-6. 이미지 슬라이드를 적용할 컨테이너 생성
+			// 이미지를 지정하는 컨테이너
+			var sliderContainer = $('.image-slider .carousel-inner');
+			sliderContainer.empty(); // 기존의 이미지 슬라이더 내용을 비웁니다.
+			// 슬라이드의 인덱스 버튼을 지정하는 컨테이너
+			var indexButton = $('.image-slider .carousel-indicators');
+			indexButton.empty();
+			// 슬라이드의 좌, 우 이동버튼을 지정하는 컨테이너
+			var arrowButton = $('.image-slider .arrow-button');
+			arrowButton.empty();
+
+
+			// 이미지 슬라이더 아이템 생성 및 추가
+			// 하단의 인덱스버튼, 좌우 이동버튼 유무 고려
+			// 이미지가 0개 일때는 댓글 리스트만 출력 (모달창2 출력)
+
+			// 이미지가 1개일때
+			if (post.post_Image_Count === 1) {
+				var image = $('<img>').attr('src', 'img/uploads/post/' + post.post_Seq + '-1.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
+				sliderContainer.append(image);
+				// 이미지가 2 ~ 4개일때
+			} else {
+				// 1. sliderContainer
+				for (var i = 1; i <= post.post_Image_Count; i++) {
+					var imageItem = $('<div>').addClass('carousel-item');
+					if (i === 1) {
+						imageItem.addClass('active');
+					}
+					var image = $('<img>').attr('src', 'img/uploads/post/' + post.post_Seq + '-' + i + '.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
+					imageItem.append(image);
+					sliderContainer.append(imageItem);
+				}
+
+				// 이미지 슬라이더 초기화
+				var carousel = new bootstrap.Carousel($('#carouselExampleIndicators')[0]);
+
+				// 2. indexButton
+				for (var i = 0; i < post.post_Image_Count; i++) {
+					var button = $('<button>')
+						.attr('type', 'button')
+						.attr('data-bs-target', '#carouselExampleIndicators')
+						.attr('data-bs-slide-to', i)
+						.attr('aria-label', 'Slide ' + (i + 1))
+						.css('background-color', '#0a58ca'); // 스타일 변경 부분
+
+					if (i === 0) {
+						button.addClass('active').attr('aria-current', 'true');
+					}
+
+					indexButton.append(button);
+				}
+
+				// 3. arrowButton
+				var arrowButtonContainer = $('.arrow-button');
+				arrowButtonContainer.empty(); // 기존의 버튼 내용을 비웁니다.
+
+				var prevButton = $('<button>')
+					.addClass('carousel-control-prev')
+					.attr('type', 'button')
+					.attr('data-bs-target', '#carouselExampleIndicators')
+					.attr('data-bs-slide', 'prev');
+
+				var prevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
+				var prevText = $('<span>').addClass('visually-hidden').text('Previous');
+
+				prevButton.append(prevIcon, prevText);
+				arrowButtonContainer.append(prevButton);
+
+				var nextButton = $('<button>')
+					.addClass('carousel-control-next')
+					.attr('type', 'button')
+					.attr('data-bs-target', '#carouselExampleIndicators')
+					.attr('data-bs-slide', 'next');
+
+				var nextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
+				var nextText = $('<span>').addClass('visually-hidden').text('Next');
+
+				nextButton.append(nextIcon, nextText);
+				arrowButtonContainer.append(nextButton);
+
+			}
+
+
+			// 1-7. 게시글 내용 그려주는 컨테이너
+			var modalContent = $("#imgModalContent");
+			modalContent.empty();
+
+			var Content = $('<h5>').html(post.post_Content.replace(/\n/g, "<br>"));
+
+			modalContent.append(Content);
+
+
+			// 1-8. 게시글 해시태그 그려주는 컨테이너
+			var modalHashtag = $("#imgModalHashtag");
+			modalHashtag.empty();
+
+			for (var i = 0; i < hashtag.length; i++) {
+				var tagContent = '#' + hashtag[i].tag_Content; // '#' 문자와 tag_Content를 합친 문자열 생성
+
+				var hashtagElement = $('<span>').text(tagContent).css('color', 'blue'); // span 태그로 감싸고 파란색으로 스타일링
+
+				modalHashtag.append(hashtagElement);
+
+				// 띄어쓰기
+				var nbsp = '&nbsp;';
+				modalHashtag.append(nbsp);
+
+			}
+
+			// 2. 댓글 리스트를 그려주는 컨테이너 생성
 			var replyListContainer = $('#replyListContainer');
 			replyListContainer.empty(); // 기존에 그렸던 댓글 리스트들을 비워내주는 작업
 			for (var i = 0; i < replies.length; i++) {
-			  var replyItem = $('<div>').addClass('d-flex mb-2');
-			  
-			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
-			  var imgLink = $('<a>').attr('href', 'profile?member_Id=' + replies[i].member_Id).css('text-decoration', 'none').append(profileImg);
-			  replyItem.append(imgLink);                         
-			  
-			  var replyContentWrapper = $('<div>').addClass('ms-2 small');
-			  
-			  var chatText = $('<div>').addClass('bg-light px-3 py-2 rounded-4 mb-1 chat-text');
-			  
-			  var memberName = $('<p>').addClass('fw-500 mb-0').text(replies[i].member_Id);
-			  var replyContent = $('<span>').addClass('text-muted').text(replies[i].reply_Content);
-			  
-			  chatText.append(memberName);
-			  chatText.append(replyContent);
-			  
-			  replyContentWrapper.append(chatText);
-			  
-			  // 댓글 좋아요 버튼, 좋아요 카운트, 댓글 작성일 
-			  let post_Seq = replies[i].post_Seq;
-			  let reply_Seq = replies[i].reply_Seq;
-			  
-			  let likeLink = $('<button>').attr('type', 'button').css({ border: 'none', 'background-color': 'white'})
-			  	.addClass('thumbs')
-			    .on('click', function() {
-			    	toggleReplyLike(post_Seq, reply_Seq);
-			    });
-			  
-			  if(replies[i].reply_LikeYN === 'N'){
-				  var replyLikeImage = $('<img>').attr({
-					  class: 'likeReplyImage_' + replies[i].reply_Seq,
-					  src: 'img/like.png',
-					  'data-liked': 'false'
+				var replyItem = $('<div>').addClass('d-flex mb-2');
+
+				var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+				var imgLink = $('<a>').attr('href', 'profile?member_Id=' + replies[i].member_Id).css('text-decoration', 'none').append(profileImg);
+				replyItem.append(imgLink);
+
+				var replyContentWrapper = $('<div>').addClass('ms-2 small');
+
+				var chatText = $('<div>').addClass('bg-light px-3 py-2 rounded-4 mb-1 chat-text');
+
+				var memberName = $('<p>').addClass('fw-500 mb-0').text(replies[i].member_Id);
+				var replyContent = $('<span>').addClass('text-muted').text(replies[i].reply_Content);
+
+				chatText.append(memberName);
+				chatText.append(replyContent);
+
+				replyContentWrapper.append(chatText);
+
+				// 댓글 좋아요 버튼, 좋아요 카운트, 댓글 작성일
+				let post_Seq = replies[i].post_Seq;
+				let reply_Seq = replies[i].reply_Seq;
+
+				let likeLink = $('<button>').attr('type', 'button').css({border: 'none', 'background-color': 'white'})
+					.addClass('thumbs')
+					.on('click', function () {
+						toggleReplyLike(post_Seq, reply_Seq);
 					});
-			  } else {
-				  var replyLikeImage = $('<img>').attr({
-					  class: 'likeReplyImage_' + replies[i].reply_Seq,
-					  src: 'img/unlike.png',
-					  'data-liked': 'true'
+
+				if (replies[i].reply_LikeYN === 'N') {
+					var replyLikeImage = $('<img>').attr({
+						class: 'likeReplyImage_' + replies[i].reply_Seq,
+						src: 'img/like.png',
+						'data-liked': 'false'
 					});
-			  }
-			  likeLink.append(replyLikeImage);
-			  replyContentWrapper.append(likeLink);
-			  
-			  // 띄어쓰기
-			  var nbsp = '&nbsp;';
-			  replyContentWrapper.append(nbsp);
-			  
-			  
-			  // 좋아요 카운트
-			  var p = $('<p>')
-				.attr('class', 'reply_Like_Count_' + replies[i].reply_Seq)
-				.css({ display: 'inline', 'margin-left': '1px', 'font-size': '10px' })
-				.text(replies[i].reply_Like_Count);
-			  replyContentWrapper.append(p);
-			  
-			  // 띄어쓰기
-			  replyContentWrapper.append(nbsp);	
-			  replyContentWrapper.append(nbsp);	
-			  replyContentWrapper.append(nbsp);	
-			  
-			  // 댓글 작성일
-			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
-			  
-			  replyContentWrapper.append(timestamp);
-			  
-			  replyContentWrapper.append(nbsp);
-			  
-			  if(replies[i].member_Id === member_Id){
-			  		// 댓글 삭제버튼
-				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
-				    .css('cursor', 'pointer')
-				    .on('click', function() {
-				    	var result = confirm("해당 댓글을 삭제하시겠습니까?");
-				        if (!result) {
-				          return false;
-				        } else {
-				          replyDelete(post_Seq, reply_Seq);
-				        }
-				    });
-				  
-				  // 띄어쓰기
-				  var nbsp = '&nbsp;';
-				  replyContentWrapper.append(nbsp);
-				  
-				  // 댓글 수정 버튼
-				  var updateButton = $('<img>').addClass('replyUpdate').attr('src', 'img/update.png')
-				    .css('cursor', 'pointer')
-				    .on('click', function() {
-				    	var result = confirm("해당 댓글을 수정하시겠습니까?");
-				        if (!result) {
-				          return false;
-				        } else {
-							replyeditView(post_Seq, reply_Seq);
-				        }
-				    });
-				  
-				  replyContentWrapper.append(updateButton);
-				  replyContentWrapper.append(deleteButton);
-			  }
-			  
-			  replyItem.append(replyContentWrapper);
-			  replyListContainer.append(replyItem);
+				} else {
+					var replyLikeImage = $('<img>').attr({
+						class: 'likeReplyImage_' + replies[i].reply_Seq,
+						src: 'img/unlike.png',
+						'data-liked': 'true'
+					});
+				}
+				likeLink.append(replyLikeImage);
+				replyContentWrapper.append(likeLink);
+
+				// 띄어쓰기
+				var nbsp = '&nbsp;';
+				replyContentWrapper.append(nbsp);
+
+
+				// 좋아요 카운트
+				var p = $('<p>')
+					.attr('class', 'reply_Like_Count_' + replies[i].reply_Seq)
+					.css({display: 'inline', 'margin-left': '1px', 'font-size': '10px'})
+					.text(replies[i].reply_Like_Count);
+				replyContentWrapper.append(p);
+
+				// 띄어쓰기
+				replyContentWrapper.append(nbsp);
+				replyContentWrapper.append(nbsp);
+				replyContentWrapper.append(nbsp);
+
+				// 댓글 작성일
+				var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
+
+				replyContentWrapper.append(timestamp);
+
+				replyContentWrapper.append(nbsp);
+
+				if (replies[i].member_Id === member_Id) {
+					// 댓글 삭제버튼
+					var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+						.css('cursor', 'pointer')
+						.on('click', function () {
+							var result = confirm("해당 댓글을 삭제하시겠습니까?");
+							if (!result) {
+								return false;
+							} else {
+								replyDelete(post_Seq, reply_Seq);
+							}
+						});
+
+					// 띄어쓰기
+					var nbsp = '&nbsp;';
+					replyContentWrapper.append(nbsp);
+
+					// 댓글 수정 버튼
+					var updateButton = $('<img>').addClass('replyUpdate').attr('src', 'img/update.png')
+						.css('cursor', 'pointer')
+						.on('click', function () {
+							var result = confirm("해당 댓글을 수정하시겠습니까?");
+							if (!result) {
+								return false;
+							} else {
+								replyeditView(post_Seq, reply_Seq);
+							}
+						});
+
+					replyContentWrapper.append(updateButton);
+					replyContentWrapper.append(deleteButton);
+				}
+
+				replyItem.append(replyContentWrapper);
+				replyListContainer.append(replyItem);
 			}
 			// 3. 댓글 작성 완료 버튼 컨테이너
 			var postButton = $('#postButton');
@@ -320,8 +319,8 @@ function modalseq(post_Seq) {
 			var timestamp = $('<button>').addClass('bg-white border-0 text-primary ps-2 text-decoration-none').text('Post').attr('onclick', 'insertReply(' + post.post_Seq + ')');
 			postButton.append(timestamp);
 		},
-		error : function(request,status,error){
-	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		error: function (request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"+request.responseText+"\n"+"error:"+error);
 		}
 	});
 }
@@ -349,7 +348,8 @@ function replyModalseq(post_Seq) {
 		    var hashtag = response.hashtag; // 해시태그 리스트
 		    var profileMap = response.profile; // 전체 회원의 프로필 이미지
 		    var member_Id = response.member_Id; // 세션아이디
-		   
+			var randomnum = Math.round(Math.random() * 1000); // 이미지 캐시 새로고침을 위한 랜덤난수
+
 		    // 1. 게시글 상세정보를 그려주는 컨테이너들
 		    // 1-1. 프로필 이미지를 그려주는 컨테이너
 		    var profileImgContainer = $('#profileImgContainer2');
@@ -918,8 +918,8 @@ function postEditView(post_Seq){
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
 			var folderPath = "img/uploads/post/";
-			
-			
+			var randomnum = Math.round(Math.random() * 1000); // 이미지 캐시 새로고침을 위한 랜덤난수
+
 		    var hashList = response.hashList; 
 		    var hashtags = hashList.map(function(tag) {
 	    	  return tag.tag_Content;
@@ -1021,7 +1021,7 @@ function postEditView(post_Seq){
 	
 				    // 이미지 미리보기 요소 생성
 				    var imagePreview = $('<li id="file' + i + '" class="editfilebox ui-state-default">' +
-				      '<img src="' + imageUrl + '" width="80" height="80">' +
+				      '<img src="' + imageUrl + '?' + randomnum + '" width="80" height="80">' +
 				      '<a class="delete" onclick="deleteAlreadyFile(' + i + ');">' +
 				      '<span class="delBtn">x</span>' +
 				      '</a>' +
