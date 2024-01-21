@@ -2,10 +2,7 @@ package com.blue.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -366,8 +363,6 @@ public class PostAndLikeController {
 		alarmVO.setPost_Seq(post_Seq);
 		alarmVO.setReply_Seq(next_Reply_Seq);
 
-		System.out.println("qwer" + alarmVO.toString());
-
 		alarmService.insertAlarm(alarmVO);
 
 		// 4. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
@@ -398,6 +393,7 @@ public class PostAndLikeController {
 		dataMap.put("replies", replyList);
 		dataMap.put("profile", profileMap);
 		dataMap.put("member_Id", member_Id);
+		dataMap.put("reply_Content", reply_Content);
 
 		return dataMap;
 	}
@@ -408,7 +404,7 @@ public class PostAndLikeController {
 
 		postService.deletePost(post_Seq);
 		// 1. 이미지 업로드 실제경로
-		String folderPath = "img/uploads/post/";
+		String folderPath = "D:/fileUpload/img/uploads/post/";
 		// 절대경로의 이미지 전체를 folder에 저장한다
 		File folder = new File(folderPath);
 		// folder의 파일들을 리스트화 시킨다.
@@ -452,32 +448,35 @@ public class PostAndLikeController {
 		// 해시태그 리스트
 		ArrayList<TagVO> hashlist = postService.getHashtagList(post_Seq);
 
-		// 이미지 경로
-		// 이미지 경로를 반드시 절대경로로 지정하지 않아도 이미지를 표시할 수 있다.
-		String folderPath = "img/uploads/post/";
-
 		dataMap.put("hashList", hashlist);
 		dataMap.put("post", postInfo);
-		dataMap.put("folderPath", folderPath);
 		return dataMap;
 	}
 
 	// 게시글 수정 Action
 	@PostMapping("postEditAction")
-	public String postEditAction(PostVO vo, @RequestParam(value="editAttach_file", required = false) MultipartFile[] attach_file,
-								 @RequestParam(value = "deletedStrings", required = false) String[] deletedStrings,
-								 @RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
-								 @RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
-								 HttpSession session, int post_Seq) {
+	public String postEditAction(PostVO vo, @RequestParam(value = "editAttach_file", required = false) MultipartFile[] attach_file,
+								 			@RequestParam(value = "deletedStrings", required = false) String[] deletedStrings,
+								 			@RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
+								 			@RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
+								 			HttpSession session, int post_Seq) {
+
+
 
 		vo.setPost_Seq(post_Seq);
 		int deleteStrings = deletedStrings.length;
 
 		// 1. 이미지 업로드 실제경로
-		String folderPath = "img/uploads/post/";
-
-		int imgCount = attach_file.length;
+		String folderPath = "D:/fileUpload/img/uploads/post/";
+		int imgCount = (attach_file != null) ? attach_file.length : 0;
 		vo.setPost_Image_Count(currentEditFileNo);
+
+		for (int i = 0; i < deletedStrings.length; i++) {
+			System.out.println(deletedStrings[i]);
+		}
+
+		System.out.println("alreadyFileNo: " + alreadyFileNo);
+		System.out.println("currentEditFileNo: " + currentEditFileNo);
 
 
 		if(imgCount == 0) { // 수정폼 제출시 이미지가 없을때
@@ -651,7 +650,8 @@ public class PostAndLikeController {
 				e.printStackTrace();
 			}
 		}
-		return "/index";
+		//return "index";
+		return "redirect:index";
 	}
 
 	@GetMapping("/search_HashTag")

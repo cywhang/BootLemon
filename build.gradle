@@ -37,6 +37,7 @@ dependencies {
 	/* Apache commons-io */
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'javax.mail:mail:1.4.7'
+	implementation 'commons-lang:commons-lang:2.1'
 
 	// json 데이터 변환
 	implementation'com.google.code.gson:gson:2.8.9'

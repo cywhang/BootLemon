@@ -134,10 +134,10 @@ public class MemberController {
 		return "login";
 	}
 
-	@GetMapping(value="/editProfile")
+	@GetMapping(value = "/editProfile")
 	public String editProfile(HttpSession session, Model model) {
 		System.out.println("editProfile 수행 시작");
-		if(session.getAttribute("loginUser") == null) {
+		if (session.getAttribute("loginUser") == null) {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {
@@ -150,17 +150,17 @@ public class MemberController {
 			int alarmListSize = alarmList.size();
 
 			// 알람의 종류를 파악하는 부분
-			for(int j=0; j<alarmList.size(); j++) {
+			for (int j = 0; j < alarmList.size(); j++) {
 				int kind = alarmList.get(j).getKind();
-				if(kind == 1) {
+				if (kind == 1) {
 					alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
-				} else if(kind == 2) {
+				} else if (kind == 2) {
 					alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
-				} else if(kind == 3) {
+				} else if (kind == 3) {
 					alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
-				} else if(kind == 4) {
+				} else if (kind == 4) {
 					alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
-				} else if(kind == 5) {
+				} else if (kind == 5) {
 					alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
 				}
 			}
@@ -268,7 +268,7 @@ public class MemberController {
 
 			// 1-2. 사용자가 업로드한 게시글 이미지들을 삭제
 			if (postFiles != null) {
-				for(int Seq : memSeq) {
+				for (int Seq : memSeq) {
 					for (File file : postFiles) {
 						String fileName = file.getPath().substring(file.getPath().lastIndexOf('\\') + 1);
 						String[] parts = fileName.split("-");
@@ -298,8 +298,6 @@ public class MemberController {
 			return "redirect:login";
 		}
 	}
-
-
 
 
 	// 아이디 찾기
@@ -333,7 +331,7 @@ public class MemberController {
 
 		// 아이디와 이메일로 조회 후 비밀번호 반환
 		String pwd = memberService.selectPwdByIdNameEmail(vo);
-		
+
 		// 비밀번호 존재할때 (아이디와 이메일이 일치할때)
 		if (pwd != null) {
 			// 인증번호 생성
@@ -404,7 +402,7 @@ public class MemberController {
 	// PEOPLE 탭 List 가져오기
 	@PostMapping("/moreSerachPeopleList")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> getSerachPeopleList(@RequestBody Map<String, String> requestbody, HttpSession session, Model model){
+	public ResponseEntity<Map<String, Object>> getSerachPeopleList(@RequestBody Map<String, String> requestbody, HttpSession session, Model model) {
 
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
@@ -418,19 +416,19 @@ public class MemberController {
 
 		int totalPageNum = 0;
 
-		if(searchFollowSize % 5 != 0 && searchFollowSize > 5) {
+		if (searchFollowSize % 5 != 0 && searchFollowSize > 5) {
 			totalPageNum = searchFollowSize / 5 + 1;
-		} else if(searchFollowSize % 5 != 0 && searchFollowSize < 5) {
+		} else if (searchFollowSize % 5 != 0 && searchFollowSize < 5) {
 			totalPageNum = 0;
-		} else if(searchFollowSize % 5 == 0) {
+		} else if (searchFollowSize % 5 == 0) {
 			totalPageNum = searchFollowSize / 5;
 		}
 
 		List<MemberVO> myFollowing = memberService.getFollowings(member_Id);
 
-		for(int i=0; i<myFollowing.size(); i++) {
-			for(int j=0; j<searchFollow.size(); j++) {
-				if(myFollowing.get(i).getMember_Id().equals(searchFollow.get(j).getMember_Id())) {
+		for (int i = 0; i < myFollowing.size(); i++) {
+			for (int j = 0; j < searchFollow.size(); j++) {
+				if (myFollowing.get(i).getMember_Id().equals(searchFollow.get(j).getMember_Id())) {
 					searchFollow.get(j).setBothFollow(1);
 				}
 			}
@@ -454,11 +452,12 @@ public class MemberController {
 		// 1. 고유 ID   2. 닉네임   3. 이메일 
 		HashMap<Integer, String> map = memberService.createKakaoUser(token);
 		String id = map.get(1);
-
+		System.out.println("id : " + id);
 		// 고유 ID와 플랫폼타입(카카오 = 1) 전달
 		String member = memberService.checkSocial(id, "1");
+		System.out.println("member : " + member);
 		// 1. 문자가 일치할때 = 페이지 이동
-		if(member != null){
+		if (member != null) {
 
 			model.addAttribute("loginUser", memberService.getMember(member));
 			return "redirect:index";
@@ -469,16 +468,16 @@ public class MemberController {
 			int seq = memberService.checkSeq();
 			String formatseq = String.format("%03d", seq);
 			// 프로젝트 이름과 결합
-			String userid = "kakaoLemon" + formatseq;
+			String userid = "Lemon" + formatseq;
 
 			// Member 테이블에 저장
 			MemberVO vo = new MemberVO();
 			vo.setMember_Id(userid);
 			vo.setMember_Email(map.get(3));
 			vo.setMember_Name(map.get(2));
-			vo.setMember_Password("정보없음");
+			vo.setMember_Password("1234");
 			vo.setMember_Birthday("1111-11-11");
-			vo.setMember_Phone("정보없음");
+			vo.setMember_Phone("1234");
 			vo.setMember_Gender("M");
 			vo.setMember_Profile_Image("default.png");
 
@@ -486,8 +485,54 @@ public class MemberController {
 			// Social 테이블에 저장
 			memberService.insertSocial(id, userid, "1");
 
-			model.addAttribute("loginUser", memberService.getMember(member));
+			model.addAttribute("loginUser", memberService.getMember(userid));
 			return "redirect:index";
 		}
-    }
+	}
+
+	// 카카오 로그인 처리
+	@GetMapping("naver")
+	public String naverCallback(@RequestParam String code, Model model) throws ParseException {
+
+		String token = memberService.getNaverAccessToken(code);
+		System.out.println(token);
+		HashMap<Integer, String> map = memberService.createNaverUser(token);
+		String id = map.get(1);
+
+		// 고유 ID와 플랫폼타입 (네이버 = 2) 전달
+		String member = memberService.checkSocial(id, "2");
+		// 1. 문자가 일치할때 = 페이지 이동
+		if (member != null) {
+			System.out.println("로그인 이력이 있을때");
+			model.addAttribute("loginUser", memberService.getMember(member));
+			return "redirect:index";
+
+		} else { // 2. 문자가 일치하지 않을때 회원가입 처리후 페이지 이동
+
+			System.out.println("로그인 이력이 없을때");
+			// 시퀀스 값을 문자열로 변환하고, 앞에 0을 붙이는 코드
+			int seq = memberService.checkSeq();
+			String formatseq = String.format("%03d", seq);
+			// 프로젝트 이름과 결합
+			String userid = "Lemon" + formatseq;
+
+			// Member 테이블에 저장
+			MemberVO vo = new MemberVO();
+			vo.setMember_Id(userid);
+			vo.setMember_Email(map.get(3));
+			vo.setMember_Name(map.get(2));
+			vo.setMember_Password("1234");
+			vo.setMember_Birthday("1111-11-11");
+			vo.setMember_Phone("1234");
+			vo.setMember_Gender("M");
+			vo.setMember_Profile_Image("default.png");
+
+			memberService.insertMember(vo);
+			// Social 테이블에 저장
+			memberService.insertSocial(id, userid, "2");
+
+			model.addAttribute("loginUser", memberService.getMember(userid));
+			return "redirect:index";
+		}
+	}
 }
