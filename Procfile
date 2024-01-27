@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/*.war
+web: java -Dfile.encoding=UTF-8 -jar BlueLemon.jar
