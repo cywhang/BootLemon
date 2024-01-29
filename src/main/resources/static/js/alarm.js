@@ -49,8 +49,6 @@ function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
 // kind가 2, 3, 4 일때 실행되는 스크립트 (게시글 하나만 출력)
 function alarmPostView(post_Seq) {
 	
-	console.log("알림 포스트 생성 실행");
-	
 	var data = {
 			post_Seq: post_Seq
 	};
@@ -64,7 +62,6 @@ $.ajax({
 
    success: function (response) {
 	   
-	   console.log("실행중")
 
  	   var PostVO = response.postVO;
        var reply = response.replylist;
@@ -186,7 +183,6 @@ $.ajax({
                html += '														</button>';
                html += '														<p class="reply_Like_Count_' + replyVO.reply_Seq + '" style="display: inline; margin-left: 1px; font-size: 10px;">' + replyVO.reply_Like_Count + '</p>';
            }else{
-        	   console.log("YN : "+replyVO.reply_LikeYN);
                html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
                html += '														<img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/like.png" data-liked="false">';
                html += '														</button>';

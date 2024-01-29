@@ -11,13 +11,10 @@ function searchMembers(results) {
     data: { keyword: searchKeyword }, // 검색 키워드를 서버에 전달
     success: function(searchResults) {
     	$.each(searchResults, function(index, item){
-    		console.log("item=", item.member_Id);
         });
-    	
         displayResults(searchResults); // 검색 결과를 출력하는 함수 호출
     },
     error: function() {
-      console.log('Error occurred during search.');
     }
   });
 }
@@ -25,8 +22,6 @@ function searchMembers(results) {
 function displayResults(results) {
   var searchResultsElement = document.getElementById('searchResults');
   searchResultsElement.innerHTML = '';
-  console.log("displayResults()...");
-  console.log("results=", results);
   if (results != null) {
     var ul = document.createElement('ul');
     

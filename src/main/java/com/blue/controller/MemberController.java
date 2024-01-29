@@ -107,7 +107,7 @@ public class MemberController {
 							 @RequestParam(value = "email_add") String email_add, HttpSession session) {
 		if (!profilePhoto.isEmpty()) {
 			// 프로필 사진을 저장할 경로를 결정합니다.
-			String image_Path = "D:/fileUpload/img/uploads/profile/";
+			String image_Path = "home/ubuntu/fileUpload/img/uploads/profile/";
 			// 저장할 파일명을 생성합니다. 파일명에는 member_Id와 확장자명을 포함합니다.
 			String fileName = vo.getMember_Id() + ".png";
 			// 파일을 지정된 경로에 저장합니다.
@@ -192,14 +192,14 @@ public class MemberController {
 		if (!profilePhoto.isEmpty()) {
 
 			// 기존 프로필 사진을 삭제합니다.
-			String existingImagePath = ("D:/fileUpload/img/uploads/profile/")
+			String existingImagePath = ("home/ubuntu/fileUpload/img/uploads/profile/")
 					+ vo.getMember_Profile_Image();
 			File existingImage = new File(existingImagePath);
 			if (existingImage.exists()) {
 				existingImage.delete();
 			}
 
-			String imagePath = "D:/fileUpload/img/uploads/profile/";
+			String imagePath = "home/ubuntu/fileUpload/img/uploads/profile/";
 			String fileName = vo.getMember_Id() + ".png";
 			try {
 				profilePhoto.transferTo(new File(imagePath + fileName));
@@ -246,7 +246,7 @@ public class MemberController {
 		String voPass = vo.getMember_Password();
 
 		// 1. 게시글 이미지 삭제를 위한 경로
-		String postFolderPath = "D:/fileUpload/img/uploads/post/";
+		String postFolderPath = "home/ubuntu/fileUpload/img/uploads/post/";
 		File postFolder = new File(postFolderPath);
 		File[] postFiles = postFolder.listFiles();
 
@@ -254,7 +254,7 @@ public class MemberController {
 		List<Integer> memSeq = postService.seqForUser(loginUser.getMember_Id());
 
 		// 2. 프로필 이미지 삭제를 위한 경로
-		String profileFolderPath = "D:/fileUpload/img/uploads/profile/";
+		String profileFolderPath = "home/ubuntu/fileUpload/img/uploads/profile/";
 		File profileFolder = new File(profileFolderPath);
 		File[] profileFiles = profileFolder.listFiles();
 

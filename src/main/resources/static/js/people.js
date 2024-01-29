@@ -45,10 +45,8 @@ function people_List() {
                                 </div>
                             </div>
                         </a>`;
-                    console.log('카드 엘리먼츠 생성완료');
                     // 컨테이너에 카드 추가
                     cardsContainer.appendChild(card);
-                    console.log('카드 엘리먼츠 추가 완료');
                 }
             } else {
                 var cardsContainer = document.getElementById("canFollowPeople-cards-container");

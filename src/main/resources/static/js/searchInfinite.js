@@ -31,8 +31,7 @@ var pageNum = 0;
 
 //뷰포트 내에 들어올 경우 실행할 함수
 function handleFeedInfinity(hashTag) {
-	console.log("무한 로딩이 뷰포트 내에 들어왔습니다!");
-	
+
 	pageNum = pageNum+1;
 	
 	var data = {
@@ -70,14 +69,7 @@ function handleFeedInfinity(hashTag) {
 		
 		         for (var i = firstRow; i <= lastRow; i++) {
 		
-		       	  console.log("for문 i : " + i);
-		             console.log("lastrow : " + lastRow);
-		             console.log("postList.length : " + trending_postList.length);
-		
-		
 		       	  if(i == trending_postList.length){
-		
-		           	  console.log("마지막 행 실행중");
 		
 		           	  var loadingStop = document.getElementById("SearchLoadingStop");
 		
@@ -99,8 +91,6 @@ function handleFeedInfinity(hashTag) {
 		             }
 		
 		       	  var PostVO = trending_postList[i];
-		
-		             console.log("아이디 : " + PostVO.member_Id + " + 글 시퀀스 : " + PostVO.post_Seq);
 		
 		             html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';
 		             html += '   <div class="d-flex">';

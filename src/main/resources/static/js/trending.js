@@ -2,7 +2,6 @@
 
 // PEOPLE 탭의 사람들 목록을 가져와서 동적으로 표시하는 함수
 function trending_List() {
-    console.log("[Trending 탭 - 2] people_List url 요청함");
 
     $.ajax({
         url: "trending_List",
@@ -27,8 +26,6 @@ function trending_List() {
                     
                     if(i == (trending_postList.length) && trending_postList.length <= 10){
                     	
-                    	console.log("마지막 행 실행중");
-                    	  
                     	  var loadingStop = document.getElementById("trendingFeedStop");
                     	  
                     	  // 컨테이너 초기화
@@ -47,8 +44,6 @@ function trending_List() {
                     
                     var PostVO = trending_postList[i];
                     
-                    console.log("아이디 : " + PostVO.member_Id + " + 글 시퀀스 : " + PostVO.post_Seq);
-
                     html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';
                     html += '   <div class="d-flex">';
                     html += '      <img src="img/uploads/profile/'+ trending_profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';

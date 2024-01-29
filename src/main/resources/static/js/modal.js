@@ -12,8 +12,6 @@ function modalseq(post_Seq) {
 		data : data, // post_Seq를 보냄
 		
 		success : function(response) {
-			console.log("ajax응답 성공");
-			console.log(response);    // ajax요청으로 응답받은 값
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
 			var replies = response.replies; // 댓글 리스트
@@ -339,9 +337,7 @@ function replyModalseq(post_Seq) {
 		data : data, // post_Seq를 보냄
 		
 		success : function(response) {
-			console.log("ajax응답 성공");
-			console.log(response);    // ajax요청으로 응답받은 값
-			
+
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
 		    var replies = response.replies; // 댓글 리스트
@@ -392,7 +388,6 @@ function replyModalseq(post_Seq) {
 		    	toggleLike(post.post_Seq);
 		    });
 		    
-		    console.log("LikeYN: " + post.post_LikeYN);
 		    // 좋아요 여부 'n'
 			if(post.post_LikeYN === 'N'){
 			    var likeimg = $('<img>')
@@ -599,7 +594,6 @@ function insertReply(post_Seq){
 		
 		/* 댓글 작성 완료 후 모달창의 댓글 리스트 다시 그려주기  */
 		success : function(response) {
-			console.log("인서트 ajax응답 성공");
 			// 1. 컨트롤러에서 넘겨받은 댓글 리스트(replylist) 꺼내기
 			var post = response.postInfo;
 			var replies = response.replies;
@@ -757,7 +751,6 @@ function insertReply2(post_Seq){
 		
 		/* 댓글 작성 완료 후 모달창의 댓글 리스트 다시 그려주기  */
 		success : function(response) {
-			console.log("인서트2 ajax응답 성공");
 			// 1. 컨트롤러에서 넘겨받은 댓글 리스트(replylist) 꺼내기
 			var post = response.postInfo;
 			var replies = response.replies;
@@ -905,7 +898,6 @@ function postEditView(post_Seq){
 	var data = {
 		post_Seq : post_Seq
 	};
-	console.log("postEditView의 post_Seq : ",data);
 	$.ajax({
 		url : "postEditView",
 		type : "GET",
@@ -913,8 +905,6 @@ function postEditView(post_Seq){
 		data : data, // post_Seq를 보냄
 		
 		success : function(response) {
-			console.log("ajax응답 성공");
-			console.log(response);    // ajax요청으로 응답받은 값
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
 			var folderPath = "img/uploads/post/";
@@ -996,8 +986,7 @@ function postEditView(post_Seq){
 			  var editFileNo = 0;   // 숫자 값으로 사용하기 위한 초기화
 			  
 			  var ImageCount = post.post_Image_Count;
-			  console.log("해당 게시글의 이미지 카운트: ",ImageCount);
-			  
+
 			  if(ImageCount > 0){ // 해당 게시글에 이미지가 업로드 되어있을 경우
 				  var imageUrls = [];
 				  for(var i=1; i < ImageCount+1; i++){

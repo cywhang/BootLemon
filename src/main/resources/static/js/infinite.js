@@ -64,8 +64,6 @@ function followingload(followingTotalPageNum, followingPageNum, member_Id){
 	         var loadButtonHTML = '';
 	         
 	         if (followingPageNum >= followingTotalPageNum) {
-	            console.log(followingPageNum);
-	            console.log(followingTotalPageNum);
 	           loadButtonHTML = '';
 	         } else {
 	           loadButtonHTML = '<div class="ms-auto" align="center">';
@@ -96,17 +94,13 @@ function followerload(followerTotalPageNum, followerPageNum, member_Id) {
 
        success: function (response) {
          
-        console.log(response);
-        
-     // 데이터 맵에서 값 가져오기
+        // 데이터 맵에서 값 가져오기
          var follower_info = response.follower_info;
          var follower_size = response.follower_size;
          var followerPageNum = response.followerPageNum;
          var followerTotalPageNum = response.followerTotalPageNum;
          var following_Id = response.following_Id;
          var following_size = response.following_size;
-         
-         console.log(followerPageNum);
          
          // HTML 생성을 위한 변수
          var html = '';
@@ -156,8 +150,6 @@ function followerload(followerTotalPageNum, followerPageNum, member_Id) {
          var loadButtonHTML = '';
          
          if (followerPageNum >= followerTotalPageNum) {
-            console.log(followerPageNum);
-            console.log(followerTotalPageNum);
            loadButtonHTML = '';
          } else {
            loadButtonHTML = '<div class="ms-auto" align="center">';
@@ -201,13 +193,8 @@ var pageNum = 0;
 
 //뷰포트 내에 들어올 경우 실행할 함수
 function handleFeedInfinity() {
-console.log("무한 로딩이 뷰포트 내에 들어왔습니다!");
-
-console.log(pageNum);
 
 pageNum = pageNum+1;
-
-console.log(pageNum);
 
 $.ajax({
    url: "feedInfinite",
@@ -215,6 +202,7 @@ $.ajax({
    dataType: "json", // 데이터 형식을 JSON으로 지정
    success: function(response) {
 
+       console.log("infinite scroll");
        var trending_profileMap = response.profileMap;
        var trending_postList = response.postList;
        var trending_replyMap = response.replyMap;
@@ -236,14 +224,8 @@ $.ajax({
 
            for (var i = firstRow; i <= lastRow; i++) {
 
-              console.log("for문 i : " + i);
-               console.log("lastrow : " + lastRow);
-               console.log("postList.length : " + trending_postList.length);
-
 
               if(i == trending_postList.length){
-
-                  console.log("마지막 행 실행중");
 
                   var loadingStop = document.getElementById("loadingStop");
 
@@ -261,8 +243,6 @@ $.ajax({
                }
 
               var PostVO = trending_postList[i];
-
-               console.log("아이디 : " + PostVO.member_Id + " + 글 시퀀스 : " + PostVO.post_Seq);
 
                html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';
                html += '   <div class="d-flex">';
@@ -450,12 +430,7 @@ $.ajax({
 //뷰포트 내에 들어올 경우 실행할 함수
 function handleTrendInfinity() {
 
-console.log("트랜드 페이지 넘버 포스트 출력 전 : " + trendpageNum);
-
 trendpageNum = trendpageNum+1;
-
-console.log("트랜드 페이지 넘버 포스트 출력 후 : " + trendpageNum);
-
 
 
 $.ajax({
@@ -485,14 +460,7 @@ $.ajax({
             
             for (var i = firstRow; i <= lastRow; i++) {
           	  
-          	  console.log("for문 i : " + i);
-                console.log("lastrow : " + lastRow);
-                console.log("postList.length : " + trending_postList.length);
-          	  
-          	  
           	  if(i == trending_postList.length){
-              	  
-              	  console.log("마지막 행 실행중");
               	  
               	  var loadingStop = document.getElementById("trendingFeedStop");
               	  
@@ -511,8 +479,6 @@ $.ajax({
           	  
           	  var PostVO = trending_postList[i];
           	  
-                console.log("아이디 : " + PostVO.member_Id + " + 글 시퀀스 : " + PostVO.post_Seq);
-
                 html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';
                 html += '   <div class="d-flex">';
                 html += '      <img src="img/uploads/profile/'+ trending_profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';
