@@ -238,9 +238,7 @@
 															</div>
 															<!-- 댓글 출력 부분 -->
 															<div class="comments">
-																<th:block th:with="key=${status.index}"></th:block>
-																<th:block th:with="value=${replyMap[key]}"></th:block>
-																<th:block th:each="reply, r : ${value}" th:if="${r.index} < 3">
+																<th:block th:each="reply, i : ${replyMap[status.index]}" th:if="${i.index} < 3">
 																	<div class="d-flex mb-2">
 																		<!-- 댓글 작성자 프로필 이미지 출력부분 -->
 																		<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
@@ -249,23 +247,24 @@
 																		<div class="ms-2 small">
 																			<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
 																				<div class="bg-light px-3 py-2 rounded-4 mb-1 chat-text" style="display: inline-block;">
-																					<p class="fw-500 mb-0" th:inline="text">[[${reply.member_Id}]]</p>
-																					<span class="text-muted" th:inline="text">[[${reply.reply_Content}]]</span>
+																					<p class="fw-500 mb-0" th:text="${reply.member_Id}"></p>
+																					<span class="text-muted" th:text="${reply.reply_Content}"></span>
 																				</div>
 																			</a>
 																			<div class="reply-like-group" role="group" style="display: inline-block;">
-																				<th:block th:with="replySeq=${reply.reply_Seq}"></th:block>
+																				<th:block th:with="replySeq=${reply.reply_Seq}">
 																				<script th:inline="javascript">
 																					var reply_Seq = [[${replySeq}]]
 																				</script>
-																				<th:block th:if="${reply.reply_LikeYN == 'N'}">
+																				</th:block>
+																				<th:block th:if="${reply.reply_LikeYN eq 'N'}">
 																					<!-- th:attr="onclick=|toggleReplyLike(${reply.post_Seq}, ${reply.reply_Seq})|"     안될시 이걸로 교체-->
 																					<button type="button" style = "border : none; background-color : white;" th:onclick="'toggleReplyLike(' + ${reply.post_Seq} + ',' + ${reply.reply_Seq} + ')'">
 																						<img th:class="'likeReplyImage_' + ${reply.reply_Seq}" src="img/like.png" data-liked = "false">
 																					</button>
 																					<p th:class="'reply_Like_Count_' + ${reply.reply_Seq}" style="display: inline; margin-left: 1px; font-size : 10px;" th:inline="text">[[${reply.reply_Like_Count}]]</p>
 																				</th:block>
-																				<th:block th:unless="${reply.reply_LikeYN == 'N'}">
+																				<th:block th:unless="${reply.reply_LikeYN eq 'N'}">
 																					<button type="button" style = "border : none; background-color : white;" th:onclick="'toggleReplyLike(' + ${reply.post_Seq} ', ' + ${reply.reply_Seq} + ')'">
 																						<img th:class="'likeReplyImage_' + ${reply.reply_Seq}" src="img/unlike.png" data-liked = "true">
 																					</button>

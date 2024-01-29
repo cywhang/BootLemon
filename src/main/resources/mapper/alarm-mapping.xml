@@ -4,7 +4,7 @@
 	
 	<insert id = "insertAlarm">
 		INSERT INTO alarm(alarm_Seq, kind, from_mem, to_mem, post_seq, reply_seq)
-		VALUES(alarm_Seq.nextVal, #{kind}, #{from_Mem}, #{to_Mem}, #{post_Seq}, #{reply_Seq})
+		VALUES(NEXTVAL('alarm_Seq'), #{kind}, #{from_Mem}, #{to_Mem}, #{post_Seq}, #{reply_Seq})
 	</insert>
 	
 	<select id = "selectAlarm" resultType="alarm">
@@ -14,7 +14,7 @@
 	</select>
 
 	<select id = "getOneAlarm_Seq" resultType="String">
-		SELECT NVL(alarm_Seq, 0)
+		SELECT COALESCE(alarm_Seq, '0')
 		FROM alarm
 		WHERE kind = #{kind}
 		  AND from_mem = #{from_Mem}

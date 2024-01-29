@@ -870,7 +870,7 @@ public class PostAndLikeController {
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
 		// 1. 게시글 상세정보
-		PostVO postVO = postService.selectPostDetail(post_Seq);
+		PostVO postVO = postService.getpostDetail(post_Seq);
 		// 1-1. 게시글 좋아요 상태 set
 		PostVO voForLikeYN = new PostVO();
 		voForLikeYN.setMember_Id(member_Id);
@@ -880,6 +880,7 @@ public class PostAndLikeController {
 
 		// 2. 댓글 3개 만
 		ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
+
 		// 2-1. 댓글 좋아요 상태 set
 		for(int k = 0; k < replylist.size(); k++) {
 			String realReply_Member_Id = replylist.get(k).getMember_Id();
