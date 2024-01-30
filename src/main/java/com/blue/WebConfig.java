@@ -9,6 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("file:///home/ubuntu/fileUpload/img/");
+                // 로컬에서 지정하는 파일 경로
                 //.addResourceLocations("file:///d:/fileUpload/img/");
     }
 }
