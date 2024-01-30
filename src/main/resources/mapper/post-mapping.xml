@@ -46,10 +46,10 @@
                           INNER JOIN ( SELECT post_seq, count(*) post_Like_Count
                                        FROM likes
                                        WHERE  reply_seq = 0
-                                       GROUP BY post_seq)
+                                       GROUP BY post_seq) as ll
                                      USING (post_seq)
         WHERE post_public = 'y'
-        ORDER BY post_Like_Count DESC
+        ORDER BY ll.post_Like_Count DESC
     </select>
 
     <!-- 게시글 등록 -->
