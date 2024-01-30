@@ -49,8 +49,8 @@
 	<insert id = "insertMember">
 		INSERT INTO member 
 		VALUES (#{member_Id},#{member_Name}, #{member_Email}, #{member_Password}, 
-				#{member_Phone}, sysdate, to_Date(#{member_Birthday}, 'yyyy-mm-dd'), #{member_Gender}, 
-			 	#{member_Profile_Image}, #{member_Country,jdbcType=VARCHAR},
+				#{member_Phone}, CURRENT_DATE, TO_DATE(#{member_Birthday}, 'yyyy-mm-dd'), #{member_Gender},
+			 	#{member_Profile_Image}, #{member_Country, jdbcType=VARCHAR},
 			 	#{member_Mbti, jdbcType=CHAR})
 	</insert>
 	
@@ -60,23 +60,15 @@
 		SET member_Email = #{member_Email},
 			member_Password = #{member_Password},
 			member_Phone = #{member_Phone},
-			member_Profile_Image = #{member_Profile_Image},
+			<if test="member_Profile_Image != null">
+				member_Profile_Image = #{member_Profile_Image},
+			</if>
 			member_Country = #{member_Country},
 			member_Mbti = #{member_Mbti}
 		WHERE member_Id = #{member_Id}
 	</update>
 	
-	<!-- 회원 정보 수정(사진수정이 없을시) : updateMember -->
-	<update id="memberUpdate2">
-		UPDATE member
-		SET member_Email = #{member_Email},
-			member_Password = #{member_Password},
-			member_Phone = #{member_Phone},
-			member_Country = #{member_Country},
-			member_Mbti = #{member_Mbti}
-		WHERE member_Id = #{member_Id}
-	</update>	
-	
+
 	<!-- 로그인시 아이디와 비밀번호 확인 -->
 	<select id="loginUser" resultType="member">
 		SELECT *
@@ -87,7 +79,7 @@
 	
 	<!-- 아이디 찾기 -->
 	<select id="searchId" resultType="String">
-		SELECT NVL(member_Id, 0)
+		SELECT COALESCE(member_Id, '0')
 		FROM member
 		WHERE member_Name = #{member_Name}
 		  AND member_Phone = #{member_Phone}
@@ -162,7 +154,7 @@
 			        FROM follow
 			        GROUP BY following
 			    )
-			    WHERE row_num <= 5
+			    LIMIT 5
 			) a
 			LEFT OUTER JOIN member b
 			ON a.following = b.member_Id
@@ -199,16 +191,17 @@
 	<select id="searchMembers" resultType="member">
 		SELECT *
 		FROM member
-		WHERE member_Id LIKE #{keyword}||'%'
+		WHERE member_Id LIKE CONCAT(#{keyword}, '%')
 	</select>
-	
+
+
 	<!-- 관리자 페이지 회원수 그래프 -->
+	<!--
 	<select id = "getMemberTendency" resultType = "Integer">
 		<![CDATA[
-			WITH date_range AS (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS join_date
-								FROM dual
+			WITH date_range AS (SELECT TRUNC(CURRENT_DATE) - LEVEL + 1 AS join_date
 								CONNECT BY LEVEL <= 10)
-			SELECT NVL(memCount, 0)
+			SELECT COALESCE(memCount, '0')
 			FROM date_range
 			LEFT OUTER JOIN (SELECT TRUNC(member_Join_Date) member_Join_Date, Count(*) memCount
 			                 FROM member
@@ -217,6 +210,25 @@
 			ORDER BY join_date
 		]]>
 	</select>
+	-->
+	<select id="getMemberTendency" resultType="Integer">
+	<![CDATA[
+		WITH date_range AS (
+			SELECT CURRENT_DATE - generate_series(1, 10) + 1 AS join_date
+		)
+		SELECT COALESCE(memCount, 0) AS memCount
+		FROM date_range
+				 LEFT OUTER JOIN (
+			SELECT DATE_TRUNC('day', member_Join_Date) AS member_Join_Date, Count(*) AS memCount
+			FROM member
+			GROUP BY DATE_TRUNC('day', member_Join_Date)
+		) AS member_counts
+								 ON date_range.join_date = member_counts.member_Join_Date
+		ORDER BY join_date
+		]]>
+	</select>
+
+
 
 	<!-- 소셜로그인을 한 기록이 있는지 체크 -->
 	<select id="checkSocial" resultType="String">
@@ -227,8 +239,9 @@
 	</select>
 
 	<select id="checkSeq" resultType="int">
-		SELECT SOCIAL_SEQ.NEXTVAL from dual
+		SELECT NEXTVAL('social_seq')
 	</select>
+
 
 	<!-- 소셜 테이블에 아이디 등록 -->
 	<insert id="insertSocial">

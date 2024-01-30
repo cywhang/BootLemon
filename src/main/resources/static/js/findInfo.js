@@ -30,7 +30,6 @@
           inputPhone_1: inputPhone
         }),
         success: function(result) {
-        	console.log(result);
         if (result === "") {
             alert("등록된 회원이 아닙니다."); // 입력한 정보가 DB에 저장된 회원이 아닌 경우
           } else {
@@ -105,8 +104,6 @@
       var enteredCode = $("#inputAuthCode").val();
       var generatedCode = $("#num").val();
 
-      console.log("유저가 입력한 인증코드: " + enteredCode);
-      console.log("서버가 생성한  인증코드: " + generatedCode);
       if (enteredCode === generatedCode) {
           // 인증번호 일치하는 경우
           // 예: 비밀번호 변경 폼 표시

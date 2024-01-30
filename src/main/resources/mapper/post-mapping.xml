@@ -45,6 +45,7 @@
         SELECT * FROM post
                           INNER JOIN ( SELECT post_seq, count(*) post_Like_Count
                                        FROM likes
+                                       WHERE  reply_seq = 0
                                        GROUP BY post_seq)
                                      USING (post_seq)
         WHERE post_public = 'y'
@@ -99,15 +100,15 @@
     </select>
 
     <!-- 가장 최근에 생성된 시퀀스 번호 조회 (이미지 저장위해서 조회) -->
-    <select id="postSeqCheck" resultType = "int">
-        select NVL(MAX(post_Seq), 1)
-        from post
+    <select id="postSeqCheck" resultType="int">
+        SELECT COALESCE(MAX(post_Seq), 1)
+        FROM post
     </select>
 
     <!-- 해시태그 테이블 저장 -->
     <insert id="insertTag">
-        insert into tag(tag_Seq, post_Seq, tag_Content)
-        values(tag_seq.nextval, #{post_Seq}, <![CDATA[#{tag_Content}]]>)
+        INSERT INTO tag(tag_Seq, post_Seq, tag_Content)
+        VALUES (NEXTVAL('tag_seq'), #{post_Seq}, #{tag_Content})
     </insert>
 
     <!-- 게시글 해시태그 출력 -->
@@ -146,10 +147,9 @@
         FROM(SELECT tag_Content, COUNT(*) tag_Count
              FROM tag
              WHERE post_Seq IN(SELECT post_Seq FROM post
-                               WHERE TRUNC(post_Date) >= TRUNC(sysdate)-7)
+                               WHERE DATE_TRUNC('day', post_Date) >= CURRENT_DATE - INTERVAL '7 days')
              GROUP BY tag_Content
-             ORDER BY tag_Count DESC)
-        WHERE ROWNUM <= 5
+             ORDER BY tag_Count DESC) LIMIT 5
         ]]>
 	</select>
 

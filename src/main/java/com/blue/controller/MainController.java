@@ -162,7 +162,6 @@ public class MainController {
 			// src의 post_seq-1.png?랜덤난수
 			Random r = new Random();
 			int random = r.nextInt(1000);
-			System.out.println("이미지 캐시비우기 랜덤난수 : " + random);
 
 			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
@@ -201,9 +200,6 @@ public class MainController {
 		responseData.put("canFollow", canFollow);
 		responseData.put("mostFamous", mostFamous);
 		responseData.put("member_Id", member_Id);
-
-		System.out.println("canFollow" + canFollow.toString());
-		System.out.println("mostFamous" + mostFamous.toString());
 
 		return ResponseEntity.ok(responseData);
 	}
@@ -606,7 +602,6 @@ public class MainController {
 
 			vo.setQna_Title(qna_Title.replace("<", "{"));
 			vo.setQna_Message(qna_Message.replace("<", "{"));
-			System.out.println("/qna 잡아옴 qnaVO : " + vo);
 			qnaService.insertQna(vo);
 
 			return "redirect:contact";

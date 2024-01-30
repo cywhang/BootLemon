@@ -112,7 +112,7 @@ public class PostAndLikeController {
 		if (attach_file != null && attach_file.length > 0) {
 
 			// 1. 이미지 업로드 처리 부분
-			String folderPath = "D:/fileUpload/img/uploads/post/";
+			String folderPath = "home/ubuntu/fileUpload/img/uploads/post/";
 			// 1. 업로드할 이미지 개수 vo 객체에 저장
 			int imgCount = attach_file.length;
 			vo.setPost_Image_Count(imgCount);
@@ -404,7 +404,7 @@ public class PostAndLikeController {
 
 		postService.deletePost(post_Seq);
 		// 1. 이미지 업로드 실제경로
-		String folderPath = "D:/fileUpload/img/uploads/post/";
+		String folderPath = "home/ubuntu/fileUpload/img/uploads/post/";
 		// 절대경로의 이미지 전체를 folder에 저장한다
 		File folder = new File(folderPath);
 		// folder의 파일들을 리스트화 시킨다.
@@ -467,7 +467,7 @@ public class PostAndLikeController {
 		int deleteStrings = deletedStrings.length;
 
 		// 1. 이미지 업로드 실제경로
-		String folderPath = "D:/fileUpload/img/uploads/post/";
+		String folderPath = "home/ubuntu/fileUpload/img/uploads/post/";
 		int imgCount = (attach_file != null) ? attach_file.length : 0;
 		vo.setPost_Image_Count(currentEditFileNo);
 
@@ -870,7 +870,7 @@ public class PostAndLikeController {
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
 		// 1. 게시글 상세정보
-		PostVO postVO = postService.selectPostDetail(post_Seq);
+		PostVO postVO = postService.getpostDetail(post_Seq);
 		// 1-1. 게시글 좋아요 상태 set
 		PostVO voForLikeYN = new PostVO();
 		voForLikeYN.setMember_Id(member_Id);
@@ -880,6 +880,7 @@ public class PostAndLikeController {
 
 		// 2. 댓글 3개 만
 		ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
+
 		// 2-1. 댓글 좋아요 상태 set
 		for(int k = 0; k < replylist.size(); k++) {
 			String realReply_Member_Id = replylist.get(k).getMember_Id();

@@ -36,9 +36,6 @@ var currentEditFileNo = 0;
 function editVariable(neweditFileArr, neweditFileNo){
 	editFileNo = neweditFileNo;
 	editFilesArr = neweditFileArr;
-	
-	console.log("추가 업로드 이미지  정보 배열: ", editFilesArr);
-	console.log("추가 업로드 이미지 length : ", editFileNo);
 }
 
 // 기존이미지 현황을 유지하기 위한 전역변수 변경
@@ -50,14 +47,11 @@ function alreadyVariable(newalreadyFileArr, newalreadyFileNo) {
 	  // 기존 이미지 개수를 현재 이미지 개수로 저장한다.
 	  currentEditFileNo = newalreadyFileNo;
 	  // 변경된 전역 변수 값을 확인
-	  console.log("기존 업로드 이미지 length : ", newalreadyFileNo);
-	  console.log("기존 업로드 이미지 배열 : ", newalreadyFileArr);
 	}
 function currentVariable(newEditFileNo) {
 	// 전역 변수 값 변경
 	currentEditFileNo = newEditFileNo;
 	// 변경된 전역 변수 값을 확인
-	console.log("현재 업로드 이미지 length : ", newEditFileNo);
 }
 
 
@@ -70,27 +64,21 @@ $(function() {
   $('#closeModal').on('click', function() {
 	    // form 태그 초기화
 	    $('#postInsert')[0].reset();
-	    console.log("postInsert.reset");
 	    // 이미지 컨테이너 초기화
 	    $('#Preview').empty();
-	    console.log("Preview.reset");
 	    // 실제 이미지 배열 초기화
 	    filesArr = [];
-	    console.log("fileArr 비우기 ");
 	});
   
   // 글 수정 모달창 뒤로가기 버튼시 내용 초기화
   $('#closeEditModal').on('click', function() { 
 	    // form 태그 초기화 
 	    $('#postUpdate')[0].reset();
-	    console.log("postUpdate.reset");
-	    // 이미지 컨테이너 초기화 
+	    // 이미지 컨테이너 초기화
 	    $('#editPreview').empty();
-	    console.log("editPreview.reset");
 	    // 실제 이미지 배열 초기화
 	    editFilesArr = [];
-	    console.log("editFileArr 비우기 ");
-	}); 
+	});
   
   // 초기화 버튼 클릭시 내용 초기화
   $('#resetB').on('click', function() {
@@ -102,10 +90,8 @@ $(function() {
   $('.modalClose').on('click', function() {
 	  
 	    $('#inputContent').val('');
-	    console.log("inputContent.reset");
-	    
+
 	    $('#inputContent2').val('');
-	    console.log("inputContent2.reset");
 	});
 });
 
@@ -122,13 +108,9 @@ $(function() {
   /* 첨부파일 추가 */
   function addFile(obj){
       var maxFileCnt = 4;   // 첨부파일 최대 개수
-      console.log("첨부파일 최대 개수 : ", maxFileCnt);
       var attFileCnt = $('.filebox').length;    // 기존 추가된 첨부파일 개수
-      console.log("기존 추가된 첨부파일 개수 : ", attFileCnt);
       var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-      console.log("추가로 첨부가능한 개수 : ", remainFileCnt);
       var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-      console.log("현재 선택된 첨부파일 개수 : ", curFileCnt);
       // 첨부파일 개수 확인
       if (curFileCnt > remainFileCnt) {
           alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
@@ -141,8 +123,7 @@ $(function() {
                   reader.onload = function (e) {
                 	  var imageData = e.target.result; // 파일 데이터
                       filesArr.push(file);
-                      console.log("filesArr : ", filesArr);
-                      
+
                       let htmlData = '';
                       htmlData += '<li id="file' + fileNo + '" class="filebox ui-state-default">';
                       htmlData += '   <img src="' + imageData  + '" width="80" height="80">';
@@ -169,7 +150,6 @@ $(function() {
   function deleteFile(num) {
       document.querySelector("#file" + num).remove();
       filesArr[num].is_delete = true;
-      console.log(num, " 파일 삭제");
   }
   
   
@@ -177,17 +157,13 @@ $(function() {
   /* 첨부파일 추가 */
   function editFile(obj){
       var maxFileCnt = 4;   // 첨부파일 최대 개수
-      console.log("첨부파일 최대 개수 : ", maxFileCnt);
-      
+
       var attFileCnt = $('.editfilebox').length;    // 기존 추가된 첨부파일 개수
-      console.log("기존 추가된 첨부파일 개수 : ", attFileCnt);
-      
+
       var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-      console.log("추가로 첨부가능한 개수 : ", remainFileCnt);
-      
+
       var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-      console.log("현재 선택된 첨부파일 개수 : ", curFileCnt);
-      
+
       // 첨부파일 개수 확인
       if (curFileCnt > remainFileCnt) {
           alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
@@ -200,8 +176,7 @@ $(function() {
                   reader.onload = function (e) {
                 	  var imageData = e.target.result; // 파일 데이터
                 	  editFilesArr.push(file);
-                      console.log("editFilesArr : ", editFilesArr);
-                      
+
                       let htmlData = '';
                       htmlData += '<li id="file' + currentEditFileNo + '" class="editfilebox ui-state-default">';
                       htmlData += '   <img src="' + imageData  + '" width="80" height="80">';
@@ -210,7 +185,6 @@ $(function() {
                       
                       $('#editPreview').append(htmlData);
                       currentEditFileNo++;
-                      console.log("후 currentEditFileNo", currentEditFileNo);
                       currentVariable(currentEditFileNo);
                   };
                   reader.readAsDataURL(file);
@@ -240,17 +214,13 @@ $(function() {
 	  document.querySelector("#file" + num).remove();
 	  
 	  var item = editFilesArr[num];
-	  console.log("삭제된 아이템: ",item);
 	  item.is_delete = true; // is_delete 속성을 true로 설정
-	  // 삭제한 파일 콘솔에 출력해줌.
-	  console.log(num, " 파일 삭제");
 
 	  // 기존 이미지 순번 다시 정렬
 	  for (var i = num + 1; i < currentEditFileNo; i++) {
 	    var li = document.querySelector("#file" + i);
 	    if (li) {
 	      li.id = "file" + (i - 1);
-	      console.log("순서 다시 정렬함");
 	      // 삭제 버튼의 onclick 속성 업데이트
 	      var deleteBtn = li.querySelector('.delete');
 	      if (deleteBtn) {
@@ -273,15 +243,12 @@ $(function() {
 	  
 	  var item = alreadyFileArr[num];
 	  deletedStrings.push(item); // 삭제한 기본 이미지 정보 배열에 따로 저장
-	  // 삭제한 파일 콘솔에 출력해줌.
-	  console.log(num, " 아이템 삭제");
 
 	  // 순번 다시 정렬
 	  for (var i = num + 1; i < alreadyFileNo; i++) {
 	    var li = document.querySelector("#file" + i);
 	    if (li) {
 	      li.id = "file" + (i - 1);
-	      console.log("순서 다시 정렬함");
 	      // 삭제 버튼의 onclick 속성 업데이트
 	      var deleteBtn = li.querySelector('.delete');
 	      if (deleteBtn) {
@@ -295,7 +262,6 @@ $(function() {
 		  var li = document.querySelector("#file" + i);
 		  if (li) {
 			  li.id = "file" + (i - 1);
-			  console.log("순서 다시 정렬함");
 			  // 삭제 버튼의 onclick 속성 업데이트
 			  var deleteBtn = li.querySelector('.delete');
 			  if (deleteBtn) {
@@ -343,7 +309,6 @@ $(function() {
 		// 이미지 순서 변경이 있을 때만 fileList에 할당
 		fileList = newFileList.length > 0 ? newFileList : null;
 		// fileList 배열에 변경된 파일 순서 정보가 포함됩니다.
-		console.log(fileList);
 	});
 	
 	
@@ -362,8 +327,7 @@ $(function() {
       for (var i = 0; i < fileList.length; i++) {
           formData.append("fileList[]", fileList[i]);
       }
-      console.log(filesArr);
-      
+
       $.ajax({
           method: 'POST',
           url: 'insertPost',
@@ -396,15 +360,10 @@ function postEditAction(post_Seq){
     // 현제 이미지 컨테이너에 올라온 이미지 개수
     formData.append("currentEditFileNo", currentEditFileNo);
 
-
-	console.log("editFilesArr : ",editFilesArr);
-	console.log("editFilesArr.length : ", editFilesArr.length);
-
     // 삭제되지 않은 파일만 폼데이터에 담기 (Type = Multipart)
     for (var i = 0; i < editFilesArr.length; i++) {
         if (!editFilesArr[i].is_delete) {
             formData.append("editAttach_file", editFilesArr[i]);
-            console.log("기존 이미지 를 포함한 editFileArr : ",editFilesArr[i]);
         }
     }
     
@@ -420,7 +379,6 @@ function postEditAction(post_Seq){
         cache: false,
         headers: {'cache-control': 'no-store', 'pragma': 'no-cache', 'expires': '0'},
         success: function (response) {
-			console.log("ajax요청 성공")
 			debugger;
 			window.location.href = 'index'
         }
@@ -444,7 +402,6 @@ function replyDelete(post_Seq, reply_Seq){
 		
 		/* 댓글 작성 완료 후 모달창의 댓글 리스트 다시 그려주기  */
 		success : function(response) {
-			console.log("딜리트 ajax응답 성공");
 			// 1. 컨트롤러에서 넘겨받은 댓글 리스트(replylist) 꺼내기
 			var post = response.postInfo;
 			var replies = response.replies;
@@ -592,7 +549,6 @@ function replyDelete2(post_Seq, reply_Seq){
 		
 		/* 댓글 작성 완료 후 모달창의 댓글 리스트 다시 그려주기  */
 		success : function(response) {
-			console.log("딜리트 ajax응답 성공");
 			// 1. 컨트롤러에서 넘겨받은 댓글 리스트(replylist) 꺼내기
 			var post = response.postInfo;
 			var replies = response.replies;

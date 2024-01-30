@@ -306,7 +306,6 @@
 	    
 	    // 모든 확인 작업을 통과하면 양식을 제출합니다.
 	    alert("회원가입이 완료되었습니다.");
-	    console.log("폼 제출")
 	    document.getElementById("createAccount").action ="create_form";
 	    document.getElementById("createAccount").submit();
 	}

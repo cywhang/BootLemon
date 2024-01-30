@@ -39,7 +39,7 @@
 				  USING (reply_Seq)
 				  WHERE post_Seq = #{post_Seq}
 				  ORDER BY reply_Like_Count DESC NULLS LAST, reply_Seq DESC)
-			WHERE ROWNUM <= 3
+			LIMIT 3
 	    ]]>
 	</select>
 	
@@ -79,7 +79,7 @@
 	
 	<!-- 현재 가장 큰 reply_Seq 추출 -->
 	<select id = "getMaxReply_Seq" resultType = "int">
-		SELECT NVL(MAX(reply_Seq), 1)
+		SELECT COALESCE(MAX(reply_Seq), 1)
 		FROM reply
 	</select>
 	
