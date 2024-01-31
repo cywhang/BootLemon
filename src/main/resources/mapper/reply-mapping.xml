@@ -28,19 +28,23 @@
 	
 	<!-- 댓글 리스트 3개만 -->
 	<select id="replyPreview" resultType="reply">
-		 <![CDATA[	  
-		 	SELECT *
-		 	FROM (SELECT *
-		 		  FROM reply	    
-				  LEFT OUTER JOIN (SELECT reply_Seq, count(*) reply_Like_Count
-						    	   FROM likes
-								   WHERE reply_Seq != 0
-								   GROUP BY reply_Seq) as ff
-				  USING (reply_Seq)
-				  WHERE reply.post_Seq = #{post_Seq}
-				  ORDER BY ff.reply_Like_Count DESC NULLS LAST, reply.reply_Seq DESC)
+		 <![CDATA[
+		SELECT *
+		FROM (SELECT *,
+						ff.reply_Like_Count
+				 FROM reply
+			     LEFT OUTER JOIN (
+					 SELECT reply_Seq, count(*) AS reply_Like_Count
+					 FROM likes
+					 WHERE reply_Seq != 0
+					 GROUP BY reply_Seq
+				 ) AS ff
+				 USING (reply_Seq)
+				 WHERE reply.post_Seq = #{post_Seq}
+				 ORDER BY ff.reply_Like_Count DESC NULLS LAST, reply.reply_Seq DESC
+			 ) AS result
 			LIMIT 3
-	    ]]>
+		]]>
 	</select>
 	
 	<!-- 댓글 좋아요 추가 -->
