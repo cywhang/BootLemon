@@ -153,12 +153,12 @@
 			        SELECT following, COUNT(*) member_Follow_Count, ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS row_num
 			        FROM follow
 			        GROUP BY following
-			    )
+			    ) as ff
 			    LIMIT 5
 			) a
 			LEFT OUTER JOIN member b
 			ON a.following = b.member_Id
-			ORDER BY member_Follow_Count DESC
+			ORDER BY a.member_Follow_Count DESC
 		]]>
 	</select>
 	
