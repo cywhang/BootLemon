@@ -109,7 +109,7 @@
 							WHERE following = #{member_Id}
 							  AND follower NOT IN (SELECT following
 								  				   FROM follow
-												   WHERE follower = #{member_Id})) as ff
+												   WHERE follower = #{member_Id}))
 	</select>
 	
 	<!-- 팔로우 체크 -->	
