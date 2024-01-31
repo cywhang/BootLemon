@@ -168,7 +168,7 @@
 		FROM member
 		WHERE member_Id IN (SELECT follower
 							FROM follow
-							WHERE following = #{member_Id}) as aa
+							WHERE following = #{member_Id})
 	</select>
 	
 	<!-- 내가 팔로우한 사람 -->
@@ -177,7 +177,7 @@
 		FROM member
 		WHERE member_Id IN (SELECT following
 							FROM follow
-							WHERE follower = #{member_Id})	as aa
+							WHERE follower = #{member_Id})
 	</select>
 	
 	<!-- 관리자 : 전체 멤버 조회 -->
