@@ -10,10 +10,10 @@
 		  	FROM reply 
 		  	LEFT OUTER JOIN (SELECT reply_seq, count(*) reply_Like_Count
 		                     FROM likes
-		                     GROUP BY reply_seq)
+		                     GROUP BY reply_seq) as ff
 		  	USING (reply_seq)
-		  	WHERE post_seq = #{post_Seq}
-		  	ORDER BY reply_Like_Count DESC NULLS LAST, reply_Seq DESC
+		  	WHERE reply.post_seq = #{post_Seq}
+		  	ORDER BY ff.reply_Like_Count DESC NULLS LAST, reply.reply_Seq DESC
 		]]>
 	</select>
 	
@@ -35,10 +35,10 @@
 				  LEFT OUTER JOIN (SELECT reply_Seq, count(*) reply_Like_Count
 						    	   FROM likes
 								   WHERE reply_Seq != 0
-								   GROUP BY reply_Seq)
+								   GROUP BY reply_Seq) as ff
 				  USING (reply_Seq)
-				  WHERE post_Seq = #{post_Seq}
-				  ORDER BY reply_Like_Count DESC NULLS LAST, reply_Seq DESC)
+				  WHERE reply.post_Seq = #{post_Seq}
+				  ORDER BY ff.reply_Like_Count DESC NULLS LAST, reply.reply_Seq DESC)
 			LIMIT 3
 	    ]]>
 	</select>
