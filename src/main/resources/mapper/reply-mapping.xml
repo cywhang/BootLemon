@@ -43,7 +43,7 @@
 				 WHERE reply.post_Seq = #{post_Seq}
 				 ORDER BY ff.reply_Like_Count DESC NULLS LAST, reply.reply_Seq DESC
 			 ) AS result
-			LIMIT 3
+			   LIMIT 3
 		]]>
 	</select>
 	
