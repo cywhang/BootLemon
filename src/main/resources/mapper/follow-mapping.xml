@@ -17,9 +17,9 @@
 	<select id="getMoreFollowing" resultType="follow">
 		<![CDATA[
 			SELECT following 
-			FROM (SELECT following, rownum AS rn
+			FROM (SELECT following, ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS rn
 				  FROM follow
-				  WHERE follower = #{follower}) 
+				  WHERE follower = #{follower}) as ff
 			WHERE rn >= #{FollowingLocalPageFirstNum} 
 			  AND rn <= #{FollowingLocalPageLastNum}
 		]]>
@@ -30,7 +30,7 @@
 			SELECT follower 
 			FROM (SELECT follower, rownum AS rn
 				  FROM follow
-				  WHERE following = #{following}) 
+				  WHERE following = #{following}) as ff
 			WHERE rn >= #{FollowerLocalPageFirstNum} 
 			  AND rn <= #{FollowerLocalPageLastNum}
 		]]>

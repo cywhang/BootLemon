@@ -4,39 +4,39 @@
 
     <!-- 뉴스피드 게시글 조회 -->
     <select id ="listPost" resultType ="post">
-        SELECT post_seq, member_id, post_content, TO_CHAR(post_date, 'yy-mm-dd') post_date, post_public, post_image_count, post_like_count, post_reply_count
+        SELECT post.post_seq, post.member_id, post.post_content, TO_CHAR(post.post_date, 'yy-mm-dd') as post_date, post.post_public, post.post_image_count, plike.post_like_count, rlike.post_reply_count
         FROM post
                  LEFT OUTER JOIN (SELECT post_seq, count(*) post_Like_Count
                                   FROM likes
                                   WHERE reply_seq = 0
-                                  GROUP BY post_seq)
+                                  GROUP BY post_seq) as plike
                                  USING (post_seq)
                  LEFT OUTER JOIN (SELECT post_seq, count(*) post_reply_count
                                   FROM reply
-                                  GROUP BY post_seq)
+                                  GROUP BY post_seq) as rlike
                                  USING (post_seq)
-        WHERE member_id IN (SELECT FOLLOWING
+        WHERE post.member_id IN (SELECT FOLLOWING
                             FROM follow
-                            WHERE follower = #{member_Id}) and post_public = 'y'
-           OR member_id = #{member_Id}
-        ORDER BY post_Date DESC, post_Seq DESC
+                            WHERE follower = #{member_Id}) and post.post_public = 'y'
+           OR post.member_id = #{member_Id}
+        ORDER BY post.post_Date DESC, post.post_Seq DESC
     </select>
 
     <!-- 게시글 상세조회(모달창) -->
     <select id ="postDetail" resultType ="post">
-        SELECT post_seq, member_id, post_content, TO_CHAR(post_date, 'yy-mm-dd') post_date, post_public, post_image_count, post_like_count, post_reply_count
+        SELECT post.post_seq, post.member_id, post.post_content, TO_CHAR(post.post_date, 'yy-mm-dd') as post_date, post.post_public, post.post_image_count, plike.post_like_count, rlike.post_reply_count
         FROM post
                  LEFT OUTER JOIN (SELECT post_seq, count(*) post_Like_Count
                                   FROM likes
                                   WHERE reply_seq = 0
-                                  GROUP BY post_seq)
+                                  GROUP BY post_seq) as plike
                                  USING (post_seq)
                  LEFT OUTER JOIN (SELECT post_seq, count(*) post_reply_count
                                   FROM reply
-                                  GROUP BY post_seq)
+                                  GROUP BY post_seq) as rlike
                                  USING (post_seq)
-        WHERE post_seq = #{post_Seq}
-        ORDER BY post_Seq DESC
+        WHERE post.post_seq = #{post_Seq}
+        ORDER BY post.post_Seq DESC
     </select>
 
 
@@ -144,7 +144,7 @@
     <select id = "getTodaysTag" resultType = "tag">
 		<![CDATA[
         SELECT tag_Content, tag_Count
-        FROM(SELECT tag_Content, COUNT(*) tag_Count
+        FROM (SELECT tag_Content, COUNT(*) tag_Count
              FROM tag
              WHERE post_Seq IN(SELECT post_Seq FROM post
                                WHERE DATE_TRUNC('day', post_Date) >= CURRENT_DATE - INTERVAL '7 days')
