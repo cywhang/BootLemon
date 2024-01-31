@@ -153,12 +153,12 @@
 			        SELECT following, COUNT(*) member_Follow_Count, ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS row_num
 			        FROM follow
 			        GROUP BY following
-			    )
+			    ) as ff
 			    LIMIT 5
 			) a
 			LEFT OUTER JOIN member b
 			ON a.following = b.member_Id
-			ORDER BY member_Follow_Count DESC
+			ORDER BY a.member_Follow_Count DESC
 		]]>
 	</select>
 	
@@ -168,7 +168,7 @@
 		FROM member
 		WHERE member_Id IN (SELECT follower
 							FROM follow
-							WHERE following = #{member_Id}) as aa
+							WHERE following = #{member_Id})
 	</select>
 	
 	<!-- 내가 팔로우한 사람 -->
@@ -177,7 +177,7 @@
 		FROM member
 		WHERE member_Id IN (SELECT following
 							FROM follow
-							WHERE follower = #{member_Id})	as aa
+							WHERE follower = #{member_Id})
 	</select>
 	
 	<!-- 관리자 : 전체 멤버 조회 -->
