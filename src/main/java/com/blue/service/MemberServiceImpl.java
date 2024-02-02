@@ -341,7 +341,7 @@ public class MemberServiceImpl implements MemberService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=JEjqn2g57dyBOadXOKoP"); // TODO REST_API_KEY 입력
-			sb.append("&redirect_uri=http://http://ec2-3-38-124-144.ap-northeast-2.compute.amazonaws.com:8010/naver"); // TODO 인가코드 받은 redirect_uri 입력
+			sb.append("&redirect_uri=http://ec2-3-38-124-144.ap-northeast-2.compute.amazonaws.com:8010/naver"); // TODO 인가코드 받은 redirect_uri 입력
 			sb.append("&client_secret=LuZDSS3e7s");
 			sb.append("&code=" + code);
 			bw.write(sb.toString());
