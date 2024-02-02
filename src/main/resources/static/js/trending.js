@@ -15,7 +15,7 @@ function trending_List() {
             var session_Id = response.session_Id;
             var hashMap = response.hashMap;
             var trending_feed = document.getElementById("trending_feed");
-            $("#editPreview").empty();
+            $("#trending_feed").empty();
 
             // 받아온 데이터를 활용해 동적으로 카드 추가
             if (trending_postList.length > 0) {
