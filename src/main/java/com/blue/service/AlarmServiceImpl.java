@@ -1,6 +1,7 @@
 package com.blue.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.blue.mapper.AlarmMapper;
 import com.blue.mapper.PostMapper;
@@ -44,7 +45,12 @@ public class AlarmServiceImpl implements AlarmService {
 			replyVO.setReply_Content("알람 등록을 위한 댓글");
 			replyMapper.insertReply(replyVO);
 		}
-		alarmMapper.insertAlarm(alarmVO);
+
+		String from = alarmVO.getFrom_Mem();
+		String to = alarmVO.getTo_Mem();
+		if(!Objects.equals(from, to)){
+			alarmMapper.insertAlarm(alarmVO);
+		}
 	}
 	
 	@Override

@@ -379,7 +379,6 @@ function postEditAction(post_Seq){
         cache: false,
         headers: {'cache-control': 'no-store', 'pragma': 'no-cache', 'expires': '0'},
         success: function (response) {
-			debugger;
 			window.location.href = 'index'
         }
     });
