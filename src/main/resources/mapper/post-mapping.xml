@@ -149,7 +149,7 @@
              WHERE post_Seq IN(SELECT post_Seq FROM post
                                WHERE DATE_TRUNC('day', post_Date) >= CURRENT_DATE - INTERVAL '7 days')
              GROUP BY tag_Content
-             ORDER BY tag_Count DESC) LIMIT 5
+             ORDER BY tag_Count DESC) as subquery LIMIT 5
         ]]>
 	</select>
 
