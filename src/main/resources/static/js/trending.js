@@ -15,7 +15,7 @@ function trending_List() {
             var session_Id = response.session_Id;
             var hashMap = response.hashMap;
             var trending_feed = document.getElementById("trending_feed");
-            $("#editPreview").empty();
+            $("#trending_feed").empty();
 
             // 받아온 데이터를 활용해 동적으로 카드 추가
             if (trending_postList.length > 0) {
@@ -106,15 +106,15 @@ function trending_List() {
 
                         if (PostVO.post_LikeYN == "Y") {
                             html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
-                            html += '                              <img class="likeImage_' + PostVO.post_Seq + '1" src="img/unlike.png" width="20px" height="20px" data-liked = "true">';
+                            html += '                              <img class="likeImage_' + PostVO.post_Seq + '" src="img/unlike.png" width="20px" height="20px" data-liked = "true">';
                             html += '                           </button>';
-                            html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '1" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
+                            html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
 
                         } else {
                             html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
                             html += '                              <img class="likeImage_' + PostVO.post_Seq + '" src="img/like.png" width="20px" height="20px" data-liked = "false">';
                             html += '                           </button>';
-                            html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '1" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
+                            html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
                         }
 
                         html += '                           </div>';
@@ -128,11 +128,6 @@ function trending_List() {
                         html += '							</div>';
 
                         html += '							<div class="comments">';
-
-
-                        //html += '								<c:set var="key" value="' + i + '"/>';
-                        //html += '								<c:set var="value" value="' + trending_replyMap[i] + '"/>';
-                        //html += '								<c:forEach var="reply" items="' + value + '" begin="0" end="2">';
 
                         var reply = trending_replyMap[i];
 
@@ -157,8 +152,6 @@ function trending_List() {
                                 html += '											</div>';
                                 html += '											</a>';
                                 html += '											<div class="reply-like-group" role="group" style="display: inline-block;">';
-
-                                //html += '												<c:set var="replySeq" value="' + reply.reply_Seq + '"/>';
 
                                 if (replyVO.reply_LikeYN == 'N') {
                                     html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
