@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+import com.blue.util.Sociallogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -49,6 +50,8 @@ public class MemberController {
 	private EmailService emailService;
 	@Autowired
 	private AlarmService alarmService;
+	@Autowired
+	private Sociallogin sociallogin;
 
 	// 회원가입 화면 표시
 	@RequestMapping("/join_view")
@@ -446,11 +449,11 @@ public class MemberController {
 	public String kakaoCallback(@RequestParam String code, Model model) throws ParseException {
 
 		// 카카오 로그인 api에서 코드를 받아 token을 받아옴
-		String token = memberService.getKaKaoAccessToken(code);
+		String token = sociallogin.getKaKaoAccessToken(code);
 
 		// token을 가지고 회원정보를 HashMap에 담아옴
 		// 1. 고유 ID   2. 닉네임   3. 이메일 
-		HashMap<Integer, String> map = memberService.createKakaoUser(token);
+		HashMap<Integer, String> map = sociallogin.createKakaoUser(token);
 		String id = map.get(1);
 		System.out.println("id : " + id);
 		// 고유 ID와 플랫폼타입(카카오 = 1) 전달
@@ -494,9 +497,9 @@ public class MemberController {
 	@GetMapping("naver")
 	public String naverCallback(@RequestParam String code, Model model) throws ParseException {
 
-		String token = memberService.getNaverAccessToken(code);
+		String token = sociallogin.getNaverAccessToken(code);
 		System.out.println(token);
-		HashMap<Integer, String> map = memberService.createNaverUser(token);
+		HashMap<Integer, String> map = sociallogin.createNaverUser(token);
 		String id = map.get(1);
 
 		// 고유 ID와 플랫폼타입 (네이버 = 2) 전달
