@@ -5,6 +5,7 @@ import java.util.*;
 import com.blue.dto.*;
 
 import com.blue.service.*;
+import com.blue.util.Sociallogin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +37,17 @@ public class MainController {
 	private QnaService qnaService;
 	@Autowired
 	private AlarmService alarmService;
+	@Autowired
+	private Sociallogin sociallogin;
 
 	// 로그인 페이지로 이동
 	@GetMapping(value="/")
-	public String login(){
+	public String login(Model model){
+		String kakaourl = sociallogin.getKaKaoUrl();
+		String naverurl = sociallogin.getNaverUrl();
+
+		model.addAttribute("kakaoUrl", kakaourl);
+		model.addAttribute("naverUrl", naverurl);
 		return "login";
 	}
 	

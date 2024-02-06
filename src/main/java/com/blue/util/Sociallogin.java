@@ -27,6 +27,14 @@ public class Sociallogin {
     private String nsecretKey;
 
                                                                         /*     카카오 로그인      */
+    // 카카오 로그인 url 생성
+    public String getKaKaoUrl() {
+        String kakaourl = "https://kauth.kakao.com/oauth/authorize?client_id=" + krestapiKey
+                        + "&redirect_uri=" + kredirectUrl
+                        + "&response_type=code";
+        return kakaourl;
+    }
+
     // 카카오 로그인 토큰 얻어오기
     public String getKaKaoAccessToken(String code) {
         String access_Token="";
@@ -157,7 +165,13 @@ public class Sociallogin {
 
 
                                                                     /*     네이버 로그인      */
-
+    // 네이버 로그인 url 생성
+    public String getNaverUrl() {
+        String naverurl = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+                        + "&client_id=" + nrestapiKey
+                        + "&redirect_uri=" + nredirectUrl;
+        return naverurl;
+    }
 
 
     // 네이버 로그인 토큰 받기
