@@ -155,7 +155,7 @@
 																	</div>
 																	<div style="font-size : 15px; text-align : left; margin-top : 5px; color : #0975e0;">
 																		[ Title ]
-																		<div style = "display : inline; overflow : hidden;" th:text="${qna.qna_Title}">
+																		<div style = "display : inline; overflow : hidden;" th:utext="${qna.qna_Title}">
 																		</div>
 																	</div>
 																</th:block>
@@ -165,7 +165,7 @@
 																	</div>
 																	<div style="font-size: 15px; text-align: left; margin-top : 5px;">
 																		[ Title ]
-																		<div style = "display : inline; overflow : hidden;" th:text="${qna.qna_Title}">
+																		<div style = "display : inline; overflow : hidden;" th:utext="${qna.qna_Title}">
 																		</div>
 																	</div>
 																</th:block>
@@ -197,7 +197,7 @@
 																		</label>
 																	</div>
 																	<div style = "width : 88%; border-left : 1px solid #d4d4d9;">
-																		<div style = "margin-left : 2%;" th:text="${qna.qna_Answer}"></div>
+																		<div style = "margin-left : 2%;" th:utext="${qna.qna_Answer}"></div>
 																	</div>
 																</div>
 															</th:block>
@@ -415,9 +415,9 @@
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
 																<th:block th:if="${#strings.length(postVO.post_Content) > 25}">
-																	<span th:text="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
+																	<span th:utext="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
 																</th:block>
-																<th:block th:unless="${#strings.length(postVO.post_Content) > 25}" th:text="${postVO.post_Content}"></th:block>
+																<th:block th:unless="${#strings.length(postVO.post_Content) > 25}" th:utext="${postVO.post_Content}"></th:block>
 															</small>
 															<br><div style = "height : 5%;"></div>
 															<th:block th:if="${postVO.post_Hashtag != null}">
@@ -438,12 +438,12 @@
 															<small class="text-muted" th:inline="text">Posted by [[${postVO.member_Id}]]</small>
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
-																<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
+																<span th:utext="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
 															</small>
 															<br><div style = "height : 5%;"></div>
 															<th:block th:if="${postVO.post_Hashtag != null}">
 																<small class="text-muted">
-																	<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
+																	<span th:utext="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
 																</small>
 															</th:block>
 														</div>
