@@ -144,14 +144,26 @@
 		</div>
 		<div class="sub-content" align="center">
 			<!-- 카카오 로그인 아이콘 -->
-			<a th:href="${kakaoUrl}">
+			<a href="#" onclick="handlekakaoUrl()">
 				<img src="img/kakao.png" width="90%" alt="kakao">
 			</a>
 			<!-- 네이버 로그인 아이콘 -->
-			<a th:href="${naverUrl}">
+			<a href="#" onclick="handlewnaverUrl()">
 				<img src="img/naver.png" width="90%" alt="naver">
 			</a>
 		</div>
 	</div>
+<script th:inline="javascript">
+	function handlekakaoUrl() {
+		var kakaoURL = [[${kakaoUrl}]];
+		window.location.href = kakaoURL;
+	}
+
+	function handlewnaverUrl() {
+		var naverURL = [[${naverUrl}]];
+		window.location.href = naverURL;
+	}
+
+</script>
 </body>
 </html>
