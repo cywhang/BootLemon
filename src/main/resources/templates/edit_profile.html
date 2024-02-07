@@ -56,14 +56,21 @@
 <script th:inline="javascript">
     // 프로필 사진 미리보기 함수
     function previewProfileImage(event) {
+        var file = event.target.files[0];
+        var maxSize = 5 * 1024 * 1024; // 5MB
+
+        // 파일 크기 확인
+        if (file.size > maxSize) {
+            alert("파일 크기는 최대 5MB까지만 가능합니다.");
+            return; // 파일 크기가 초과하면 더 이상 진행하지 않음
+        }
+
         var reader = new FileReader();
         reader.onload = function () {
             var output = document.getElementById('profile_image_preview');
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
-        // 이미지 파일 이름은 출력하지 않음
-        var fileName = event.target.files[0].name;
         document.getElementById('photo_file_name').textContent = "";
     }
 
