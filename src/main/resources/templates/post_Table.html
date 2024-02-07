@@ -83,7 +83,7 @@
                                     <th:block th:each="postVO, status : ${postList}" th:if="${status.index} < ${postListSize}">
                                      <tr>
                                          <td th:text="${postVO.member_Id}"></td>
-                                         <td><a th:href="@{'post_Detail?post_Seq=' + ${postVO.post_Seq}}" th:text="${postVO.post_Content}"></a></td>
+                                         <td><a th:href="@{'post_Detail?post_Seq=' + ${postVO.post_Seq}}" th:utext="${postVO.post_Content}"></a></td>
                                          <td>
                                              <th:block th:if="${hashMap[postVO.post_Seq] == null}">
                                            	 등록된 해쉬태그가 없습니다.
