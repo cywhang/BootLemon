@@ -73,7 +73,7 @@ public class MainController {
 	@GetMapping("/logout")
 	public String logout(SessionStatus status) {
 		status.setComplete();
-		return "login";
+		return "redirect:/";
 	}
 
 	// index 페이지 로드
