@@ -323,9 +323,9 @@
 														<br><div style = "height : 5%;"></div>
 														<small class="text-muted">
 															<th:block th:if="${#strings.length(postVO.post_Content) > 25}">
-																<span th:text="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
+																<span th:utext="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
 															</th:block>
-															<th:block th:unless="${#strings.length(postVO.post_Content) > 25}" th:text="${postVO.post_Content}"></th:block>
+															<th:block th:unless="${#strings.length(postVO.post_Content) > 25}" th:utext="${postVO.post_Content}"></th:block>
 														</small>
 														<br><div style = "height : 5%;"></div>
 														<th:block th:if="${postVO.post_Hashtag != null}">
@@ -346,12 +346,12 @@
 														<small class="text-muted" th:inline="text">Posted by [[${postVO.member_Id}]]</small>
 														<br><div style = "height : 5%;"></div>
 														<small class="text-muted">
-															<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
+															<span th:utext="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
 														</small>
 														<br><div style = "height : 5%;"></div>
 														<th:block th:if="${postVO.post_Hashtag != null}">
 															<small class="text-muted">
-																<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
+																<span th:utext="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
 															</small>
 														</th:block>
 													</div>

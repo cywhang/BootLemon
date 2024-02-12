@@ -56,14 +56,21 @@
 <script th:inline="javascript">
     // 프로필 사진 미리보기 함수
     function previewProfileImage(event) {
+        var file = event.target.files[0];
+        var maxSize = 5 * 1024 * 1024; // 5MB
+
+        // 파일 크기 확인
+        if (file.size > maxSize) {
+            alert("파일 크기는 최대 5MB까지만 가능합니다.");
+            return; // 파일 크기가 초과하면 더 이상 진행하지 않음
+        }
+
         var reader = new FileReader();
         reader.onload = function () {
             var output = document.getElementById('profile_image_preview');
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
-        // 이미지 파일 이름은 출력하지 않음
-        var fileName = event.target.files[0].name;
         document.getElementById('photo_file_name').textContent = "";
     }
 
@@ -555,10 +562,10 @@
                                                         <div style="height : 5%;"></div>
                                                         <small class="text-muted">
                                                             <th:block th:if="${#strings.length(postVO.post_Content) > 25}">
-                                                                <span th:text="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
+                                                                <span th:utext="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
                                                             </th:block>
                                                             <th:block th:unless="${#strings.length(postVO.post_Content) > 25}"
-                                                                 th:text="${postVO.post_Content}"></th:block>
+                                                                 th:utext="${postVO.post_Content}"></th:block>
                                                         </small>
                                                         <br>
                                                         <div style="height : 5%;"></div>
@@ -587,13 +594,13 @@
                                                         <br>
                                                         <div style="height : 5%;"></div>
                                                         <small class="text-muted">
-                                                            <span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
+                                                            <span th:utext="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
                                                         </small>
                                                         <br>
                                                         <div style="height : 5%;"></div>
                                                         <th:block th:if="${postVO.post_Hashtag != null}">
                                                             <small class="text-muted">
-                                                                <span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
+                                                                <span th:utext="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
                                                             </small>
                                                         </th:block>
                                                     </div>

@@ -117,8 +117,8 @@
                               			<tr>
                               				<td th:text="${qna.qna_Seq}"></td>
                               				<td th:text="${qna.member_Id}"></td>
-                              				<td><a th:href="@{'qna_Detail?qna_Seq=' + ${qna.qna_Seq}}" style = "text-decoration : none;" th:text="${qna.qna_Title}"></a></td>
-                              				<td th:text="${qna.qna_Message}"></td>
+                              				<td><a th:href="@{'qna_Detail?qna_Seq=' + ${qna.qna_Seq}}" style = "text-decoration : none;" th:utext="${qna.qna_Title}"></a></td>
+                              				<td th:utext="${qna.qna_Message}"></td>
                               				<td th:text="${qna.qna_Date}"></td>
                               				<td th:text="${qna.qna_Done}"></td>
                               			</tr>

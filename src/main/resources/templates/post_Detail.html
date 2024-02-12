@@ -103,7 +103,7 @@
 								</tr>
 								<tr>
 								    <th>게시글 내용</th>
-								    <td colspan = "5" th:text="${post.post_Content}"></td>
+								    <td colspan = "5" th:utext="${post.post_Content}"></td>
 								</tr>
 								<tr>
 									<th colspan="5">게시글 사진</th>
@@ -137,7 +137,7 @@
 									<th:block th:each="reply : ${reply}">
 										<tr>
 											<td colspan="1" th:text="${reply.member_Id}"></td>
-											<td colspan="2" th:text="${reply.reply_Content}"></td>
+											<td colspan="2" th:utext="${reply.reply_Content}"></td>
 											<td colspan="1" th:text="${reply.reply_Date}"></td>
 											<td colspan="1" th:text="${reply.reply_Like_Count}"></td>
 										</tr>

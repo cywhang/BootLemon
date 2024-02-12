@@ -17,14 +17,14 @@ public class Sociallogin {
 
     @Value("${kakao.restapi-key}")
     private String krestapiKey;
-    @Value("${kakao.redirect-ur}")
+    @Value("${kakao.redirect-url}")
     private String kredirectUrl;
     @Value("${naver.restapi-key}")
     private String nrestapiKey;
     @Value("${naver.secret-key}")
-    private String nredirectUrl;
-    @Value("${naver.redirect-ur}")
     private String nsecretKey;
+    @Value("${naver.redirect-url}")
+    private String nredirectUrl;
 
                                                                         /*     카카오 로그인      */
     // 카카오 로그인 url 생성
@@ -161,8 +161,6 @@ public class Sociallogin {
             return null;
         }
     }
-
-
 
                                                                     /*     네이버 로그인      */
     // 네이버 로그인 url 생성

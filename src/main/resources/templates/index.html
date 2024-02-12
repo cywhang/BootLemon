@@ -195,7 +195,7 @@
 			                                                </a>
 			                                                <br>
 			                                             	<!-- 게시글 내용 -->
-			                                             	<p class="text-dark w-100" th:id="'postContent' + ${postVO.post_Seq}" style = "word-wrap: break-word;" th:text="${postVO.post_Content}"></p>
+			                                             	<p class="text-dark w-100" th:id="'postContent' + ${postVO.post_Seq}" style = "word-wrap: break-word;" th:utext="${postVO.post_Content}"></p>
 			                                                <br>
 			                                                <script th:inline="javascript">
 				                                                var postseq = [[${postVO.post_Seq}]];
@@ -247,7 +247,7 @@
 				                                         					<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
 					                                                   			<div class="bg-light px-3 py-2 rounded-4 mb-1 chat-text" style="display: inline-block;">
 					                                           						<p class="fw-500 mb-0" th:text="${reply.member_Id}"></p>
-					                                               					<span class="text-muted" th:text="${reply.reply_Content}"></span>
+					                                               					<span class="text-muted" th:utext="${reply.reply_Content}"></span>
 					                                             				</div>
 					                                          				</a>
 				                                          					<div class="reply-like-group" role="group" style="display: inline-block;">
@@ -488,9 +488,9 @@
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
 																<th:block th:if="${#strings.length(postVO.post_Content) > 25}">
-																	<span th:text="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
+																	<span th:utext="${#strings.substring(postVO.post_Content, 0, 25)} + ' . . .'"></span>
 																</th:block>
-																<th:block th:unless="${#strings.length(postVO.post_Content) > 25}" th:text="${postVO.post_Content}"></th:block>
+																<th:block th:unless="${#strings.length(postVO.post_Content) > 25}" th:utext="${postVO.post_Content}"></th:block>
 															</small>
 															<br><div style = "height : 5%;"></div>
 															<th:block th:if="${postVO.post_Hashtag != null}">
@@ -511,12 +511,12 @@
 															<small class="text-muted" th:inline="text">Posted by [[${postVO.member_Id}]]</small>
 															<br><div style = "height : 5%;"></div>
 															<small class="text-muted">
-																<span th:text="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
+																<span th:utext="${#strings.length(postVO.post_Content) > 15 ? #strings.substring(postVO.post_Content, 0, 15) + ' ...' : postVO.post_Content}"></span>
 															</small>
 															<br><div style = "height : 5%;"></div>
 															<th:block th:if="${postVO.post_Hashtag != null}">
 																<small class="text-muted">
-																	<span th:text="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
+																	<span th:utext="${#strings.length(postVO.post_Hashtag) > 15 ? #strings.substring(postVO.post_Hashtag, 0, 15) + ' ...' : postVO.post_Hashtag}"></span>
 																</small>
 															</th:block>
 														</div>
