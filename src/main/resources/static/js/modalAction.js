@@ -283,7 +283,7 @@ $(function() {
           alert("파일명이 100자 이상인 파일은 제외되었습니다.");
           return false;
       } else if (obj.size > (5 * 1024 * 1024)) {
-          alert("최대 파일 용량인 5MB를 초과한 파일은 제외되었습니다.");
+          alert("5MB를 초과한 파일은 업로드 하실수 없습니다.");
           return false;
       } else if (obj.name.lastIndexOf('.') == -1) {
           alert("확장자가 없는 파일은 제외되었습니다.");
@@ -317,32 +317,43 @@ $(function() {
       // 폼데이터 담기
       var form = document.getElementById("postInsert");
       var formData = new FormData(form);
-      // 삭제되지 않은 파일만 폼데이터에 담기
-      for (var i = 0; i < filesArr.length; i++) {
-          if (!filesArr[i].is_delete) {
-              formData.append("attach_file", filesArr[i]);
-          }
-      }
-      // 최종적으로 순서가 변경된 정보를 formData에 담음
-      for (var i = 0; i < fileList.length; i++) {
-          formData.append("fileList[]", fileList[i]);
-      }
+	  var postContent = formData.get('post_Content');
 
-      $.ajax({
-          method: 'POST',
-          url: 'insertPost',
-          enctype: "multipart/form-data", //form data 설정
-          data: formData,
-          contentType: false,
-          processData: false,
-          async: true,
-          timeout: 30000,
-          cache: false,
-          headers: {'cache-control': 'no-store', 'pragma': 'no-cache', 'expires': '0'},
-		  success: function (response) {
-			  window.location.href = 'index'
+	  // 1. 게시글 내용이 입력되지 않았을때 제출 막기
+	  if (!postContent || postContent.trim() === '') {
+		  alert("게시글 내용을 입력해주세요.");
+	  }
+	  // 2. 게시글 내용이 정상적으로 입력되었을때.
+	  else {
+		  // 삭제되지 않은 파일만 폼데이터에 담기
+		  for (var i = 0; i < filesArr.length; i++) {
+			  if (!filesArr[i].is_delete) {
+				  formData.append("attach_file", filesArr[i]);
+			  }
 		  }
-      });
+		  // 최종적으로 순서가 변경된 정보를 formData에 담음
+		  for (var i = 0; i < fileList.length; i++) {
+			  formData.append("fileList[]", fileList[i]);
+		  }
+		  console.log(formData.get('post_Content'));
+
+		  debugger;
+		  $.ajax({
+			  method: 'POST',
+			  url: 'insertPost',
+			  enctype: "multipart/form-data", //form data 설정
+			  data: formData,
+			  contentType: false,
+			  processData: false,
+			  async: true,
+			  timeout: 30000,
+			  cache: false,
+			  headers: {'cache-control': 'no-store', 'pragma': 'no-cache', 'expires': '0'},
+			  success: function (response) {
+				  window.location.href = 'index'
+			  }
+		  });
+	  }
   }
 
   											/*  게시글 수정 처리    */
