@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 
+import com.blue.util.S3UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,8 @@ public class PostAndLikeController {
 	private MemberService memberService;
 	@Autowired
 	private AlarmService alarmService;
+	@Autowired
+	private S3UploadService s3UploadService;
 
 	// 좋아요 변경(PostMapping)
 	@PostMapping("/changeLike")
