@@ -322,7 +322,6 @@ $(function() {
 	  // 1. 게시글 내용이 입력되지 않았을때 제출 막기
 	  if (!postContent || postContent.trim() === '') {
 		  alert("게시글 내용을 입력해주세요.");
-		  Event.stopPropagation();
 	  } else { // 2. 게시글 내용이 정상적으로 입력되었을때.
 		  // 삭제되지 않은 파일만 폼데이터에 담기
 		  for (var i = 0; i < filesArr.length; i++) {
