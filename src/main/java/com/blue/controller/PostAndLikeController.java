@@ -127,8 +127,6 @@ public class PostAndLikeController {
 				MultipartFile file = attach_file[0];
 				String fileName = nextSeq + "-" + 1 + ".png";
 				try {
-					String fileUrl = s3UploadService.saveFile(file);
-					System.out.println("fileUrl: " + fileUrl);
 					// 파일을 지정된 경로에 저장
 					file.transferTo(new File(folderPath + fileName));
 				} catch (IOException e) {
