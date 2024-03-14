@@ -126,8 +126,8 @@ public class PostAndLikeController {
 				MultipartFile file = attach_file[0];
 				String fileName = nextSeq + "-" + 1 + ".png";
 				try {
-					fileName = s3UploadService.upload(file, ""); // S3 버킷의 images 디렉토리 안에 저장됨
-					System.out.println("fileName = " + fileName);
+					String fileN = s3UploadService.upload(file, "post"); // S3 버킷의 post 디렉토리 안에 저장됨
+					System.out.println("fileName = " + fileN);
 					// 파일을 지정된 경로에 저장
 					file.transferTo(new File(folderPath + fileName));
 
