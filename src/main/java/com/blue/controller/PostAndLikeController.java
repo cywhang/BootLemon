@@ -120,15 +120,17 @@ public class PostAndLikeController {
 			int imgCount = attach_file.length;
 			vo.setPost_Image_Count(imgCount);
 
-
 			if(imgCount == 0) { // 이미지를 업로드 하지 않았을때
 
 			} else if (imgCount == 1 ){ // 1개의 이미지를 업로드 했을때
 				MultipartFile file = attach_file[0];
 				String fileName = nextSeq + "-" + 1 + ".png";
 				try {
+					fileName = s3UploadService.upload(file, ""); // S3 버킷의 images 디렉토리 안에 저장됨
+					System.out.println("fileName = " + fileName);
 					// 파일을 지정된 경로에 저장
 					file.transferTo(new File(folderPath + fileName));
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
