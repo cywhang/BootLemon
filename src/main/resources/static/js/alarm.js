@@ -1,3 +1,5 @@
+// S3 기본 이미지 경로
+var S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
 
 // 사용자가 알림을 클릭하면 실행되는 스크립트
 function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
@@ -78,7 +80,7 @@ $.ajax({
 
            html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';
            html += '   <div class="d-flex">';
-           html += '      <img src="img/uploads/profile/'+ profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';
+           html += '      <img src="'+ S3Path + 'profile/' + profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';
            html += '      <div class="d-flex ms-3 align-items-start w-100">';
            html += '         <div class="w-100">';
            html += '            <div class="d-flex align-items-center justify-content-between">';
@@ -108,7 +110,7 @@ $.ajax({
            if(PostVO.post_Image_Count == 0){
            	html += '                        <br>';
            }else{
-           	html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
+           	html += '                        <img src="'+ S3Path + 'post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
            }
            html += '               </a>';
            
@@ -166,7 +168,7 @@ $.ajax({
            }else{
            html += '									<div class="d-flex mb-2">';
            html += '										<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(' + replyVO.post_Seq + ')">';
-           html += '										<img src="img/uploads/profile/' + profileMap[replyVO.member_Id] + '" class="img-fluid rounded-circle profile" alt="commenters-img">';
+           html += '										<img src="'+ S3Path + 'profile/' + profileMap[replyVO.member_Id] + '" class="img-fluid rounded-circle profile" alt="commenters-img">';
            html += '										</a>';
            html += '										<div class="ms-2 small">';
            html += '											<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(' + replyVO.post_Seq + ');">';

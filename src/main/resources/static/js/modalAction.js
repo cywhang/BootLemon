@@ -1,3 +1,5 @@
+// S3 기본 이미지 경로
+var S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
 
                                              /*  게시글 등록 처리    */
 
@@ -422,7 +424,7 @@ function replyDelete(post_Seq, reply_Seq){
 			for (var i = 0; i < replies.length; i++) {
 			  var replyItem = $('<div>').addClass('d-flex mb-2');
 			  
-			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+			  var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 			  replyItem.append(profileImg);                         
 			  
 			  var replyContentWrapper = $('<div>').addClass('ms-2 small');
@@ -569,7 +571,7 @@ function replyDelete2(post_Seq, reply_Seq){
 			for (var i = 0; i < replies.length; i++) {
 			  var replyItem = $('<div>').addClass('d-flex mb-2');
 			  
-			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+			  var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 			  var imgLink = $('<a>').attr('href', 'profile?member_Id=' + replies[i].member_Id).css('text-decoration', 'none').append(profileImg);
 			  replyItem.append(imgLink);                         
 			  
@@ -712,7 +714,7 @@ function replyUpdate(post_Seq, reply_Seq, replyContent){
 				for (var i = 0; i < replies.length; i++) {
 					var replyItem = $('<div>').addClass('d-flex mb-2');
 
-					var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+					var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 					replyItem.append(profileImg);
 
 					var replyContentWrapper = $('<div>').addClass('ms-2 small');
@@ -853,7 +855,7 @@ function replyUpdate(post_Seq, reply_Seq, replyContent){
 			 for (var i = 0; i < replies.length; i++) {
 				 var replyItem = $('<div>').addClass('d-flex mb-2');
 
-				 var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+				 var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 				 replyItem.append(profileImg);
 
 				 var replyContentWrapper = $('<div>').addClass('ms-2 small');

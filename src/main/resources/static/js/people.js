@@ -1,3 +1,5 @@
+// S3 기본 이미지 경로
+var S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
 
 // PEOPLE 탭의 사람들 목록을 가져와서 동적으로 표시하는 함수
 function people_List() {
@@ -28,7 +30,7 @@ function people_List() {
                     card.classList.add("pf-item");
                     card.innerHTML = `
                         <a href="profile?member_Id=`+ follow.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                            <img src="img/uploads/profile/${follow.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                            <img src="${S3Path} + profile/${follow.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                             <div>
                                 <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${follow.member_Id}</p>
                                 <div class="text-muted fw-light">
@@ -85,7 +87,7 @@ function people_List() {
                         if(famous.member_Id == loginUser_Id){
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="img/uploads/profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">
@@ -101,7 +103,7 @@ function people_List() {
                         } else {
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="img/uploads/profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">
@@ -132,7 +134,7 @@ function people_List() {
                         if(famous.member_Id == loginUser_Id){
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="img/uploads/profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">
@@ -148,7 +150,7 @@ function people_List() {
                         } else {
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="img/uploads/profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">

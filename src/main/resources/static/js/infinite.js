@@ -2,6 +2,9 @@
  *  인피니트 스크롤을 구현하기 위한 js
  */
 
+// S3 기본 이미지 경로
+var S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
+
 var trendpageNum = 0;
 
 function followingload(followingTotalPageNum, followingPageNum, member_Id){
@@ -37,7 +40,7 @@ function followingload(followingTotalPageNum, followingPageNum, member_Id){
 	         for (var i = 0; i < following_size; i++) {
 	           var memberVO = following_info[i];
 	           html += '<a href="profile?member_Id='+ memberVO.member_Id +'" class="p-3 d-flex text-dark text-decoration-none account-item pf-item">';
-	           html += '<img src="img/uploads/profile/' + memberVO.member_Profile_Image + '" class="img-fluid rounded-circle me-3" alt="profile-img">';           html += '<div>';
+	           html += '<img src="'+ S3Path + 'profile/' + memberVO.member_Profile_Image + '" class="img-fluid rounded-circle me-3" alt="profile-img">';           html += '<div>';
 	           html += '<p class="fw-bold mb-0 pe-3 d-flex align-items-center">' + memberVO.member_Id + '</p>'
 	           html += '<div>';
 	           html += '<p class="text-muted fw-light mb-1 small">' + memberVO.member_Name + '</p>';
@@ -110,7 +113,7 @@ function followerload(followerTotalPageNum, followerPageNum, member_Id) {
            var memberVO = follower_info[i];
 
            html += '<a href="profile?member_Id='+ memberVO.member_Id +'"  class="p-3 d-flex text-dark text-decoration-none account-item pf-item">';
-           html += '<img src="img/uploads/profile/' + memberVO.member_Profile_Image + '" class="img-fluid rounded-circle me-3" alt="profile-img">';           html += '<div>';
+           html += '<img src="'+ S3Path + 'profile/' + memberVO.member_Profile_Image + '" class="img-fluid rounded-circle me-3" alt="profile-img">';           html += '<div>';
            html += '<p class="fw-bold mb-0 pe-3 d-flex align-items-center">' + memberVO.member_Id + '</p>';
            html += '<div>';
            html += '<p class="text-muted fw-light mb-1 small">' + memberVO.member_Name + '</p>';
@@ -246,7 +249,7 @@ $.ajax({
 
                html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';
                html += '   <div class="d-flex">';
-               html += '      <img src="img/uploads/profile/'+ trending_profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';
+               html += '      <img src="'+ S3Path + 'profile/'+ trending_profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';
                html += '      <div class="d-flex ms-3 align-items-start w-100">';
                html += '         <div class="w-100">';
                html += '            <div class="d-flex align-items-center justify-content-between">';
@@ -277,7 +280,7 @@ $.ajax({
                if(PostVO.post_Image_Count == 0){
                   html += '                        <br>';
                }else{
-                  html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
+                  html += '                        <img src="'+ S3Path + 'post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
                }
                html += '               </a>';
                html += '               <br>';
@@ -343,7 +346,7 @@ $.ajax({
 
                html += '                           <div class="d-flex mb-2">';
                html += '                              <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(' + replyVO.post_Seq + ')">';
-               html += '                              <img src="img/uploads/profile/' + trending_profileMap[replyVO.member_Id] + '" class="img-fluid rounded-circle profile" alt="commenters-img">';
+               html += '                              <img src="'+ S3Path + 'profile/' + trending_profileMap[replyVO.member_Id] + '" class="img-fluid rounded-circle profile" alt="commenters-img">';
                html += '                              </a>';
                html += '                              <div class="ms-2 small">';
                html += '                                 <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(' + replyVO.post_Seq + ');">';
@@ -481,7 +484,7 @@ $.ajax({
           	  
                 html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';
                 html += '   <div class="d-flex">';
-                html += '      <img src="img/uploads/profile/'+ trending_profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';
+                html += '      <img src="'+ S3Path + 'profile/'+ trending_profileMap[PostVO.member_Id] + '"  class="img-fluid rounded-circle user-img" alt="profile-img">';
                 html += '      <div class="d-flex ms-3 align-items-start w-100">';
                 html += '         <div class="w-100">';
                 html += '            <div class="d-flex align-items-center justify-content-between">';
@@ -510,7 +513,7 @@ $.ajax({
                 if(PostVO.post_Image_Count == 0){
                 	html += '                        <br>';
                 }else{
-                	html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
+                	html += '                        <img src="'+ S3Path + 'post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
                 }
                 html += '               </a>';
                 
@@ -574,7 +577,7 @@ $.ajax({
 					
                 html += '									<div class="d-flex mb-2">';
                 html += '										<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(' + replyVO.post_Seq + ')">';
-                html += '										<img src="img/uploads/profile/' + trending_profileMap[replyVO.member_Id] + '" class="img-fluid rounded-circle profile" alt="commenters-img">';
+                html += '										<img src="'+ S3Path + 'profile/' + trending_profileMap[replyVO.member_Id] + '" class="img-fluid rounded-circle profile" alt="commenters-img">';
                 html += '										</a>';
                 html += '										<div class="ms-2 small">';
                 html += '											<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(' + replyVO.post_Seq + ');">';
