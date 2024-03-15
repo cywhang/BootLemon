@@ -23,7 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import javax.servlet.http.HttpSession;
 @Controller
 //컨트롤러에서 'loginUser', 'profileMap' 이라는 이름으로 모델 객체를 생성할때 세션에 동시에 저장한다.
-@SessionAttributes({"loginUser", "profileMap"})
+@SessionAttributes({"loginUser", "profileMap", "S3Path"})
 public class MainController {
 
 	@Autowired
@@ -170,6 +170,9 @@ public class MainController {
 			Random r = new Random();
 			int random = r.nextInt(1000);
 
+			// S3이미지 기본경로
+			String S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
+
 			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);
@@ -181,6 +184,8 @@ public class MainController {
 			model.addAttribute("member_Id", member_Id);
 			model.addAttribute("hashMap", hashmap);
 			model.addAttribute("random", random);
+			model.addAttribute("S3Path", S3Path);
+
 
 			return "index";
 		}
