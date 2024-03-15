@@ -115,7 +115,7 @@ public class PostAndLikeController {
 		if (attach_file != null && attach_file.length > 0) {
 
 			// 1. 이미지 업로드 처리 부분
-			String folderPath = "/home/ubuntu/fileUpload/img/uploads/post/";
+			// String folderPath = "/home/ubuntu/fileUpload/img/uploads/post/";
 			// 1. 업로드할 이미지 개수 vo 객체에 저장
 			int imgCount = attach_file.length;
 			vo.setPost_Image_Count(imgCount);
@@ -126,10 +126,9 @@ public class PostAndLikeController {
 				MultipartFile file = attach_file[0];
 				String fileName = nextSeq + "-" + 1 + ".png";
 				try {
-					String fileN = s3UploadService.upload(file, "post"); // S3 버킷의 post 디렉토리 안에 저장됨
-					System.out.println("fileName = " + fileN);
+					s3UploadService.upload(file, "post", fileName); // S3 버킷의 post 디렉토리 안에 저장됨
 					// 파일을 지정된 경로에 저장
-					file.transferTo(new File(folderPath + fileName));
+					// file.transferTo(new File(folderPath + fileName));
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -150,8 +149,9 @@ public class PostAndLikeController {
 						String fileName = nextSeq + "-" + i + ".png";
 
 						try {
+							s3UploadService.upload(file, "post", fileName); // S3 버킷의 post 디렉토리 안에 저장됨
 							// 파일을 지정된 경로에 저장
-							file.transferTo(new File(folderPath + fileName));
+							// file.transferTo(new File(folderPath + fileName));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -167,8 +167,9 @@ public class PostAndLikeController {
 						String fileName = nextSeq + "-" + i + ".png";
 
 						try {
+							s3UploadService.upload(file, "post", fileName); // S3 버킷의 post 디렉토리 안에 저장됨
 							// 파일을 지정된 경로에 저장
-							file.transferTo(new File(folderPath + fileName));
+							// file.transferTo(new File(folderPath + fileName));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

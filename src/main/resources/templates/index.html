@@ -124,7 +124,7 @@
 		                                   		<div class="text-center">
 		                                      		<div class="position-relative d-flex justify-content-center">
 		                                         		<a th:href="@{'profile?member_Id=' + ${memberVO.member_Id}}" class="text-decoration-none">
-				                                            <img th:src="@{'img/uploads/profile/' + ${profileMap[memberVO.member_Id]} + '?' + ${random}}" class="img-fluid rounded-circle mb-3" alt="profile-img">
+				                                            <img th:src="${S3Path} + 'profile/' + ${profileMap[memberVO.member_Id]} + '?' + ${random}" class="img-fluid rounded-circle mb-3" alt="profile-img">
 				                                            <p class="fw-bold text-dark m-0" th:text="${memberVO.member_Id}"></p>
 				                                            <p class="small text-muted" th:text="${memberVO.member_Name}"></p>
 		                                         		</a>
