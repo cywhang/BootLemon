@@ -124,7 +124,7 @@
                     <div class="main-content">
                         <div class="mb-5">
                             <header class="profile d-flex align-items-center">
-                                <img alt="#" th:src="@{'img/uploads/profile/' + ${loginUser.member_Profile_Image}}"
+                                <img alt="#" th:src="@{${S3Path} + 'profile/' + ${loginUser.member_Profile_Image}}"
                                      class="rounded-circle me-3">
                                 <div>
                                     <span class="text-muted text_short" th:inline="text">Hello, [[${loginUser.member_Id}]]</span>
@@ -354,7 +354,7 @@
                             </li>
                             <li class="nav-item">
                                 <a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}"
-                                   class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}"
+                                   class="nav-link"><img th:src="@{${S3Path} + 'profile/' + ${profileImage}}"
                                                          style="width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;">
                                     <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
                             </li>
@@ -446,7 +446,7 @@
                             </li>
                             <li class="nav-item">
                                 <a th:href="@{'profile?member_Id=' + ${session.loginUser.member_Id}}"
-                                   class="nav-link"><img th:src="@{'img/uploads/profile/' + ${profileImage}}"
+                                   class="nav-link"><img th:src="@{${S3Path} + 'profile/' + ${profileImage}}"
                                                          style="width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;">
                                     <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
                             </li>
@@ -605,7 +605,7 @@
                                                         </th:block>
                                                     </div>
                                                     <div style="width : 40%;">
-                                                        <img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}"
+                                                        <img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1.png'}"
                                                              class="img-fluid rounded-4 ms-auto" width="100"
                                                              height="100">
                                                     </div>

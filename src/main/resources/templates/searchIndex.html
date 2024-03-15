@@ -98,7 +98,7 @@
 											<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
 												<div class="d-flex">
 													<!-- 작성자의 프로필사진 -->
-													<img th:src="@{'img/uploads/profile/' + ${profileMap[postVO.member_Id]}}"  class="img-fluid rounded-circle user-img" alt="profile-img">
+													<img th:src="@{${S3Path} + 'profile/' + ${profileMap[postVO.member_Id]}}"  class="img-fluid rounded-circle user-img" alt="profile-img">
 													<div class="d-flex ms-3 align-items-start w-100">
 														<div class="w-100">
 															<div class="d-flex align-items-center justify-content-between">
@@ -137,7 +137,7 @@
 																		<br>
 																	</th:block>
 																	<th:block th:unless="${postVO.post_Image_Count == 0}">
-																		<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded mb-3" alt="post-img">
+																		<img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded mb-3" alt="post-img">
 																	</th:block>
 																</a>
 																<br>
@@ -183,7 +183,7 @@
 																		<div class="d-flex mb-2">
 																			<!-- 댓글 작성자 프로필 이미지 출력부분 -->
 																			<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
-																				<img th:src="@{'img/uploads/profile/' + ${profileMap[reply.member_Id]}}" class="img-fluid rounded-circle profile" alt="commenters-img">
+																				<img th:src="@{${S3Path} + 'profile/' + ${profileMap[reply.member_Id]}}" class="img-fluid rounded-circle profile" alt="commenters-img">
 																			</a>
 																			<div class="ms-2 small">
 																				<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" th:onclick="|replyModalseq(${reply.post_Seq})|">
@@ -254,7 +254,7 @@
 									<th:block th:unless="${searchFollow == null}">
 										<th:block th:each="search, s : ${searchFollow}" th:if="${s.index} < 5">
 											<a th:href="@{'profile?member_Id=' + ${search.member_Id}}" class="p-3 border-bottom d-flex text-dark text-decoration-none" style="height:95px;">
-												<img th:src="@{'img/uploads/profile/' + ${search.member_Profile_Image}}" class="img-fluid rounded-circle me-3" alt="profile-img">
+												<img th:src="@{${S3Path} + 'profile/' + ${search.member_Profile_Image}}" class="img-fluid rounded-circle me-3" alt="profile-img">
 												<div>
 													<p class="fw-bold mb-0 pe-3 d-flex align-items-center" th:text="${search.member_Id}"></p>
 													<div class="text-muted fw-light">
@@ -299,7 +299,7 @@
                            		<div id="mostFollowPeople-cards-container" class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm">
 									<th:block th:each="popular, p : ${mostFamous}" th:if="${p.index} < 5">
                            				<a th:href="@{'profile?member_Id=' + ${popular.member_Id}}" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                 			<img th:src="@{'img/uploads/profile/' + ${popular.member_Profile_Image}}" class="img-fluid rounded-circle me-3" alt="profile-img" style="height:65px; width:65px">
+                                 			<img th:src="@{${S3Path} + 'profile/' + ${popular.member_Profile_Image}}" class="img-fluid rounded-circle me-3" alt="profile-img" style="height:65px; width:65px">
                                  			<div>
                                      			<p class="fw-bold mb-0 pe-3 d-flex align-items-center" th:text="${popular.member_Id}"></p>
                                      			<div class="text-muted fw-light">
@@ -348,7 +348,7 @@
                               		<a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
                            		<li class="nav-item">
-                              		<a th:href="@{'profile?member_Id=' +${loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${loginUser.member_Profile_Image}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
+                              		<a th:href="@{'profile?member_Id=' +${loginUser.member_Id}}" class="nav-link"><img th:src="@{${S3Path} + 'profile/' + ${loginUser.member_Profile_Image}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
                            		</li>
                            		<li class="nav-item">
                               		<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -417,7 +417,7 @@
                               		<a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
                            		<li class="nav-item">
-                              		<a th:href="@{'profile?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><img th:src="@{'img/uploads/profile/' + ${loginUser.member_Profile_Image}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
+                              		<a th:href="@{'profile?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><img th:src="@{${S3Path} + 'profile/' + ${loginUser.member_Profile_Image}}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span th:inline="text">&nbsp;&nbsp;&nbsp;[[${loginUser.member_Id}]]'s PROFILE</span></a>
 								</li>
 								<li class="nav-item">
 									<a th:href="@{'follow?member_Id=' + ${loginUser.member_Id}}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -537,7 +537,7 @@
 															</th:block>
 														</div>
 														<div style = "width : 40%;">
-															<img th:src="@{'img/uploads/post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
+															<img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
 														</div>
 													</div>
 												</a>

@@ -119,7 +119,7 @@
                                         <td>
                                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${member.member_Profile_Image}"></a>
                                             <ul class="dropdown-menu px-2 py-1 mb-2">
-                                                <li><img th:src="@{'img/uploads/profile/' + ${member.member_Profile_Image}}" style = "width : 200px; height : 200px;"></li>
+                                                <li><img th:src="@{${S3Path} + 'profile/' + ${member.member_Profile_Image}}" style = "width : 200px; height : 200px;"></li>
                                             </ul>
                                         </td>
                                         <td th:text="${member.member_Country}"></td>

@@ -18,7 +18,7 @@
                     <a href="#" id="closeModal" class="text-muted text-decoration-none material-icons"
                        data-bs-dismiss="modal">arrow_back_ios_new</a>
                     <!-- 작성자 프로필 이미지 -->
-                    <img th:src="@{'img/uploads/profile/' + ${profileMap[session.loginUser.member_Id]}}"
+                    <img th:src="@{${S3Path} + 'profile/' + ${profileMap[session.loginUser.member_Id]}}"
                          class="img-fluid rounded-circle user-img" id="wirter" alt="profile-img">
                     <!-- 작성자 아이디 표시 -->
                     <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel"
@@ -88,7 +88,7 @@
                     <a href="#" id="closeEditModal" class="text-muted text-decoration-none material-icons"
                        data-bs-dismiss="modal">arrow_back_ios_new</a>
                     <!-- 작성자 프로필 이미지 -->
-                    <img th:src="@{'img/uploads/profile/' + ${profileMap[session.loginUser.member_Id]}}"
+                    <img th:src="@{${S3Path} + 'profile/' + ${profileMap[session.loginUser.member_Id]}}"
                          class="img-fluid rounded-circle user-img" id="wirter" alt="profile-img">
                     <!-- 수정 모달창의 제목-->
                     <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">수정 페이지</h5>

@@ -42,9 +42,14 @@ public class MainController {
 	// 로그인 페이지로 이동
 	@GetMapping(value="/")
 	public String login(Model model){
+		
+		// 환경변수로 조합한 소셜 로그인 URL받아오기
 		String kakaourl = sociallogin.getKaKaoUrl();
 		String naverurl = sociallogin.getNaverUrl();
+		// S3이미지 기본경로
+		String S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
 
+		model.addAttribute("S3Path", S3Path);
 		model.addAttribute("kakaoUrl", kakaourl);
 		model.addAttribute("naverUrl", naverurl);
 		return "login";
@@ -170,9 +175,6 @@ public class MainController {
 			Random r = new Random();
 			int random = r.nextInt(1000);
 
-			// S3이미지 기본경로
-			String S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
-
 			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);
@@ -184,8 +186,6 @@ public class MainController {
 			model.addAttribute("member_Id", member_Id);
 			model.addAttribute("hashMap", hashmap);
 			model.addAttribute("random", random);
-			model.addAttribute("S3Path", S3Path);
-
 
 			return "index";
 		}
