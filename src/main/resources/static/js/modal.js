@@ -1,3 +1,5 @@
+// S3 기본 이미지 경로
+var S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
 
 // 게시글 상세보기 모달창 1
 function modalseq(post_Seq) {
@@ -24,7 +26,7 @@ function modalseq(post_Seq) {
 			// 1-1. 프로필 이미지를 그려주는 컨테이너
 			var profileImgContainer = $('#profileImgContainer');
 			profileImgContainer.empty();
-			var image = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[post.member_Id]).addClass('img-fluid rounded-circle user-img').attr('alt', 'profile-img');
+			var image = $('<img>').attr('src', S3Path + 'profile/' + profileMap[post.member_Id]).addClass('img-fluid rounded-circle user-img').attr('alt', 'profile-img');
 			var imgLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(image);
 			$('#profileImgContainer').append(imgLink);
 
@@ -111,7 +113,7 @@ function modalseq(post_Seq) {
 
 			// 이미지가 1개일때
 			if (post.post_Image_Count === 1) {
-				var image = $('<img>').attr('src', 'img/uploads/post/' + post.post_Seq + '-1.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
+				var image = $('<img>').attr('src', S3Path + 'post/' + post.post_Seq + '-1.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
 				sliderContainer.append(image);
 				// 이미지가 2 ~ 4개일때
 			} else {
@@ -121,7 +123,7 @@ function modalseq(post_Seq) {
 					if (i === 1) {
 						imageItem.addClass('active');
 					}
-					var image = $('<img>').attr('src', 'img/uploads/post/' + post.post_Seq + '-' + i + '.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
+					var image = $('<img>').attr('src', S3Path + 'post/' + post.post_Seq + '-' + i + '.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
 					imageItem.append(image);
 					sliderContainer.append(imageItem);
 				}
@@ -208,7 +210,7 @@ function modalseq(post_Seq) {
 			for (var i = 0; i < replies.length; i++) {
 				var replyItem = $('<div>').addClass('d-flex mb-2');
 
-				var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+				var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 				var imgLink = $('<a>').attr('href', 'profile?member_Id=' + replies[i].member_Id).css('text-decoration', 'none').append(profileImg);
 				replyItem.append(imgLink);
 
@@ -350,7 +352,7 @@ function replyModalseq(post_Seq) {
 		    // 1-1. 프로필 이미지를 그려주는 컨테이너
 		    var profileImgContainer = $('#profileImgContainer2');
 		    profileImgContainer.empty();
-		    var image = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[post.member_Id]).addClass('img-fluid rounded-circle user-img').attr('alt', 'profile-img');
+		    var image = $('<img>').attr('src', S3Path + 'profile/' + profileMap[post.member_Id]).addClass('img-fluid rounded-circle user-img').attr('alt', 'profile-img');
 		    var imgLink = $('<a>').attr('href', 'profile?member_Id=' + post.member_Id).css('text-decoration', 'none').append(image);
 		    $('#profileImgContainer2').append(imgLink);
 		    
@@ -450,7 +452,7 @@ function replyModalseq(post_Seq) {
 			for (var i = 0; i < replies.length; i++) {
 			  var replyItem = $('<div>').addClass('d-flex mb-2');
 			  
-			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+			  var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 			  var imgLink = $('<a>').attr('href', 'profile?member_Id=' + replies[i].member_Id).css('text-decoration', 'none').append(profileImg);
 			  replyItem.append(imgLink);                         
 			  
@@ -607,7 +609,7 @@ function insertReply(post_Seq){
 			for (var i = 0; i < replies.length; i++) {
 			  var replyItem = $('<div>').addClass('d-flex mb-2');
 			  
-			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+			  var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 			  replyItem.append(profileImg);                         
 			  
 			  var replyContentWrapper = $('<div>').addClass('ms-2 small');
@@ -765,7 +767,7 @@ function insertReply2(post_Seq){
 			for (var i = 0; i < replies.length; i++) {
 			  var replyItem = $('<div>').addClass('d-flex mb-2');
 
-			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+			  var profileImg = $('<img>').attr('src', S3Path + 'profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
 			  replyItem.append(profileImg);                         
 			  
 			  var replyContentWrapper = $('<div>').addClass('ms-2 small');
@@ -907,7 +909,7 @@ function postEditView(post_Seq){
 		success : function(response) {
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
-			var folderPath = "img/uploads/post/";
+			var folderPath = S3Path + "post/";
 			var randomnum = Math.round(Math.random() * 1000); // 이미지 캐시 새로고침을 위한 랜덤난수
 
 		    var hashList = response.hashList; 
