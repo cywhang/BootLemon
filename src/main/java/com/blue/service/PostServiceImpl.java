@@ -192,4 +192,8 @@ public class PostServiceImpl implements PostService {
 		return postMapper.seqForUser(member_Id);
 	}
 
+	public int postImgCount(int post_Seq) {
+		return postMapper.postImgCount(post_Seq);
+	}
+
 }

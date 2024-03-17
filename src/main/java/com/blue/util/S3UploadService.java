@@ -28,21 +28,34 @@ public class S3UploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    // ----------------------------------- 이미지 업로드 처리 ----------------------------------
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
+    // private upload 메소드에 전파되는 형식
     public void upload(MultipartFile multipartFile, String dirName, String fileName) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
 
+        // convert 메소드에서 multipartFile을 File로 반환받는 부분.
+        // 전환중 에러가 나면 Exception메세지를 콘솔에 출력해준다.
         File uploadFile = convert(multipartFile, fileName)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
+
+        // convert에서 반환받은 파일을 upload에 넘겨준다.
         upload(uploadFile, dirName);
     }
 
+    // upload 메소드에서 전파받는 곳
+    // 이미지를 전환하는 과정에서(convert) 임시로 로컬에 저장하기 때문에
+    // putS3메소드에 파일을 넘겨주고 로컬에 저장된 파일을 삭제처리 하는 과정
     private void upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + uploadFile.getName();
+
+        // 직접적으로 S3에 접근하여 이미지를 업로드 하는 부분.
         putS3(uploadFile, fileName);
 
-        removeNewFile(uploadFile);  // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        removeNewFile(uploadFile);
     }
 
+    // 직접적으로 S3에 접근하여 이미지를 업로드 하는곳
     private void putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
@@ -50,6 +63,7 @@ public class S3UploadService {
         );
     }
 
+    // 로컬에 저장된 파일 삭제하는곳
     private void removeNewFile(File targetFile) {
         if(targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
@@ -58,16 +72,60 @@ public class S3UploadService {
         }
     }
 
+    // MultipartFile을 File로 전환하는곳
+    // Optianal을 사용하는 이유
+    // 파일을 생성하고 변환하는데 실패할 수 있기때문에 (파일 시스템 권한 문제, 디스크 공간 부족 등)
+    // 실패 상황을 처리하기 위해 Optional을 사용한다.
     private Optional<File> convert(MultipartFile file, String fileName) throws  IOException {
-        File convertFile = new File(fileName); // 업로드한 파일의 이름
+        // 전환받을 파일 객체 생성
+        File convertFile = new File(fileName);
+        
+        // 파일이 정상적으로 생성 되었을때
         if(convertFile.createNewFile()) {
+            // 파일 생성 후
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
+                // Multipart에서 바이트 배열로 변환하여 파일에 쓰기
                 fos.write(file.getBytes());
             }
+            // Optional로 감싸서 생성된 파일을 반환
             return Optional.of(convertFile);
         }
+        // 파일이 이미 존재하거나 생성에 실패한 경우 비어있는 Optional을 반환
         return Optional.empty();
     }
+
+
+    // -------------------------- 이미지 삭제 처리 -------------------------------
+    public Boolean deleteFile(String FilePath, String FileName) {
+        try {
+            // 폴더명 + 파일이름.확장자
+            String keyName = FilePath + FileName;
+            boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
+            if (isObjectExist) {
+                amazonS3Client.deleteObject(bucket, keyName);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            log.debug("Delete File failed", e);
+        }
+        return true;
+    }
+
+
+    // ----------------------- 이미지 수정 처리 ---------------------------------
+    public void renameFile(String sourceKey, String destinationKey) {
+        // sourceKey      = post/post_Seq-i.png  -> 복사할 객체이름 
+        // destinationKey = post/post_Seq-i.png  -> 복사후 객체이름
+
+        // 버킷에서 지정된 이미지를 다른 파일명으로 복사한다.
+        amazonS3Client.copyObject(bucket, sourceKey, bucket, destinationKey);
+
+        // 복사후 남아있는 이미지를 삭제한다.
+        amazonS3Client.deleteObject(bucket, sourceKey);
+    }
+
 
     /*
     // 파일 업로드 처리

@@ -408,34 +408,16 @@ public class PostAndLikeController {
 	@GetMapping("/postDelete")
 	public String postDelete(@RequestParam(value="post_Seq") int post_Seq, HttpSession session) {
 
+		// 게시글 이미지 카운트 조회
+		int imgCount = postService.postImgCount(post_Seq);
+		// 게시글 삭제 처리
 		postService.deletePost(post_Seq);
-		// 1. 이미지 업로드 실제경로
-		String folderPath = "/home/ubuntu/fileUpload/img/uploads/post/";
-		// 절대경로의 이미지 전체를 folder에 저장한다
-		File folder = new File(folderPath);
-		// folder의 파일들을 리스트화 시킨다.
-		File[] files = folder.listFiles();
+		String FilePath = "post/";
 
-		if (files != null) {
-			for (File file : files) {
-				// 파일 경로에서 파일 이름을 추출합니다.
-				String fileName = file.getPath().substring(file.getPath().lastIndexOf('\\') + 1);
-
-				// 파일 이름을 "-"를 기준으로 분리합니다.
-				String[] parts = fileName.split("-");
-
-				// 파일 이름이 적어도 두 부분으로 이루어져 있고, 첫 번째 부분이 post_Seq와 일치하는지 확인합니다.
-				if (parts.length >= 2 && parts[0].equals(String.valueOf(post_Seq))) {
-					// 파일을 삭제합니다.
-					if (file.delete()) {
-						// 파일 삭제가 성공한 경우, 성공 메시지를 출력합니다.
-					} else {
-						// 파일 삭제가 실패한 경우, 실패 메시지를 출력합니다.
-					}
-				}
-			}
-		} else {
-			// 기존 이미지 없음
+		// 이미지 삭제 처리
+		for(int i=0; i < imgCount; i++) {
+			String FileName = post_Seq + "-" + (i+1) + ".png";
+			s3UploadService.deleteFile(FilePath, FileName);
 		}
 		return "redirect:/index";
 	}
@@ -466,160 +448,111 @@ public class PostAndLikeController {
 								 			@RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
 								 			@RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
 								 			HttpSession session, int post_Seq) {
-
-
+		/*
+			attach_file       = 수정 제출시 새롭게 추가된 파일을 담고 있는 배열
+			deletedStrings    = 사용자가 기존에 업로드한 파일중 삭제한 파일의 이름을 담고있는 배열
+			alreadyFileNo     = 수정 전 기존에 업로드된 파일의 갯수를 나타내는 변수
+			currentEditFileNo = 수정 제출시 총 이미지 갯수를 나타내는 변수
+		 */
 
 		vo.setPost_Seq(post_Seq);
 		int deleteStrings = deletedStrings.length;
-
-		// 1. 이미지 업로드 실제경로
-		String folderPath = "/home/ubuntu/fileUpload/img/uploads/post/";
+		String FilePath = "post/";
 		int imgCount = (attach_file != null) ? attach_file.length : 0;
 		vo.setPost_Image_Count(currentEditFileNo);
 
 		for (int i = 0; i < deletedStrings.length; i++) {
 			System.out.println(deletedStrings[i]);
 		}
-
 		System.out.println("alreadyFileNo: " + alreadyFileNo);
 		System.out.println("currentEditFileNo: " + currentEditFileNo);
 
+		// 삭제된 이미지를 제외하고 이미지를 copy하여 이름을 변경하고 다시 put한다.
 
-		if(imgCount == 0) { // 수정폼 제출시 이미지가 없을때
+		// 1. 수정폼 제출시 추가된 이미지가 없을 경우
+		if(imgCount == 0) {
 
-			// 기존 파일 삭제
-			// 절대경로의 이미지 전체를 folder에 저장한다
-			File folder = new File(folderPath);
-			// folder의 파일들을 리스트화 시킨다.
-			File[] files = folder.listFiles();
-
-			// 기존이미지를 삭제했을때
-			if (files != null && deletedStrings.length > 0) {
+			// 기존이미지를 삭제했을때만 처리
+			// deletedStrings는 hhtps://awsS3~~ /post/post_Seq-i.png 형태로 문자열이 저장된다.
+			if (deletedStrings.length > 0) {
 				for (String deletedString : deletedStrings) {
-					String fileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
-					String absoluteFilePath = folderPath + fileName;
-					File fileToDelete = new File(absoluteFilePath);
-					if (fileToDelete.delete()) {
-//			            System.out.println("파일 삭제: " + fileName);
+					// fileName에는 post_Seq-i.png가 담긴다.
+					// 여기서는 S3삭제
+					String FileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
+					s3UploadService.deleteFile(FilePath, FileName);
+					// 삭제된 파일 이후의 파일들 이름 변경
+					int deletedIndex = Integer.parseInt(FileName.split("-")[1].split("\\.")[0]);
 
-						// 삭제된 파일 이후의 파일들 이름 변경
-						int deletedIndex = Integer.parseInt(fileName.split("-")[1].split("\\.")[0]);
-						for (int i = deletedIndex + 1; i <= files.length; i++) {
-							String originalFilePath = folderPath + post_Seq + "-" + i + ".png";
-							String newFilePath = folderPath + post_Seq + "-" + (i - 1) + ".png";
-							File originalFile = new File(originalFilePath);
-							File newFile = new File(newFilePath);
-							if (originalFile.renameTo(newFile)) {
-//			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
-							} else {
-//			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
-							}
-						}
-					} else {
-//			            System.out.println("파일 삭제 실패: " + fileName);
+					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
+					for (int i = deletedIndex + 1; i < alreadyFileNo; i++) {
+						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
+						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
+						s3UploadService.renameFile(sourceKey, destinationKey);
 					}
 				}
-			} else {
-//				System.out.println("기존 이미지 없음");
 			}
 
-		} else if (imgCount == 1 ){ // 수정폼 제출시 이미지가 1개 일때
-			// 실제 파일  설정 부분
+		// 2. 수정폼 제출시 추가된 이미지가 1개 일때
+		} else if (imgCount == 1 ){
+
+			// file = 추가된 이미지
 			MultipartFile file = attach_file[0];
+			// fileName = 업로드할 이미지 이름
 			String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+1) + ".png";
-//			System.out.println(fileName);
-//			System.out.println("File Name: " + file.getOriginalFilename());
 
-			// 기존파일 삭제 유무 체크후 처리
-			File folder = new File(folderPath);
-			File[] files = folder.listFiles();
-			if (files != null && deletedStrings.length > 0) {
+			if (deletedStrings.length > 0) {
 				for (String deletedString : deletedStrings) {
-					String alreadyFileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
-					String absoluteFilePath = folderPath + alreadyFileName;
-					File fileToDelete = new File(absoluteFilePath);
-					if (fileToDelete.delete()) {
-//			            System.out.println("파일 삭제: " + alreadyFileName);
+					// fileName에는 post_Seq-i.png가 담긴다.
+					// 여기서는 S3삭제
+					String FileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
+					s3UploadService.deleteFile(FilePath, FileName);
+					// 삭제된 파일 이후의 파일들 이름 변경
+					int deletedIndex = Integer.parseInt(FileName.split("-")[1].split("\\.")[0]);
 
-						// 삭제된 파일 이후의 파일들 이름 변경
-						int deletedIndex = Integer.parseInt(alreadyFileName.split("-")[1].split("\\.")[0]);
-						for (int i = deletedIndex + 1; i <= files.length; i++) {
-							String originalFilePath = folderPath + post_Seq + "-" + i + ".png";
-							String newFilePath = folderPath + post_Seq + "-" + (i - 1) + ".png";
-							File originalFile = new File(originalFilePath);
-							File newFile = new File(newFilePath);
-							if (originalFile.renameTo(newFile)) {
-//			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
-							} else {
-//			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
-							}
-						}
-
-					} else {
-//			            System.out.println("파일 삭제 실패: " + alreadyFileName);
+					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
+					for (int i = deletedIndex + 1; i < alreadyFileNo; i++) {
+						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
+						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
+						s3UploadService.renameFile(sourceKey, destinationKey);
 					}
 				}
-			} else {
-//				System.out.println("기존 이미지 없음");
 			}
-			try {
-				// 실제 파일 저장 처리 부분
-				file.transferTo(new File(folderPath + fileName));
-//		        System.out.println("파일 저장 성공");
+			try { // 실제 파일 저장 처리 부분
+				s3UploadService.upload(file, "post", fileName);
 			} catch (IOException e) {
 				e.printStackTrace();
-//		        System.out.println("파일 저장 실패");
 			}
 
-		} else { // 수정폼 제출시 이미지가 2개 이상일때
-//			System.out.println("이미지 " + imgCount + " 개 ");
+		// 3. 수정폼 제출시 추가된 이미지가 2개 이상일때
+		} else {
 
-			// 기존파일 삭제 유무 체크후 처리
-			File folder = new File(folderPath);
-			File[] files = folder.listFiles();
-			if (files != null && deletedStrings.length > 0) {
+			if (deletedStrings.length > 0) {
 				for (String deletedString : deletedStrings) {
-					String alreadyFileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
-					String absoluteFilePath = folderPath + alreadyFileName;
-					File fileToDelete = new File(absoluteFilePath);
-					if (fileToDelete.delete()) {
-//			            System.out.println("파일 삭제: " + alreadyFileName);
+					// fileName에는 post_Seq-i.png가 담긴다.
+					// 여기서는 S3삭제
+					String FileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
+					s3UploadService.deleteFile(FilePath, FileName);
+					// 삭제된 파일 이후의 파일들 이름 변경
+					int deletedIndex = Integer.parseInt(FileName.split("-")[1].split("\\.")[0]);
 
-						// 삭제된 파일 이후의 파일들 이름 변경
-						int deletedIndex = Integer.parseInt(alreadyFileName.split("-")[1].split("\\.")[0]);
-						for (int i = deletedIndex + 1; i <= files.length; i++) {
-							String originalFilePath = folderPath + post_Seq + "-" + i + ".png";
-							String newFilePath = folderPath + post_Seq + "-" + (i - 1) + ".png";
-							File originalFile = new File(originalFilePath);
-							File newFile = new File(newFilePath);
-							if (originalFile.renameTo(newFile)) {
-//			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
-							} else {
-//			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
-							}
-						}
-					} else {
-//			            System.out.println("파일 삭제 실패: " + alreadyFileName);
+					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
+					for (int i = deletedIndex + 1; i < alreadyFileNo; i++) {
+						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
+						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
+						s3UploadService.renameFile(sourceKey, destinationKey);
 					}
 				}
-			} else {
-//				System.out.println("기존 이미지 없음");
 			}
 			// 실제 파일 저장 처리 부분
 			for(int i=0; i<attach_file.length; i++) {
 //				System.out.println("추가된 이미지 " + imgCount + " 개");
 				MultipartFile file = attach_file[i];
 				String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+(i+1)) + ".png";
-//				System.out.println(fileName);
-//				System.out.println("File Name: " + file.getOriginalFilename());
-
 				try {
 					// 파일을 지정된 경로에 저장
-					file.transferTo(new File(folderPath + fileName));
-//		            System.out.println("파일 저장 성공");
+					s3UploadService.upload(file, "post", fileName);
 				} catch (IOException e) {
 					e.printStackTrace();
-//		            System.out.println("파일 저장 실패");
 				}
 			}
 		}

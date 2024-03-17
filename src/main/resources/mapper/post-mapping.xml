@@ -172,6 +172,11 @@
         SELECT member_Id FROM post WHERE post_Seq = #{post_Seq}
     </select>
 
+    <!-- 게시글 삭제 시 이미지 카운트 조회 -->
+    <select id = "postImgCount" resultType = "int">
+        SELECT post_image_count FROM post WHERE post_Seq = #{post_Seq}
+    </select>
+
     <!-- 알람 인서트 시 시퀀스 0 댓글 존재 여부 -->
     <select id = "checkZeroPostSeq" resultType = "String">
         SELECT member_Id
