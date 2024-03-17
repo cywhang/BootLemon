@@ -53,4 +53,6 @@ public interface PostMapper {
     String checkZeroPostSeq();
 
     List<Integer> seqForUser(String member_Id);
+
+    int postImgCount(int post_Seq);
 }

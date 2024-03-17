@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+import com.blue.util.S3UploadService;
 import com.blue.util.Sociallogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -52,6 +53,8 @@ public class MemberController {
 	private AlarmService alarmService;
 	@Autowired
 	private Sociallogin sociallogin;
+	@Autowired
+	private S3UploadService s3UploadService;
 
 	// 회원가입 화면 표시
 	@RequestMapping("/join_view")
@@ -110,13 +113,14 @@ public class MemberController {
 							 @RequestParam(value = "email_add") String email_add, HttpSession session) {
 		if (!profilePhoto.isEmpty()) {
 			// 프로필 사진을 저장할 경로를 결정합니다.
-			String image_Path = "/home/ubuntu/fileUpload/img/uploads/profile/";
+			//String image_Path = "/home/ubuntu/fileUpload/img/uploads/profile/";
 			// 저장할 파일명을 생성합니다. 파일명에는 member_Id와 확장자명을 포함합니다.
 			String fileName = vo.getMember_Id() + ".png";
 			// 파일을 지정된 경로에 저장합니다.
 
 			try {
-				profilePhoto.transferTo(new File(image_Path + fileName));
+				s3UploadService.upload(profilePhoto, "post", fileName); // S3 버킷의 post 디렉토리 안에 저장됨
+				// profilePhoto.transferTo(new File(image_Path + fileName));
 				// 저장된 파일의 경로를 MemberVO에 설정합니다.
 				vo.setMember_Profile_Image(fileName);
 			} catch (IOException e) {

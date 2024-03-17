@@ -59,12 +59,16 @@ public class MainController {
 	@PostMapping("loginProc")
 	public String LoginAction(Model model, @ModelAttribute("vo") MemberVO vo) {
 		int result = memberService.doLogin(vo);
+		// 어드민을 위한 S3이미지 기본경로
+		String S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
 
 		if(result == 1) {
 			if(vo.getMember_Id().equals("admin")) {
+				model.addAttribute("S3Path", S3Path);
 				model.addAttribute("loginUser", memberService.getMember(vo.getMember_Id()));
 				return "redirect:admin_Index";
 			} else {
+				model.addAttribute("S3Path", S3Path);
 				model.addAttribute("loginUser", memberService.getMember(vo.getMember_Id()));
 				return "redirect:index";
 			}
@@ -175,6 +179,10 @@ public class MainController {
 			Random r = new Random();
 			int random = r.nextInt(1000);
 
+			// S3이미지 기본경로
+			String S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
+
+			model.addAttribute("S3Path", S3Path);
 			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);
