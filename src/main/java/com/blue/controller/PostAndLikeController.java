@@ -483,8 +483,9 @@ public class PostAndLikeController {
 					// 삭제된 파일 이후의 파일들 이름 변경
 					int deletedIndex = Integer.parseInt(FileName.split("-")[1].split("\\.")[0]);
 
+					//       1 + 1              2 < 3
 					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
-					for (int i = deletedIndex + 1; i < alreadyFileNo; i++) {
+					for (int i = deletedIndex + 1; i <= alreadyFileNo; i++) {
 						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
 						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
 						s3UploadService.renameFile(sourceKey, destinationKey);
@@ -510,7 +511,7 @@ public class PostAndLikeController {
 					int deletedIndex = Integer.parseInt(FileName.split("-")[1].split("\\.")[0]);
 
 					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
-					for (int i = deletedIndex + 1; i < alreadyFileNo; i++) {
+					for (int i = deletedIndex + 1; i <= alreadyFileNo; i++) {
 						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
 						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
 						s3UploadService.renameFile(sourceKey, destinationKey);
@@ -536,7 +537,7 @@ public class PostAndLikeController {
 					int deletedIndex = Integer.parseInt(FileName.split("-")[1].split("\\.")[0]);
 
 					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
-					for (int i = deletedIndex + 1; i < alreadyFileNo; i++) {
+					for (int i = deletedIndex + 1; i <= alreadyFileNo; i++) {
 						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
 						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
 						s3UploadService.renameFile(sourceKey, destinationKey);
