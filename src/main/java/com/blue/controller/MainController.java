@@ -46,10 +46,7 @@ public class MainController {
 		// 환경변수로 조합한 소셜 로그인 URL받아오기
 		String kakaourl = sociallogin.getKaKaoUrl();
 		String naverurl = sociallogin.getNaverUrl();
-		// S3이미지 기본경로
-		String S3Path = "https://bluelemonbucket.s3.ap-northeast-2.amazonaws.com/";
 
-		model.addAttribute("S3Path", S3Path);
 		model.addAttribute("kakaoUrl", kakaourl);
 		model.addAttribute("naverUrl", naverurl);
 		return "login";

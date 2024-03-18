@@ -1,6 +1,7 @@
 package com.blue.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.blue.dto.LikeVO;
@@ -70,9 +71,8 @@ public interface PostService {
 	// 알람을 위해 게시글 작성자 추출
 	String getPostWriter(int post_Seq);
 
-	// 게시글 이미지 삭제를 위한 사용자가 작성한 게시글의 시퀀스 번호
-	List<Integer> seqForUser(String member_Id);
-
 	// 게시글 삭제시 이미지 삭제를 위한 조회
 	int postImgCount(int post_Seq);
+
+	HashMap<Integer, Integer> seqForUser(String member_Id);
 }

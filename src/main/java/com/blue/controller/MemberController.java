@@ -40,7 +40,7 @@ import com.blue.dto.EmailVO;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@SessionAttributes("loginUser")
+@SessionAttributes({"loginUser", "profileMap", "S3Path"})
 public class MemberController {
 
 	@Autowired
@@ -143,7 +143,6 @@ public class MemberController {
 
 	@GetMapping(value = "/editProfile")
 	public String editProfile(HttpSession session, Model model) {
-		System.out.println("editProfile 수행 시작");
 		if (session.getAttribute("loginUser") == null) {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
@@ -198,19 +197,13 @@ public class MemberController {
 		// 새로운 프로필 사진을 저장합니다.
 		if (!profilePhoto.isEmpty()) {
 
-			// 기존 프로필 사진을 삭제합니다.
-			String existingImagePath = ("/home/ubuntu/fileUpload/img/uploads/profile/")
-					+ vo.getMember_Profile_Image();
-			File existingImage = new File(existingImagePath);
-			if (existingImage.exists()) {
-				existingImage.delete();
-			}
-
-			String imagePath = "/home/ubuntu/fileUpload/img/uploads/profile/";
-			String fileName = vo.getMember_Id() + ".png";
+			String FilePath = "profile/";
+			String FileName = vo.getMember_Profile_Image();
+			// 기존 프로필 사진을 삭제
+			s3UploadService.deleteFile(FilePath, FileName);
 			try {
-				profilePhoto.transferTo(new File(imagePath + fileName));
-				vo.setMember_Profile_Image(fileName);
+				// 새롭게 업로드한 프로필 사진을 등록
+				s3UploadService.upload(profilePhoto, FilePath, FileName);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -251,55 +244,47 @@ public class MemberController {
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		String sessionPass = loginUser.getMember_Password();
 		String voPass = vo.getMember_Password();
+		String member_Id = loginUser.getMember_Id();
 
 		// 1. 게시글 이미지 삭제를 위한 경로
-		String postFolderPath = "/home/ubuntu/fileUpload/img/uploads/post/";
-		File postFolder = new File(postFolderPath);
-		File[] postFiles = postFolder.listFiles();
+		String postFilePath = "post/";
 
-		// 1-1. 사용자가 작성한 게시글들의 시퀀스들을 얻어오는 과정
-		List<Integer> memSeq = postService.seqForUser(loginUser.getMember_Id());
+		// 1-1. 사용자가 작성한 게시글들의 시퀀스 + 이미지 카운트를 얻어오는 과정
+		// key = post_Seq,  value = post_Image_Count
+		HashMap<Integer, Integer> deleteImages = postService.seqForUser(member_Id);
 
 		// 2. 프로필 이미지 삭제를 위한 경로
-		String profileFolderPath = "/home/ubuntu/fileUpload/img/uploads/profile/";
-		File profileFolder = new File(profileFolderPath);
-		File[] profileFiles = profileFolder.listFiles();
+		String profileFilePath = "profile/";
 
 		if (!(sessionPass.equals(voPass))) { // 비밀번호가 일치하지 않으면
 			rttr.addFlashAttribute("msg", "wrong");
 			return "redirect:edit_profile";
 
 		} else { // 비밀번호가 일치하면
-			postService.deleteOneMemsTag(loginUser.getMember_Id());
-			memberService.deleteMember(loginUser.getMember_Id());
+			postService.deleteOneMemsTag(member_Id);
+			memberService.deleteMember(member_Id);
 
 			// 1-2. 사용자가 업로드한 게시글 이미지들을 삭제
-			if (postFiles != null) {
-				for (int Seq : memSeq) {
-					for (File file : postFiles) {
-						String fileName = file.getPath().substring(file.getPath().lastIndexOf('\\') + 1);
-						String[] parts = fileName.split("-");
-						if (parts.length >= 2 && parts[0].equals(String.valueOf(Seq))) {
-							if (file.delete()) {
-							} else {
+			if (deleteImages != null) {
+				for (int i=0; i < deleteImages.size(); i++) {
+					// value가 0이면 호출 x
+					// key값은 고정시키고 value는 int i=1부터 i <= value 까지 루프를 돌려 S3delete를 호출한다.
+					for (Map.Entry<Integer, Integer> entry : deleteImages.entrySet()) {
+						int Sequence = entry.getKey();
+						int Count = entry.getValue();
+						if (Count != 0) {
+							for (int k=1; k <= Count; k++) {
+								String FileName = Sequence + "-" + k + ".png";
+								s3UploadService.deleteFile("post/", FileName);
 							}
 						}
 					}
 				}
 			}
-			// 2-1. 사용자가 업로드한 프로필 이미지들을 삭제
-			if (profileFiles != null) {
-				for (File file : profileFiles) {
-					String fileName = file.getName();
-					if (fileName.equals(loginUser.getMember_Id())) {
-						if (file.delete()) {
-							System.out.println("프로필 삭제");
-						} else {
-							System.out.println("프로필 삭제 실패");
-						}
-					}
-				}
-			}
+
+			// 2-1. 사용자가 업로드한 프로필 이미지를 삭제
+			s3UploadService.deleteFile(profileFilePath, member_Id + ".png");
+
 			session.invalidate();
 			rttr.addFlashAttribute("msg", "withdrawlSuccess");
 			return "redirect:login";

@@ -1,6 +1,7 @@
 package com.blue.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.blue.dto.AlarmVO;
@@ -188,12 +189,22 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Integer> seqForUser(String member_Id) {
-		return postMapper.seqForUser(member_Id);
-	}
-
 	public int postImgCount(int post_Seq) {
 		return postMapper.postImgCount(post_Seq);
 	}
+
+	@Override
+	public HashMap<Integer, Integer> seqForUser(String member_Id){
+		List<HashMap<Integer, Integer>> resultList = postMapper.seqForUser(member_Id);
+		HashMap<Integer, Integer> postSeqCount = new HashMap<>();
+
+		for (HashMap<Integer, Integer> row : resultList) {
+			int post_Seq = row.get("postSeq");
+			int post_Image_Count = row.get("postImageCount");
+			postSeqCount.put(post_Seq, post_Image_Count);
+		}
+		return postSeqCount;
+	}
+
 
 }
