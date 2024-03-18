@@ -30,7 +30,7 @@ function people_List() {
                     card.classList.add("pf-item");
                     card.innerHTML = `
                         <a href="profile?member_Id=`+ follow.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                            <img src="${S3Path} + profile/${follow.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                            <img src="${S3Path}profile/${follow.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                             <div>
                                 <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${follow.member_Id}</p>
                                 <div class="text-muted fw-light">

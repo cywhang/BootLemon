@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 //컨트롤러에서 'loginUser', 'profileMap' 이라는 이름으로 모델 객체를 생성할때 세션에 동시에 저장한다.
-@SessionAttributes({"loginUser", "profileMap"})
+@SessionAttributes({"loginUser", "profileMap", "S3Path"})
 public class FollowController {
 
 	@Autowired

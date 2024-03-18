@@ -6,6 +6,7 @@ import com.blue.dto.TagVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -52,7 +53,7 @@ public interface PostMapper {
 
     String checkZeroPostSeq();
 
-    List<Integer> seqForUser(String member_Id);
-
     int postImgCount(int post_Seq);
+
+    List<HashMap<Integer, Integer>> seqForUser(String member_Id);
 }

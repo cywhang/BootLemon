@@ -185,9 +185,15 @@
     </select>
 
     <!-- 회원 탈퇴시 업로드한 이미지를 삭제 하기 위한 사용자가 작성한 게시글들의 시퀀스 번호 조회 -->
-    <select id="seqForUser" resultType = "int">
-        SELECT post_Seq
-        FROM post
-        WHERE member_Id = #{member_Id}
+    <resultMap id="postMap" type="java.util.HashMap">
+        <id column="post_Seq" property="postSeq"/>
+        <result column="post_Image_Count" property="postImageCount"/>
+    </resultMap>
+
+    <select id="seqForUser" resultMap="postMap">
+        select post_seq, post_image_count
+        from post
+        where member_id = #{member_Id}
     </select>
+
 </mapper>

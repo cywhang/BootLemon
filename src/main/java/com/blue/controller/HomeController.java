@@ -21,7 +21,7 @@ import com.blue.service.PostService;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@SessionAttributes("loginUser")
+@SessionAttributes({"loginUser", "profileMap", "S3Path"})
 public class HomeController {
 
 	@Autowired
