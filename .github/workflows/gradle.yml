@@ -1,4 +1,4 @@
-name: coinTalk chatRoom server CI/CD
+name: BlueLemon CI/CD
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  S3_BUCKET_NAME: cointalk-deploy
+  S3_BUCKET_NAME: bluelemonbucket
 
 jobs:
   build:
