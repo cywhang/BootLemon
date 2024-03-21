@@ -1,4 +1,4 @@
-name: BlueLemon CI/CD
+name: Java CI with Gradle
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
       run: cp ./build/libs/*.jar ./deploy
 
     - name: Make zip file
-      run: zip -r ./coinTalk.zip ./deploy
+      run: zip -r ./BlueLemon.zip ./deploy
       shell: bash
 
     - name: Configure AWS credentials
