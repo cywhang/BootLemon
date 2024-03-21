@@ -63,7 +63,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: 
         aws deploy create-deployment \
-        --application-name BlueLemon \
+        --application-name bluelemon \
         --deployment-group-name blue-group \
         --file-exists-behavior OVERWRITE \
         --s3-location bucket=bluelemonbucket,bundleType=zip,key=BlueLemon.zip \
