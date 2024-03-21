@@ -63,7 +63,7 @@ public class S3UploadService {
         );
     }
 
-    // 로컬에 저장된 파일 삭제하는곳
+    // 임시로 로컬에 저장된 파일 삭제하는곳
     private void removeNewFile(File targetFile) {
         if(targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
