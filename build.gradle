@@ -21,6 +21,7 @@ repositories {
 	mavenCentral()
 }
 
+// plan-jar파일을 생략한다.
 jar {
 	enabled = false
 }
