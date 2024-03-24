@@ -1,17 +1,36 @@
+# Appspec.yml 이란
+# CodeDeploy에서 배포를 관리하는 데에 사용하는 YAML형식 또는 JSON 형식의 파일.
+# 파일에 정리된 일련의 수명 주기 이벤트 후크로 각 배포를 관리하는데 사용됨.
+
 version: 0.0
 os: linux
+
+# source : 인스턴스에 복사할 수정된 파일 또는 디렉토리를 식별함.
+# destination : 인스턴스에서 파일이 복사되어야 하는 위치를 식별함.
+# overwrite : 선택 값으로, 동일한 파일이 있을 경우 덮어쓰기 여부를 작성함.
 files:
   - source: /
     destination: /home/ubuntu/app/
     overwrite: yes
-file_exists_behavior: OVERWRITE
 
+# permissions : files 섹션에서 정의한 파일이 인스턴스에 복사된 후 해당 파일에 권한이 어떻게 적용되어야 하는 지를 지정함.
+# object(필수) : 문자열을 사용하여 대상을 지정함.
+# pattern(선택) : 권한을 적용할 패턴을 지정함.
+#                 "**" 는 type에 일치하는 모든 파일에 적용된다는 의미.
+# onner(선택) : object의 소유자 이름.
+# group(선택) : object의 그룹 이름.
 permissions:
   - object: /
     pattern: "**"
     owner: ubuntu
     group: ubuntu
 
+# hooks : 배포 과정중에 실행될 후크들을 설정.
+# ApplicationStop, BeforeInstall, ApplicationStart 등 배포 수명주기에 따른 이벤트 이름.
+# location : 스크립트 위치를 의미하며, Application root를 기준으로 함.
+# timeout : 각 배포 수명 주기 이벤트에 대한 스크립트 실행에 허용되는 최대 시간.
+#           설정 시간에 초과하면 실패 처리.
+# runas : 기본적으로 인스턴스에서 실행 중인 CodeDeploy 에이전트입니다.
 hooks:
   ApplicationStart:
     - location: deploy.sh
