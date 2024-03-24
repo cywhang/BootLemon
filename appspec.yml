@@ -10,7 +10,7 @@ os: linux
 # overwrite : 선택 값으로, 동일한 파일이 있을 경우 덮어쓰기 여부를 작성함.
 files:
   - source: /
-    destination: /home/ubuntu/app/
+    destination: /home/ubuntu/app
     overwrite: yes
 
 # permissions : files 섹션에서 정의한 파일이 인스턴스에 복사된 후 해당 파일에 권한이 어떻게 적용되어야 하는 지를 지정함.
@@ -32,7 +32,11 @@ permissions:
 #           설정 시간에 초과하면 실패 처리.
 # runas : 기본적으로 인스턴스에서 실행 중인 CodeDeploy 에이전트입니다.
 hooks:
+  AfterInstall:
+    - location: scripts/stop.sh
+      timeout: 60
+      runas: ubuntu
   ApplicationStart:
-    - location: deploy.sh
+    - location: scripts/start.sh
       timeout: 60
       runas: ubuntu
