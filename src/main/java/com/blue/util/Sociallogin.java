@@ -28,7 +28,7 @@ public class Sociallogin {
     @Value("${naver.redirect-url}")
     private String nredirectUrl;
 
-                                                                        /*     카카오 로그인      */
+                                                                        /*     카카오 로그인     */
     // 카카오 로그인 url 생성
     public String getKaKaoUrl() {
         String kakaourl = "https://kauth.kakao.com/oauth/authorize?client_id=" + krestapiKey
