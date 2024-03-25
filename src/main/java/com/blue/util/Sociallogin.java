@@ -17,15 +17,15 @@ import java.util.HashMap;
 @Service
 public class Sociallogin {
 
-    @Value("${.kakao.restapi-key}")
+    @Value("${kakao.restapi-key}")
     private String krestapiKey;
-    @Value("${.kakao.redirect-url}")
+    @Value("${kakao.redirect-url}")
     private String kredirectUrl;
-    @Value("${.naver.restapi-key}")
+    @Value("${naver.restapi-key}")
     private String nrestapiKey;
-    @Value("${.naver.secret-key}")
+    @Value("${naver.secret-key}")
     private String nsecretKey;
-    @Value("${.naver.redirect-url}")
+    @Value("${naver.redirect-url}")
     private String nredirectUrl;
 
                                                                         /*     카카오 로그인      */
