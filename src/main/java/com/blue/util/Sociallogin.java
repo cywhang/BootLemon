@@ -3,7 +3,6 @@ package com.blue.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-@Slf4j
 @Service
 public class Sociallogin {
 
@@ -28,7 +26,7 @@ public class Sociallogin {
     @Value("${naver.redirect-url}")
     private String nredirectUrl;
 
-                                                                        /*     카카오 로그인      */
+                                                                        /*     카카오 로그인     */
     // 카카오 로그인 url 생성
     public String getKaKaoUrl() {
         String kakaourl = "https://kauth.kakao.com/oauth/authorize?client_id=" + krestapiKey
