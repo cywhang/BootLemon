@@ -3,6 +3,7 @@
 <p align="center">
   <br>
   <img src="./images/common/logo-sample.jpeg">
+  ![logo](https://github.com/cywhang/BootLemon/assets/135101956/4b8c7a4c-c5b7-4692-bfb3-ef9d15a12c19)
   <br>
 </p>
 
