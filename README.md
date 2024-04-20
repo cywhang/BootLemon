@@ -11,11 +11,12 @@
 ## 프로젝트 소개
 
 <p align="justify">
-프로젝트 아키텍처
+  * 프로젝트 아키텍처
 </p>
  <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/b890286a-ba22-4021-84f5-74c232e8b7c2"/>
+<br>
 <p align="justify">
-메인 페이지
+  * 메인 페이지
 </p>
  <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/13d1dd8b-6f1e-4f23-b8ba-b4f3127f6ab2"/>
 
