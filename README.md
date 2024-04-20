@@ -11,9 +11,9 @@
 ## 프로젝트 소개
 
 <p align="justify">
-프로젝트 개요/동기
+프로젝트 아키텍처
 </p>
- <img width="80%" src="https://github.com/cywhang/BootLemon/assets/135101956/b890286a-ba22-4021-84f5-74c232e8b7c2"/>
+ <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/b890286a-ba22-4021-84f5-74c232e8b7c2"/>
 <p align="center">
 GIF Images
 </p>
