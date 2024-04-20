@@ -2,7 +2,7 @@
 
 <p align="center">
   <br>
-  ![logo](https://github.com/cywhang/BootLemon/assets/135101956/568e660c-27f7-4f3b-9421-62957d7066b1.png)
+  <img width="80%" src="https://github.com/cywhang/BootLemon/assets/135101956/568e660c-27f7-4f3b-9421-62957d7066b1"/>
   <br>
 </p>
 
