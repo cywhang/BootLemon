@@ -40,11 +40,18 @@
 
 <br>
 
-## 배운 점 & 아쉬운 점
+## 느낀 점 & 어려웠던 점
 
-<p align="justify">
+#### 1. 소셜로그인 기능을 구현하면서 
+<details>
+    <summary>자세히</summary>
 
-</p>
+내용
+</details>
+
+### 2. 
+
+
 
 <br>
 
