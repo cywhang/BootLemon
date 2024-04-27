@@ -22,9 +22,9 @@
 
 ## 기술 스택
 
-| Java | Spring Boot |  Oracle   |  MyBatis   |
+| Java | Spring Boot |  PostgreSQL   |  MyBatis   |
 | :--------: | :--------: | :------: | :-----: |
-|   ![Java]    |     ![Spring Boot]    | ![Oracle] | ![MyBatis] |
+|   ![Java]    |     ![Spring Boot]    | ![Postgresql] | ![MyBatis] |
 
 <br>
 
@@ -64,5 +64,5 @@ http://ec2-3-38-124-144.ap-northeast-2.compute.amazonaws.com:8010/
 
 [Java]: https://github.com/cywhang/BootLemon/assets/135101956/791c4a2b-a9b6-4059-be0f-d2b41ce507df
 [Spring Boot]: https://github.com/cywhang/BootLemon/assets/135101956/083f8641-b8e7-4602-b41d-f5994c5ca406
-[Oracle]: https://github.com/cywhang/BootLemon/assets/135101956/0061bb6f-aa00-4540-a5c2-c0816274b484
+[Postgresql]: https://github.com/cywhang/BootLemon/assets/135101956/77164010-4e9c-4b1d-bb15-ad612f7f90d3
 [MyBatis]: https://github.com/cywhang/BootLemon/assets/135101956/a7f49df0-017f-4241-ba59-5116f463567f
