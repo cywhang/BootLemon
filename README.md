@@ -62,7 +62,7 @@ http://ec2-3-38-124-144.ap-northeast-2.compute.amazonaws.com:8010/
 노션 : https://tidal-railway-6bf.notion.site/66e2f41039714041b5ac2a9056337178?pvs=74
 
 
-[Java]: https://github.com/cywhang/BootLemon/assets/135101956/67baba96-e029-42ad-9ba9-c6d255332338
-[Spring Boot]: https://github.com/cywhang/BootLemon/assets/135101956/4960fbf6-83f7-475f-aa96-da3d21186f7a
-[Oracle]: https://github.com/cywhang/BootLemon/assets/135101956/b1c5dd97-b189-4435-9f87-58834b96b32a
-[MyBatis]: https://github.com/cywhang/BootLemon/assets/135101956/a8ae4f05-0fb8-46be-83c4-1c746e81188c
+[Java]: https://github.com/cywhang/BootLemon/assets/135101956/791c4a2b-a9b6-4059-be0f-d2b41ce507df
+[Spring Boot]: https://github.com/cywhang/BootLemon/assets/135101956/083f8641-b8e7-4602-b41d-f5994c5ca406
+[Oracle]: https://github.com/cywhang/BootLemon/assets/135101956/0061bb6f-aa00-4540-a5c2-c0816274b484
+[MyBatis]: https://github.com/cywhang/BootLemon/assets/135101956/a7f49df0-017f-4241-ba59-5116f463567f
