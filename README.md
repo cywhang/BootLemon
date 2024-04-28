@@ -1,4 +1,4 @@
-# BlueLemon
+# 💬 BlueLemon (23.06 ~ 23.07)
 
 <p align="center">
   <br>
