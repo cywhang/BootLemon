@@ -6,7 +6,7 @@
   <br>
 </p>
 
-## 프로젝트 소개
+## 🖥️ 프로젝트 소개
 #### 페이스북, 인스타그램 등을 참고하여 제작한 소셜 네트워크 서비스 사이트입니다.
 
 <p align="justify">
@@ -20,7 +20,7 @@
  <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/13d1dd8b-6f1e-4f23-b8ba-b4f3127f6ab2"/>
 <br>
 
-## 기술 스택
+## ⚙️ 기술 스택
 
 | Java | Spring Boot |  PostgreSQL   |  MyBatis   |
 | :--------: | :--------: | :------: | :-----: |
@@ -28,7 +28,7 @@
 
 <br>
 
-## 담당한 기능
+## 📌 담당한 기능
 
 ### 1. 게시글 및 댓글 CRUD
 
@@ -40,7 +40,7 @@
 
 <br>
 
-## 느낀 점 & 어려웠던 점
+## 💡 느낀 점 & 어려웠던 점
 
 #### 1. 소셜로그인 기능을 구현하면서 
 <details>
@@ -55,7 +55,7 @@
 
 <br>
 
-## 호스팅 주소
+## 🌍 호스팅 주소
 
 http://ec2-3-38-124-144.ap-northeast-2.compute.amazonaws.com:8010/
 
