@@ -455,7 +455,7 @@ public class MemberController {
 
 		} else { // 2. 문자가 일치하지 않을때 회원가입 처리후 페이지 이동
 
-			// 시퀀스 값을 문자열로 변환하고, 앞에 0을 붙이는 코드
+			// 소셜 멤버 시퀀스 값을 문자열로 변환하고, 앞에 0을 붙이는 코드
 			int seq = memberService.checkSeq();
 			String formatseq = String.format("%03d", seq);
 			// 프로젝트 이름과 결합
