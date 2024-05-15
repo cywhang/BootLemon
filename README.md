@@ -9,14 +9,14 @@
 ## 🖥️ 프로젝트 소개
 #### 페이스북, 인스타그램 등을 참고하여 제작한 소셜 네트워크 서비스 사이트입니다.
 
-<p align="justify">
-  -- 프로젝트 아키텍처
-</p>
+
+  #### ⚫ 프로젝트 아키텍처
+
  <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/b890286a-ba22-4021-84f5-74c232e8b7c2"/>
 <br>
-<p align="justify">
-  -- 메인 페이지
-</p>
+
+  #### ⚫ 메인 페이지
+
  <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/13d1dd8b-6f1e-4f23-b8ba-b4f3127f6ab2"/>
 <br>
 
@@ -72,11 +72,11 @@
 </details>
 <br>
 
-## 🌍 호스팅 주소
+## 🌍 관련 링크
 
-http://ec2-3-38-124-144.ap-northeast-2.compute.amazonaws.com:8010/
+### [호스팅 주소](http://ec2-3-38-124-144.ap-northeast-2.compute.amazonaws.com:8010/)
 
-노션 : https://tidal-railway-6bf.notion.site/66e2f41039714041b5ac2a9056337178?pvs=74
+### [노션 주소](https://tidal-railway-6bf.notion.site/66e2f41039714041b5ac2a9056337178?pvs=74)
 
 
 [Java]: https://github.com/cywhang/BootLemon/assets/135101956/791c4a2b-a9b6-4059-be0f-d2b41ce507df
