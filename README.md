@@ -34,43 +34,29 @@
 
 ### 2. 좋아요 기능
 
-### 3. 스프링 부트 마이그레이션, AWS 배포
+### 3. 프로젝트 EC2 배포, CI/CD 구축
 
 ### 4. 소셜 로그인 기능
 
 <br>
 
-## 💡 느낀 점 & 🤔 어려웠던 점
+## 💡 느낀 점 
 
-#### 💡  1. 소셜로그인 기능을 구현하면서 
+#### 💡  1. CI/CD의 중요성을 느낌.
 <details>
     <summary>자세히</summary>
+<br>
 
-내용
 </details>
 
-#### 💡  2. 
+#### 💡  2. 기능 구현에만 초점을 맞춘 코드는 좋지 못하다고 느낌.
 <details>
     <summary>자세히</summary>
-
+<br>
 내용
 </details>
 <br>
 
-#### 🤔  1. 
-<details>
-    <summary>자세히</summary>
-
-내용
-</details>
-
-#### 🤔  2. 
-<details>
-    <summary>자세히</summary>
-
-내용
-</details>
-<br>
 
 ## 🌍 관련 링크
 
