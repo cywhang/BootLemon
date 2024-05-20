@@ -26,6 +26,8 @@
 | Java | Spring Boot |  PostgreSQL   |  MyBatis   |
 | :--------: | :--------: | :------: | :-----: |
 |   ![Java]    |     ![Spring Boot]    | ![Postgresql] | ![MyBatis] |
+<br>
+<img width="50%" src="https://github.com/cywhang/BootLemon/assets/135101956/2be14c2b-27c9-4b34-ae1d-bd94334230b8"/>
 
 <br>
 
