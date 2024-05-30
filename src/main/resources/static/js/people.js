@@ -87,7 +87,7 @@ function people_List() {
                         if(famous.member_Id == loginUser_Id){
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path}profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">
@@ -103,7 +103,7 @@ function people_List() {
                         } else {
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path}profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">
@@ -134,7 +134,7 @@ function people_List() {
                         if(famous.member_Id == loginUser_Id){
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path}profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">
@@ -150,7 +150,7 @@ function people_List() {
                         } else {
                         	card2.innerHTML = `
                                 <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
-                                    <img src="${S3Path} + profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+                                    <img src="${S3Path}profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                     <div>
                                         <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
                                         <div class="text-muted fw-light">
