@@ -64,6 +64,7 @@
 
 ### [노션 주소](https://tidal-railway-6bf.notion.site/66e2f41039714041b5ac2a9056337178?pvs=74)
 
+### [이전 버전의 레포지토리 주소](https://github.com/EunHyeok2/BlueLemon)
 
 [Java]: https://github.com/cywhang/BootLemon/assets/135101956/791c4a2b-a9b6-4059-be0f-d2b41ce507df
 [Spring Boot]: https://github.com/cywhang/BootLemon/assets/135101956/083f8641-b8e7-4602-b41d-f5994c5ca406
