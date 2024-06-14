@@ -115,7 +115,7 @@ public class MemberController {
 			// 프로필 사진을 저장할 경로를 결정합니다.
 			//String image_Path = "/home/ubuntu/fileUpload/img/uploads/profile/";
 			// 저장할 파일명을 생성합니다. 파일명에는 member_Id와 확장자명을 포함합니다.
-			String fileName = vo.getMember_Id();
+			String fileName = vo.getMember_Id() + ".png";
 			// 파일을 지정된 경로에 저장합니다.
 
 			try {
@@ -128,7 +128,7 @@ public class MemberController {
 			}
 			// 이미지 업로드 없을시 기본 이미지 사용
 		} else {
-			vo.setMember_Profile_Image("default");
+			vo.setMember_Profile_Image("default.png");
 		}
 
 		if (email_add.equals(email_add)) {
@@ -198,7 +198,7 @@ public class MemberController {
 		if (!profilePhoto.isEmpty()) {
 
 			String FilePath = "profile/";
-			String FileName = vo.getMember_Id();
+			String FileName = vo.getMember_Profile_Image();
 			// 기존 프로필 사진을 삭제
 			s3UploadService.deleteFile(FilePath, FileName);
 			try {
@@ -274,7 +274,7 @@ public class MemberController {
 						int Count = entry.getValue();
 						if (Count != 0) {
 							for (int k=1; k <= Count; k++) {
-								String FileName = Sequence + "-" + k;
+								String FileName = Sequence + "-" + k + ".png";
 								s3UploadService.deleteFile("post/", FileName);
 							}
 						}
@@ -283,7 +283,7 @@ public class MemberController {
 			}
 
 			// 2-1. 사용자가 업로드한 프로필 이미지를 삭제
-			s3UploadService.deleteFile(profileFilePath, member_Id);
+			s3UploadService.deleteFile(profileFilePath, member_Id + ".png");
 
 			session.invalidate();
 			rttr.addFlashAttribute("msg", "withdrawlSuccess");
@@ -466,11 +466,11 @@ public class MemberController {
 			vo.setMember_Id(userid);
 			vo.setMember_Email(map.get(3));
 			vo.setMember_Name(map.get(2));
-			vo.setMember_Password("12pw395dm67e");
+			vo.setMember_Password("1234");
 			vo.setMember_Birthday("1111-11-11");
 			vo.setMember_Phone("1234");
 			vo.setMember_Gender("M");
-			vo.setMember_Profile_Image("default");
+			vo.setMember_Profile_Image("default.png");
 
 			memberService.insertMember(vo);
 			// Social 테이블에 저장
@@ -516,7 +516,7 @@ public class MemberController {
 			vo.setMember_Birthday("1111-11-11");
 			vo.setMember_Phone("1234");
 			vo.setMember_Gender("M");
-			vo.setMember_Profile_Image("default");
+			vo.setMember_Profile_Image("default.png");
 
 			memberService.insertMember(vo);
 			// Social 테이블에 저장
