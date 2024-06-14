@@ -283,7 +283,7 @@
                                         <label for="member_Profile_Image" class="custom-file-upload"
                                                style="margin-left : 2%; margin-bottom : 3%; margin-top : 2%;">
                                             <span style="color : white;">Upload</span>
-                                            <input type="file" name="profile_Image" accept=".png"
+                                            <input type="file" name="profile_Image" accept=".png, .jpg, .gif"
                                                    id="member_Profile_Image" onchange="previewProfileImage(event)">
                                         </label>
                                         <img id="profile_image_preview" src="#" alt=""
@@ -605,7 +605,7 @@
                                                         </th:block>
                                                     </div>
                                                     <div style="width : 40%;">
-                                                        <img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1.png'}"
+                                                        <img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1'}"
                                                              class="img-fluid rounded-4 ms-auto" width="100"
                                                              height="100">
                                                     </div>

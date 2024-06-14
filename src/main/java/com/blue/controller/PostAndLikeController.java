@@ -124,7 +124,7 @@ public class PostAndLikeController {
 
 			} else if (imgCount == 1 ){ // 1개의 이미지를 업로드 했을때
 				MultipartFile file = attach_file[0];
-				String fileName = nextSeq + "-" + 1 + ".png";
+				String fileName = nextSeq + "-" + 1;
 				try {
 					s3UploadService.upload(file, "post", fileName); // S3 버킷의 post 디렉토리 안에 저장됨
 					// 파일을 지정된 경로에 저장
@@ -146,7 +146,7 @@ public class PostAndLikeController {
 					for(int i=1; i < (imgCount+1); i++) {
 						int real = index.get(i);
 						MultipartFile file = attach_file[real];
-						String fileName = nextSeq + "-" + i + ".png";
+						String fileName = nextSeq + "-" + i;
 
 						try {
 							s3UploadService.upload(file, "post", fileName); // S3 버킷의 post 디렉토리 안에 저장됨
@@ -164,7 +164,7 @@ public class PostAndLikeController {
 					for(int i=1; i < (imgCount+1); i++) {
 						int real = (index.get(i)-1);
 						MultipartFile file = attach_file[real];
-						String fileName = nextSeq + "-" + i + ".png";
+						String fileName = nextSeq + "-" + i;
 
 						try {
 							s3UploadService.upload(file, "post", fileName); // S3 버킷의 post 디렉토리 안에 저장됨
@@ -416,7 +416,7 @@ public class PostAndLikeController {
 
 		// 이미지 삭제 처리
 		for(int i=0; i < imgCount; i++) {
-			String FileName = post_Seq + "-" + (i+1) + ".png";
+			String FileName = post_Seq + "-" + (i+1);
 			s3UploadService.deleteFile(FilePath, FileName);
 		}
 		return "redirect:/index";
@@ -473,10 +473,10 @@ public class PostAndLikeController {
 		if(imgCount == 0) {
 
 			// 기존이미지를 삭제했을때만 처리
-			// deletedStrings는 hhtps://awsS3~~ /post/post_Seq-i.png 형태로 문자열이 저장된다.
+			// deletedStrings는 hhtps://awsS3~~ /post/post_Seq-i 형태로 문자열이 저장된다.
 			if (deletedStrings.length > 0) {
 				for (String deletedString : deletedStrings) {
-					// fileName에는 post_Seq-i.png가 담긴다.
+					// fileName에는 post_Seq-i가 담긴다.
 					// 여기서는 S3삭제
 					String FileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
 					s3UploadService.deleteFile(FilePath, FileName);
@@ -486,8 +486,8 @@ public class PostAndLikeController {
 					//       1 + 1              2 < 3
 					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
 					for (int i = deletedIndex + 1; i <= alreadyFileNo; i++) {
-						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
-						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
+						String sourceKey = FilePath + post_Seq + "-" + i;
+						String destinationKey = FilePath + post_Seq + "-" + (i - 1);
 						s3UploadService.renameFile(sourceKey, destinationKey);
 					}
 				}
@@ -499,11 +499,11 @@ public class PostAndLikeController {
 			// file = 추가된 이미지
 			MultipartFile file = attach_file[0];
 			// fileName = 업로드할 이미지 이름
-			String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+1) + ".png";
+			String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+1);
 
 			if (deletedStrings.length > 0) {
 				for (String deletedString : deletedStrings) {
-					// fileName에는 post_Seq-i.png가 담긴다.
+					// fileName에는 post_Seq-i가 담긴다.
 					// 여기서는 S3삭제
 					String FileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
 					s3UploadService.deleteFile(FilePath, FileName);
@@ -512,8 +512,8 @@ public class PostAndLikeController {
 
 					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
 					for (int i = deletedIndex + 1; i <= alreadyFileNo; i++) {
-						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
-						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
+						String sourceKey = FilePath + post_Seq + "-" + i;
+						String destinationKey = FilePath + post_Seq + "-" + (i - 1);
 						s3UploadService.renameFile(sourceKey, destinationKey);
 					}
 				}
@@ -529,7 +529,7 @@ public class PostAndLikeController {
 
 			if (deletedStrings.length > 0) {
 				for (String deletedString : deletedStrings) {
-					// fileName에는 post_Seq-i.png가 담긴다.
+					// fileName에는 post_Seq-가 담긴다.
 					// 여기서는 S3삭제
 					String FileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
 					s3UploadService.deleteFile(FilePath, FileName);
@@ -538,8 +538,8 @@ public class PostAndLikeController {
 
 					// 삭제된 이미지로 인한 파일 이름 삭제된 만큼 -1씩 당겨주기
 					for (int i = deletedIndex + 1; i <= alreadyFileNo; i++) {
-						String sourceKey = FilePath + post_Seq + "-" + i + ".png";
-						String destinationKey = FilePath + post_Seq + "-" + (i - 1) + ".png";
+						String sourceKey = FilePath + post_Seq + "-" + i;
+						String destinationKey = FilePath + post_Seq + "-" + (i - 1);
 						s3UploadService.renameFile(sourceKey, destinationKey);
 					}
 				}
@@ -548,7 +548,7 @@ public class PostAndLikeController {
 			for(int i=0; i<attach_file.length; i++) {
 //				System.out.println("추가된 이미지 " + imgCount + " 개");
 				MultipartFile file = attach_file[i];
-				String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+(i+1)) + ".png";
+				String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+(i+1));
 				try {
 					// 파일을 지정된 경로에 저장
 					s3UploadService.upload(file, "post", fileName);
