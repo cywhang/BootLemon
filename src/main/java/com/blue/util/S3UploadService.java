@@ -33,6 +33,7 @@ public class S3UploadService {
     // private upload 메소드에 전파되는 형식
     public void upload(MultipartFile multipartFile, String dirName, String fileName) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
         System.out.println("-----------S3uploadService----------");
+        System.out.println("upload - bucket: " + bucket);
         System.out.println("upload - dirName: " + dirName);
         System.out.println("upload - fileName: " + fileName);
         // convert 메소드에서 multipartFile을 File로 반환받는 부분.
@@ -59,6 +60,7 @@ public class S3UploadService {
 
     // 직접적으로 S3에 접근하여 이미지를 업로드 하는곳
     private void putS3(File uploadFile, String fileName) {
+        System.out.println("upload - dirName: " + fileName);
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
