@@ -60,7 +60,7 @@ public class S3UploadService {
 
     // 직접적으로 S3에 접근하여 이미지를 업로드 하는곳
     private void putS3(File uploadFile, String fileName) {
-        System.out.println("upload - dirName: " + fileName);
+        System.out.println("putS3 - dirName: " + fileName);
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
