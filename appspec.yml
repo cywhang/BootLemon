@@ -22,8 +22,8 @@ files:
 permissions:
   - object: /
     pattern: "**"
-    owner: ubuntu
-    group: ubuntu
+    owner: root
+    group: root
 
 # hooks : 배포 과정중에 실행될 후크들을 설정.
 # ApplicationStop, BeforeInstall, ApplicationStart 등 배포 수명주기에 따른 이벤트 이름.
