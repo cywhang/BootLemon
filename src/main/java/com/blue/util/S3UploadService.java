@@ -116,8 +116,8 @@ public class S3UploadService {
 
     // ----------------------- 이미지 수정 처리 ---------------------------------
     public void renameFile(String sourceKey, String destinationKey) {
-        // sourceKey      = post/post_Seq-i.png  -> 복사할 객체이름 
-        // destinationKey = post/post_Seq-i.png  -> 복사후 객체이름
+        // sourceKey      = post/post_Seq-i  -> 복사할 객체이름
+        // destinationKey = post/post_Seq-i  -> 복사후 객체이름
 
         // 버킷에서 지정된 이미지를 다른 파일명으로 복사한다.
         amazonS3Client.copyObject(bucket, sourceKey, bucket, destinationKey);

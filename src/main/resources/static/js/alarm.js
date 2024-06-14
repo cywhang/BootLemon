@@ -110,7 +110,7 @@ $.ajax({
            if(PostVO.post_Image_Count == 0){
            	html += '                        <br>';
            }else{
-           	html += '                        <img src="'+ S3Path + 'post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
+           	html += '                        <img src="'+ S3Path + 'post/' + PostVO.post_Seq + '-1" class="img-fluid rounded mb-3" alt="post-img">';
            }
            html += '               </a>';
            
