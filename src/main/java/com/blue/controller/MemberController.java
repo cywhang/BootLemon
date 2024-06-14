@@ -198,7 +198,7 @@ public class MemberController {
 		if (!profilePhoto.isEmpty()) {
 
 			String FilePath = "profile/";
-			String FileName = vo.getMember_Profile_Image();
+			String FileName = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 			// 기존 프로필 사진을 삭제
 			s3UploadService.deleteFile(FilePath, FileName);
 			try {
