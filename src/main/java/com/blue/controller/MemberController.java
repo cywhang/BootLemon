@@ -466,7 +466,7 @@ public class MemberController {
 			vo.setMember_Id(userid);
 			vo.setMember_Email(map.get(3));
 			vo.setMember_Name(map.get(2));
-			vo.setMember_Password("1234");
+			vo.setMember_Password("151tyw732in373");
 			vo.setMember_Birthday("1111-11-11");
 			vo.setMember_Phone("1234");
 			vo.setMember_Gender("M");
@@ -512,7 +512,7 @@ public class MemberController {
 			vo.setMember_Id(userid);
 			vo.setMember_Email(map.get(3));
 			vo.setMember_Name(map.get(2));
-			vo.setMember_Password("1234");
+			vo.setMember_Password("151tyw732in373");
 			vo.setMember_Birthday("1111-11-11");
 			vo.setMember_Phone("1234");
 			vo.setMember_Gender("M");
