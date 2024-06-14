@@ -32,7 +32,9 @@ public class S3UploadService {
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
     // private upload 메소드에 전파되는 형식
     public void upload(MultipartFile multipartFile, String dirName, String fileName) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
-
+        System.out.println("-----------S3uploadService----------");
+        System.out.println("upload - dirName: " + dirName);
+        System.out.println("upload - fileName: " + fileName);
         // convert 메소드에서 multipartFile을 File로 반환받는 부분.
         // 전환중 에러가 나면 Exception메세지를 콘솔에 출력해준다.
         File uploadFile = convert(multipartFile, fileName)
@@ -61,6 +63,7 @@ public class S3UploadService {
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
         );
+
     }
 
     // 임시로 로컬에 저장된 파일 삭제하는곳
@@ -77,7 +80,7 @@ public class S3UploadService {
     // 파일을 생성하고 변환하는데 실패할 수 있기때문에 (파일 시스템 권한 문제, 디스크 공간 부족 등)
     // 실패 상황을 처리하기 위해 Optional을 사용한다.
     private Optional<File> convert(MultipartFile file, String fileName) throws  IOException {
-        System.out.println("fileName : " + fileName);
+        System.out.println("convert - fileName : " + fileName);
         // 전환받을 파일 객체 생성
         File convertFile = new File(fileName);
         
