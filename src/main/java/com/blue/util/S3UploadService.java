@@ -60,7 +60,6 @@ public class S3UploadService {
 
     // 직접적으로 S3에 접근하여 이미지를 업로드 하는곳
     private void putS3(File uploadFile, String fileName) {
-        System.out.println("putS3 - dirName: " + fileName);
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
@@ -82,7 +81,6 @@ public class S3UploadService {
     // 파일을 생성하고 변환하는데 실패할 수 있기때문에 (파일 시스템 권한 문제, 디스크 공간 부족 등)
     // 실패 상황을 처리하기 위해 Optional을 사용한다.
     private Optional<File> convert(MultipartFile file, String fileName) throws  IOException {
-        System.out.println("convert - fileName : " + fileName);
         // 전환받을 파일 객체 생성
         File convertFile = new File(fileName);
         
