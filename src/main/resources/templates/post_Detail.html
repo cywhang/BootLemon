@@ -114,7 +114,7 @@
 										<td colspan="5">
 											<th:block th:each="i : ${#numbers.sequence(1, post.post_Image_Count)}">
 												<div class="image-container">
-													<img th:src="@{${S3Path} + 'post/' + ${post.post_Seq} + '-' + ${i} + '.png'}" alt="..." width="500px">
+													<img th:src="@{${S3Path} + 'post/' + ${post.post_Seq} + '-' + ${i}}" alt="..." width="500px">
 												</div>
 											</th:block>
 										</td>

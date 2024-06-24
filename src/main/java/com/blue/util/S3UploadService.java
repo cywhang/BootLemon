@@ -32,7 +32,10 @@ public class S3UploadService {
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
     // private upload 메소드에 전파되는 형식
     public void upload(MultipartFile multipartFile, String dirName, String fileName) throws IOException { // dirName의 디렉토리가 S3 Bucket 내부에 생성됨
-
+        System.out.println("-----------S3uploadService----------");
+        System.out.println("upload - bucket: " + bucket);
+        System.out.println("upload - dirName: " + dirName);
+        System.out.println("upload - fileName: " + fileName);
         // convert 메소드에서 multipartFile을 File로 반환받는 부분.
         // 전환중 에러가 나면 Exception메세지를 콘솔에 출력해준다.
         File uploadFile = convert(multipartFile, fileName)
@@ -61,6 +64,7 @@ public class S3UploadService {
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
         );
+
     }
 
     // 임시로 로컬에 저장된 파일 삭제하는곳
@@ -116,8 +120,8 @@ public class S3UploadService {
 
     // ----------------------- 이미지 수정 처리 ---------------------------------
     public void renameFile(String sourceKey, String destinationKey) {
-        // sourceKey      = post/post_Seq-i.png  -> 복사할 객체이름 
-        // destinationKey = post/post_Seq-i.png  -> 복사후 객체이름
+        // sourceKey      = post/post_Seq-i  -> 복사할 객체이름
+        // destinationKey = post/post_Seq-i  -> 복사후 객체이름
 
         // 버킷에서 지정된 이미지를 다른 파일명으로 복사한다.
         amazonS3Client.copyObject(bucket, sourceKey, bucket, destinationKey);

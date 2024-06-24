@@ -194,7 +194,7 @@
 																	<br>
 																</th:block>
 																<th:block th:unless="${postVO.post_Image_Count == 0}">
-																	<img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded mb-3" alt="post-img">
+																	<img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1'}" class="img-fluid rounded mb-3" alt="post-img">
 																</th:block>
 															</a>
 															<br>
@@ -555,7 +555,7 @@
 													</th:block>
 												</div>
 												<div style = "width : 40%;">
-													<img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1.png'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
+													<img th:src="@{${S3Path} + 'post/' + ${postVO.post_Seq} + '-1'}" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">
 												</div>
 											</div>
 										</a>

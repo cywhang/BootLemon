@@ -113,7 +113,7 @@ function modalseq(post_Seq) {
 
 			// 이미지가 1개일때
 			if (post.post_Image_Count === 1) {
-				var image = $('<img>').attr('src', S3Path + 'post/' + post.post_Seq + '-1.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
+				var image = $('<img>').attr('src', S3Path + 'post/' + post.post_Seq + '-1?' + randomnum).addClass('d-block w-100').attr('alt', '...');
 				sliderContainer.append(image);
 				// 이미지가 2 ~ 4개일때
 			} else {
@@ -123,7 +123,7 @@ function modalseq(post_Seq) {
 					if (i === 1) {
 						imageItem.addClass('active');
 					}
-					var image = $('<img>').attr('src', S3Path + 'post/' + post.post_Seq + '-' + i + '.png?' + randomnum).addClass('d-block w-100').attr('alt', '...');
+					var image = $('<img>').attr('src', S3Path + 'post/' + post.post_Seq + '-' + i + '?' + randomnum).addClass('d-block w-100').attr('alt', '...');
 					imageItem.append(image);
 					sliderContainer.append(imageItem);
 				}
@@ -992,7 +992,7 @@ function postEditView(post_Seq){
 			  if(ImageCount > 0){ // 해당 게시글에 이미지가 업로드 되어있을 경우
 				  var imageUrls = [];
 				  for(var i=1; i < ImageCount+1; i++){
-					  var image = folderPath + post.post_Seq + "-" + i + ".png"
+					  var image = folderPath + post.post_Seq + "-" + i;
 					  imageUrls.push(image);
 				  }
 	
