@@ -170,24 +170,22 @@ function followerload(followerTotalPageNum, followerPageNum, member_Id) {
 
 //Intersection Observer 생성
 const options = {
-root: null, // 뷰포트를 root로 사용
-rootMargin: '0px', // 뷰포트의 경계에서 시작
-threshold: 1.0 // 타겟 엘리먼트가 100% 뷰포트 내에 들어왔을 때 콜백 실행
+    root: null, // 뷰포트를 root로 사용
+    rootMargin: '0px', // 뷰포트의 경계에서 시작
+    threshold: 1.0 // 타겟 엘리먼트가 100% 뷰포트 내에 들어왔을 때 콜백 실행
 };
 
 const observer = new IntersectionObserver((entries, observer) => {
-entries.forEach(entry => {
- if (entry.isIntersecting && entry.target.id === 'feedInfinity') {
- 	// 뷰포트 내에 들어온 div id "feedInfinity"인 경우 콜백 함수 실행
- 	handleFeedInfinity();
+    entries.forEach(entry => {
+         if (entry.isIntersecting && entry.target.id === 'feedInfinity') {
+                // 뷰포트 내에 들어온 div id "feedInfinity"인 경우 콜백 함수 실행
+                handleFeedInfinity();
 
-
- }else if(entry.isIntersecting && entry.target.id === 'feedEnd'){
-		// 관찰 중지
-	    observer.unobserve(entry.target);
- }
-});
-}, options);
+         }else if(entry.isIntersecting && entry.target.id === 'feedEnd'){
+                // 관찰 중지
+                observer.unobserve(entry.target);
+         }
+    });}, options);
 
 //관찰할 대상 설정
 const target = document.getElementById('feedInfinity');
@@ -226,7 +224,6 @@ $.ajax({
            var html = "";
 
            for (var i = firstRow; i <= lastRow; i++) {
-
 
               if(i == trending_postList.length){
 
