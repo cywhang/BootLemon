@@ -83,7 +83,7 @@ public class MainController {
 
 	// index 페이지 로드
 	@RequestMapping("index")
-	public String getRecommendMember(Model model, HttpSession session) {
+	public String IndexPage(Model model, HttpSession session) {
 
 		if(session.getAttribute("loginUser") == null) {
 			model.addAttribute("message", "로그인을 해주세요");
