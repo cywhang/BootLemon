@@ -1,5 +1,6 @@
 package com.blue.controller;
 
+import java.time.LocalTime;
 import java.util.*;
 
 import com.blue.dto.*;
@@ -83,7 +84,7 @@ public class MainController {
 
 	// index 페이지 로드
 	@RequestMapping("index")
-	public String getRecommendMember(Model model, HttpSession session) {
+	public String IndexPage(Model model, HttpSession session) {
 
 		if(session.getAttribute("loginUser") == null) {
 			model.addAttribute("message", "로그인을 해주세요");
@@ -96,6 +97,8 @@ public class MainController {
 
 			List<MemberVO> recommendMember = memberService.getRecommendMember(member_Id);
 			List<PostVO> hottestFeed = postService.getHottestFeed();
+
+			LocalTime currentTime = LocalTime.now();
 
 			// 알람 리스트를 담는 부분
 			List<AlarmVO> alarmList = alarmService.getAllAlarm(member_Id);
@@ -192,6 +195,7 @@ public class MainController {
 			model.addAttribute("hashMap", hashmap);
 			model.addAttribute("random", random);
 
+			System.out.println("접속완료: " + member_Id + ",  접속시간: " + currentTime);
 			return "index";
 		}
 	}

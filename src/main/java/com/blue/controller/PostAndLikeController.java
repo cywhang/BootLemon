@@ -425,7 +425,7 @@ public class PostAndLikeController {
 	// 게시글 수정 View
 	@GetMapping("/postEditView")
 	@ResponseBody
-	public Map<String, Object> postEditView(HttpSession session, @RequestParam("post_Seq") int post_Seq){
+	public Map<String, Object> postEditView(@RequestParam("post_Seq") int post_Seq){
 
 		// ajax요청에 대한 응답을 보내기 위한 객체 생성
 		Map<String, Object> dataMap = new HashMap<>();
@@ -526,7 +526,6 @@ public class PostAndLikeController {
 
 		// 3. 수정폼 제출시 추가된 이미지가 2개 이상일때
 		} else {
-
 			if (deletedStrings.length > 0) {
 				for (String deletedString : deletedStrings) {
 					// fileName에는 post_Seq-가 담긴다.
