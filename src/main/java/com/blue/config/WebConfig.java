@@ -30,6 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/error");
+                .excludePathPatterns("/", "/logout", "/404", "/join_view", "/changePassword", "/find_info", "/checkDuplicate", "/checkPassword", "create_form",
+                                     "/memberSearch", "pwdauth", "kakao", "naver");
     }
 }
