@@ -1,31 +1,9 @@
-# 💬 BlueLemon (4명)
-
-<p align="center">
-  <br>
-  <img width="50%" src="https://github.com/cywhang/BootLemon/assets/135101956/568e660c-27f7-4f3b-9421-62957d7066b1"/>
-  <br>
-</p>
-
-## 🖥️ 프로젝트 소개
+## 🖥️ BlueLemon
 #### ※ 4명이서 완성한 페이스북, 인스타그램 등을 참고하여 제작한 소셜 네트워크 서비스 사이트입니다.  <br>
 #### ※ 팀 프로젝트로 1차 완성후 배포 및 유지보수를 진행하여 2차 완성한 결과물입니다.
 
-
-  #### ⚫ 프로젝트 아키텍처
-
- <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/b890286a-ba22-4021-84f5-74c232e8b7c2"/>
-<br>
-
-  #### ⚫ 메인 페이지
-
- <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/13d1dd8b-6f1e-4f23-b8ba-b4f3127f6ab2"/>
-<br>
-
 ## ⚙️ 기술 스택
 
-| Java | Spring Boot |  PostgreSQL   |  MyBatis   |
-| :--------: | :--------: | :------: | :-----: |
-|   ![Java]    |     ![Spring Boot]    | ![Postgresql] | ![MyBatis] |
 <br>
 <img width="50%" src="https://github.com/cywhang/BootLemon/assets/135101956/2be14c2b-27c9-4b34-ae1d-bd94334230b8"/>
 
@@ -55,6 +33,13 @@
 - 구현에만 집중한 코드는 유지보수가 어렵고 반복적이며 가독성이 떨어지는 문제가 있다. <br> <br>
 - 코드를 빠르게 완성하려다 보면 중요한 기본 개념이나 동작 원리를 놓치기 쉽다. <br> <br>
 - 새로운 지식들을 습득하는 과정에서는 내가 모르는것이 무엇인지 파악하고 인정하며 배우려는 자세를 가져야함.
+
+<br>
+
+ #### ⚫ 프로젝트 아키텍처
+
+ <img width="100%" src="https://github.com/cywhang/BootLemon/assets/135101956/b890286a-ba22-4021-84f5-74c232e8b7c2"/>
+<br>
 
 <br>
 
