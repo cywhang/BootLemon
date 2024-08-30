@@ -9,7 +9,7 @@
 ## ⚙️ 기술 스택
 
 <br>
-<img width="50%" src="https://github.com/cywhang/BootLemon/assets/135101956/2be14c2b-27c9-4b34-ae1d-bd94334230b8"/>
+<img width="70%" src="https://github.com/cywhang/BootLemon/assets/135101956/2be14c2b-27c9-4b34-ae1d-bd94334230b8"/>
 
 <br>
 
