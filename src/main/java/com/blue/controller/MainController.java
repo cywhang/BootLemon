@@ -1,5 +1,6 @@
 package com.blue.controller;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -99,6 +100,7 @@ public class MainController {
 			List<PostVO> hottestFeed = postService.getHottestFeed();
 
 			LocalTime currentTime = LocalTime.now();
+			LocalDate today = LocalDate.now();
 
 			// 알람 리스트를 담는 부분
 			List<AlarmVO> alarmList = alarmService.getAllAlarm(member_Id);
@@ -195,7 +197,7 @@ public class MainController {
 			model.addAttribute("hashMap", hashmap);
 			model.addAttribute("random", random);
 
-			System.out.println("접속완료: " + member_Id + ",  접속시간: " + currentTime);
+			System.out.println("접속완료: " + member_Id + ", 접속날짜: " + today + ",  접속시간: " + currentTime);
 			return "index";
 		}
 	}
